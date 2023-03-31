@@ -279,8 +279,9 @@ function copy_game_files() {
 }
 
 info "copying files"
+mkdir "$script_dir/celeste" 2>/dev/null || echo a >/dev/null
 copy_game_files "$script_dir/_celeste_decomp/bin/Release/net452/Celeste.exe" "$script_dir/celeste/Celeste.dll"
 copy_game_files "$script_dir/_celeste_game/mscorlib.dll" "$script_dir/celeste"
 copy_game_files "$script_dir/_celeste_game/Celeste.Content.dll" "$script_dir/celeste"
-copy_game_files "$script_dir/_celeste_game/Content" "$script_dir/celeste/"
+copy_game_files "$script_dir/_celeste_game/Content" "$script_dir/celestemeow/"
 copy_game_files "$script_dir/misc/Celeste.dll.config" "$script_dir/celeste/"
