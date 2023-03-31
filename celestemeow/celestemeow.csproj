@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!--<TargetFrameworks>net452;netstandard2.0</TargetFrameworks>-->
+        <ApplicationManifest>app.config</ApplicationManifest>
+    </PropertyGroup>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+        <ProjectGuid>{838BC838-F936-4B62-806D-1F3A5F25C1D2}</ProjectGuid>
+        <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <TemplateGuid>{edc1b0fa-90cd-4038-8fad-98fe74adb368}</TemplateGuid>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>celestemeow</RootNamespace>
+        <AssemblyName>celestemeow</AssemblyName>
+        <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+        <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+        <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+        <ProvisioningType>automatic</ProvisioningType>
+    </PropertyGroup>
+    <!--
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+        <DefineConstants>DEBUG</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <MtouchArch>x86_64</MtouchArch>
+        <MtouchLink>None</MtouchLink>
+        <MtouchDebug>true</MtouchDebug>
+        <CreatePackage>false</CreatePackage>
+        <CodesignProvision></CodesignProvision>
+        <CodesignKey>iPhone Developer</CodesignKey>
+        <_RequireCodeSigning>false</_RequireCodeSigning>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+        <DebugType>none</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <MtouchLink>None</MtouchLink>
+        <MtouchArch>x86_64</MtouchArch>
+        <CreatePackage>false</CreatePackage>
+        <CodesignProvision></CodesignProvision>
+        <CodesignKey>iPhone Developer</CodesignKey>
+        <MtouchSdkVersion>16.1</MtouchSdkVersion>
+        <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    </PropertyGroup>
+    -->
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\iPhone\Debug</OutputPath>
+        <DefineConstants>DEBUG</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <MtouchArch>ARM64</MtouchArch>
+        <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+        <CodesignKey>iPhone Developer</CodesignKey>
+        <_RequireCodeSigning>false</_RequireCodeSigning>
+        <MtouchDebug>true</MtouchDebug>
+        <CreatePackage>true</CreatePackage>
+        <BuildIpa>true</BuildIpa>
+        <MtouchExtraArgs>-cxx -gcc_flags "-L${ProjectDir} -lSDL2 -lFNA3D -lFAudio -ltheorafile -lMoltenVK -force_load ${ProjectDir}/libSDL2.a -force_load ${ProjectDir}/libFNA3D.a -force_load ${ProjectDir}/libFAudio.a -force_load ${ProjectDir}/libtheorafile.a -force_load ${ProjectDir}/libMoltenVK.a -framework AVFoundation -framework AudioToolbox -framework CoreGraphics -framework Metal -framework QuartzCore -framework OpenGLES -framework GameController -framework CoreMotion -framework MobileCoreServices -framework ImageIO -framework CoreHaptics -framework CoreBluetooth -framework IOSurface -lfmod -force_load ${ProjectDir}/libfmod.a -lfmodstudio -force_load ${ProjectDir}/libfmodstudio.a" -v</MtouchExtraArgs>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+      <DebugSymbols>true</DebugSymbols>
+        <DebugType>embedded</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\iPhone\Release</OutputPath>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+        <MtouchArch>ARM64</MtouchArch>
+        <CodesignKey>iPhone Developer</CodesignKey>
+        <_RequireCodeSigning>false</_RequireCodeSigning>
+        <CreatePackage>true</CreatePackage>
+        <CodesignProvision></CodesignProvision>
+        <BuildIpa>true</BuildIpa>
+        <MtouchExtraArgs>-cxx -gcc_flags "-L${ProjectDir} -lSDL2 -lFNA3D -lFAudio -lMoltenVK -force_load ${ProjectDir}/libSDL2.a -force_load ${ProjectDir}/libFNA3D.a -force_load ${ProjectDir}/libFAudio.a -force_load ${ProjectDir}/libMoltenVK.a -framework AVFoundation -framework AudioToolbox -framework CoreGraphics -framework Metal -framework QuartzCore -framework OpenGLES -framework GameController -framework CoreMotion -framework MobileCoreServices -framework ImageIO -framework CoreHaptics -framework CoreBluetooth -framework IOSurface -lfmod -force_load ${ProjectDir}/libfmod.a -lfmodstudio -force_load ${ProjectDir}/libfmodstudio.a" -v</MtouchExtraArgs>
+        <MtouchLink>SdkOnly</MtouchLink>
+        <MtouchInterpreter>-all</MtouchInterpreter>
+        <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+        <CustomCommands>
+          <CustomCommands>
+            <Command>
+              <type>BeforeBuild</type>
+            </Command>
+          </CustomCommands>
+        </CustomCommands>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+        <OptimizePNGs>false</OptimizePNGs>
+    </PropertyGroup>
+    <PropertyGroup>
+        <OptimizePNGs>false</OptimizePNGs>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System" />
+        <Reference Include="System.Xml" />
+        <Reference Include="System.Core" />
+        <Reference Include="Xamarin.iOS" />
+        <Reference Include="System.Numerics" />
+        <Reference Include="System.Numerics.Vectors" />
+        <Reference Include="Celeste">
+            <HintPath>./../celeste/Celeste.dll</HintPath>
+        </Reference>
+        <ProjectReference Include="./../FNA/FNA.Core.csproj">
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon167.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon120.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon152.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon29.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon40.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon58.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon76.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon80.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <Content Include=".\Content\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <ImageAsset Include="Assets.xcassets\Contents.json" />
+        <ImageAsset Include="Assets.xcassets\.DS_Store" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon40 1.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\.DS_Store" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Resources\" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Info.plist" />
+        <None Include="Entitlements.plist" />
+        <None Include="app.config" />
+        <None Include="Entitlements.plist.bak" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Main.cs" />
+    </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+    <Target Name="Codesign" />
+     	<Target Name="_DetectSigningIdentity" Condition="'$(_CanOutputAppBundle)' == 'true'" DependsOnTargets="_DetectAppManifest;_DetectSdkLocations;_ComputeTargetFrameworkMoniker">
+   	<DetectSigningIdentity SessionId="$(BuildSessionId)" Condition="'$(IsMacEnabled)' == 'true'" AppBundleName="$(_AppBundleName)" AppManifest="$(_AppManifest)" RequireCodeSigning="false" RequireProvisioningProfile="false" SdkIsSimulator="$(_SdkIsSimulator)" SdkPlatform="$(_SdkPlatform)" TargetFrameworkMoniker="$(_ComputedTargetFrameworkMoniker)">
+
+   		<Output TaskParameter="DetectedAppId" PropertyName="_AppIdentifier" />
+   		<Output TaskParameter="DetectedBundleId" PropertyName="_BundleIdentifier" />
+   		<Output TaskParameter="DetectedBundleVersion" PropertyName="_BundleVersion" />
+   		<Output TaskParameter="DetectedCodeSigningKey" PropertyName="_CodeSigningKey" />
+   		<Output TaskParameter="DetectedCodesignAllocate" PropertyName="_CodesignAllocate" />
+   		<Output TaskParameter="DetectedDistributionType" PropertyName="_DistributionType" />
+   		<Output TaskParameter="DetectedProvisioningProfile" PropertyName="_ProvisioningProfile" />
+   	</DetectSigningIdentity>
+   </Target>
+   <!-- <Target Name="IncludeAllFilesInTargetDir" AfterTargets="Build">
+  <ItemGroup>
+    <Folder Include="./../celeste" />
+  </ItemGroup>
+</Target> -->
+</Project>

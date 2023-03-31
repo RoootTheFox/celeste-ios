@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1705.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "celestemeow", "celestemeow\celestemeow.csproj", "{838BC838-F936-4B62-806D-1F3A5F25C1D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FNA.Core", "FNA\FNA.Core.csproj", "{FB0B90E8-54B7-4AB7-9785-CD3FE282490B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{838BC838-F936-4B62-806D-1F3A5F25C1D2}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{838BC838-F936-4B62-806D-1F3A5F25C1D2}.Debug|iPhone.Build.0 = Debug|iPhone
+		{838BC838-F936-4B62-806D-1F3A5F25C1D2}.Release|iPhone.ActiveCfg = Release|iPhone
+		{838BC838-F936-4B62-806D-1F3A5F25C1D2}.Release|iPhone.Build.0 = Release|iPhone
+		{FB0B90E8-54B7-4AB7-9785-CD3FE282490B}.Debug|iPhone.ActiveCfg = Debug|x64
+		{FB0B90E8-54B7-4AB7-9785-CD3FE282490B}.Debug|iPhone.Build.0 = Debug|x64
+		{FB0B90E8-54B7-4AB7-9785-CD3FE282490B}.Release|iPhone.ActiveCfg = Release|x64
+		{FB0B90E8-54B7-4AB7-9785-CD3FE282490B}.Release|iPhone.Build.0 = Release|x64
+		{FB0B90E8-54B7-4AB7-9785-CD3FE282490B}.Debug|x64.ActiveCfg = Debug|x64
+		{FB0B90E8-54B7-4AB7-9785-CD3FE282490B}.Debug|x64.Build.0 = Debug|x64
+		{FB0B90E8-54B7-4AB7-9785-CD3FE282490B}.Release|x64.ActiveCfg = Release|x64
+		{FB0B90E8-54B7-4AB7-9785-CD3FE282490B}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B159571E-E0AA-4E48-BE06-379DCCCC1589}
+	EndGlobalSection
+EndGlobal
