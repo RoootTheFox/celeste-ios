@@ -1,0 +1,7 @@
+[submodule "fnalibs-ios-builder-celeste"]
+	path = fnalibs-ios-builder-celeste
+	url = https://github.com/RoootTheFox/fnalibs-ios-builder-celeste
+[submodule "FNA"]
+	path = FNA
+	url = https://github.com/FNA-XNA/FNA
+	branch = 21.03.05

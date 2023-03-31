@@ -1,0 +1,13 @@
+diff --git a/include/FNA3D_SysRenderer.h b/include/FNA3D_SysRenderer.h
+index 0605350..47d358c 100644
+--- a/include/FNA3D_SysRenderer.h
++++ b/include/FNA3D_SysRenderer.h
+@@ -23,6 +23,8 @@
+  * Ethan "flibitijibibo" Lee <flibitijibibo@flibitijibibo.com>
+  *
+  */
++ #define FNA3D_DRIVER_VULKAN
++ #define FNA3D_DRIVER_OPENGL
+ 
+ #ifndef FNA3D_SYSRENDERER_H
+ #define FNA3D_SYSRENDERER_H

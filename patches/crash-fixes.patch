@@ -1,0 +1,96 @@
+diff --git a/Celeste/Overworld.cs b/Celeste/Overworld.cs
+index 879dc01..7230b42 100644
+--- a/Celeste/Overworld.cs
++++ b/Celeste/Overworld.cs
+@@ -182,7 +182,7 @@ public class Overworld : Scene, IOverlayHandler
+ 			Remove(uI);
+ 		}
+ 		UIs.Clear();
+-		Type[] types = Assembly.GetEntryAssembly().GetTypes();
++		Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+ 		foreach (Type type in types)
+ 		{
+ 			if (typeof(Oui).IsAssignableFrom(type) && !type.IsAbstract)
+diff --git a/Celeste/Settings.cs b/Celeste/Settings.cs
+index 8dff80c..0784941 100644
+--- a/Celeste/Settings.cs
++++ b/Celeste/Settings.cs
+@@ -114,17 +114,6 @@ public class Settings
+ 
+ 	public const string Filename = "settings";
+ 
+-	[XmlAnyElement("LaunchInDebugModeComment")]
+-	public XmlComment DebugModeComment
+-	{
+-		get
+-		{
+-			return new XmlDocument().CreateComment("\n\t\tLaunchWithFMODLiveUpdate:\n\t\t\tThis Enables FMOD Studio Live Update so you can interact with the sounds in real time.\n\t\t\tNote this will also require access to the private network.\n\t\t\n\t\tLaunchInDebugMode:\n\t\t\tDebug Mode can destroy save files, crash the game, and do other unwanted behaviour.\n\t\t\tIt is not documented. Use at own risk.\n\t");
+-		}
+-		set
+-		{
+-		}
+-	}
+ 
+ 	public int MaxScale => Math.Min(Engine.Instance.GraphicsDevice.Adapter.CurrentDisplayMode.Width / 320, Engine.Instance.GraphicsDevice.Adapter.CurrentDisplayMode.Height / 180);
+ 
+diff --git a/Monocle/Commands.cs b/Monocle/Commands.cs
+index 85975ea..830ef55 100644
+--- a/Monocle/Commands.cs
++++ b/Monocle/Commands.cs
+@@ -611,7 +611,7 @@ public class Commands
+ 				ProcessMethod(method);
+ 			}
+ 		}
+-		types = Assembly.GetEntryAssembly().GetTypes();
++		types = Assembly.GetExecutingAssembly().GetTypes();
+ 		for (int i = 0; i < types.Length; i++)
+ 		{
+ 			MethodInfo[] methods = types[i].GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+diff --git a/Monocle/Engine.cs b/Monocle/Engine.cs
+index 5e3f97a..a77d26f 100644
+--- a/Monocle/Engine.cs
++++ b/Monocle/Engine.cs
+@@ -37,7 +37,7 @@ public class Engine : Game
+ 
+ 	private int fpsCounter;
+ 
+-	private static string AssemblyDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
++	private static string AssemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+ 
+ 	public static Color ClearColor;
+ 
+diff --git a/Monocle/Pooler.cs b/Monocle/Pooler.cs
+index eb6b065..47e4aa9 100644
+--- a/Monocle/Pooler.cs
++++ b/Monocle/Pooler.cs
+@@ -11,7 +11,7 @@ public class Pooler
+ 	public Pooler()
+ 	{
+ 		Pools = new Dictionary<Type, Queue<Entity>>();
+-		Type[] types = Assembly.GetEntryAssembly().GetTypes();
++		Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+ 		foreach (Type type in types)
+ 		{
+ 			if (type.GetCustomAttributes(typeof(Pooled), inherit: false).Length != 0)
+diff --git a/Monocle/Tracker.cs b/Monocle/Tracker.cs
+index 08dfdc9..c675f04 100644
+--- a/Monocle/Tracker.cs
++++ b/Monocle/Tracker.cs
+@@ -25,7 +25,7 @@ public class Tracker
+ 		TrackedComponentTypes = new Dictionary<Type, List<Type>>();
+ 		StoredEntityTypes = new HashSet<Type>();
+ 		StoredComponentTypes = new HashSet<Type>();
+-		Type[] types = Assembly.GetEntryAssembly().GetTypes();
++		Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+ 		foreach (Type type in types)
+ 		{
+ 			object[] customAttributes = type.GetCustomAttributes(typeof(Tracked), inherit: false);
+@@ -97,7 +97,7 @@ public class Tracker
+ 	private static List<Type> GetSubclasses(Type type)
+ 	{
+ 		List<Type> list = new List<Type>();
+-		Type[] types = Assembly.GetEntryAssembly().GetTypes();
++		Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+ 		foreach (Type type2 in types)
+ 		{
+ 			if (type != type2 && type.IsAssignableFrom(type2))

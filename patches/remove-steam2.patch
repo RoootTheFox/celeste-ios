@@ -1,0 +1,14 @@
+diff --git a/Celeste.csproj b/Celeste.csproj
+index a57fa3a..ad07705 100644
+--- a/Celeste.csproj
++++ b/Celeste.csproj
+@@ -24,8 +24,5 @@
+     <Reference Include="System.Core">
+       <HintPath>../_celeste_game/System.Core.dll</HintPath>
+     </Reference>
+-    <Reference Include="Steamworks.NET">
+-      <HintPath>../_celeste_game/Steamworks.NET.dll</HintPath>
+-    </Reference>
+   </ItemGroup>
+ </Project>
+\ No newline at end of file
