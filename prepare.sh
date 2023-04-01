@@ -214,7 +214,7 @@ function get_fmod() {
 	fi
 }
 
-if ! [ -f "$script_dir/libfmod.a" ] || ! [ -f "$script_dir/libfmodstudio.a" ]; then
+if ! [ -f "$script_dir/celestemeow/libfmod.a" ] || ! [ -f "$script_dir/celestemeow/libfmodstudio.a" ]; then
 	info "fmod not found, prompting to download it"
 	get_fmod
 else
@@ -353,7 +353,7 @@ if ! ./buildlibs.sh ios; then nativelib_build_err; fi
 if ! cp -r "$script_dir/fnalibs-ios-builder-celeste/release/ios/device/." "$script_dir/celestemeow/"; then nativelib_build_err; fi
 
 cd "$script_dir" || cd_fail
-if ! msbuild /p:Configuration="AppStore" /p:"Configuration=Release;Platform=iPhone" /target:celestemeow; then
+if ! msbuild /restore /p:Configuration="AppStore" /p:"Configuration=Release;Platform=iPhone" /target:celestemeow; then
 	error "failed to build ios project"
 	exit 1
 fi
