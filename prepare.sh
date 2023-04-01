@@ -306,3 +306,4 @@ nativelib_build_err() {
 
 if ! ./updatelibs.sh; then nativelib_build_err; fi
 if ! ./buildlibs.sh ios; then nativelib_build_err; fi
+if ! cp -r "$script_dir/fnalibs-ios-builder-celeste/release/ios/device/." "$script_dir/celestemeow/"; then nativelib_build_err; fi
