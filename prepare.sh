@@ -7,8 +7,9 @@ PINK="\033[0;95m"
 BOLD_PINK="\033[1;95m"
 CYAN="\033[0;96m"
 BOLD_CYAN="\033[1;96m"
-YELLOW="\033[0;33m"
-BOLD_YELLOW="\033[1;33m"
+LIME="\033[0;92m"
+BOLD_LIME="\033[1;92m"
+
 
 # logging functions
 error() {
@@ -40,6 +41,14 @@ info2() {
 cd_fail() {
 	error "failed to change directory - line $(caller)"
 	exit 1
+}
+
+success() {
+	if [ "$2" == "1" ]; then
+		echo -e "          ${LIME}$1${RESET}"
+	else
+		echo -e "${BOLD_LIME}(success)${LIME} $1${RESET}"
+	fi
 }
 
 # misc functions
@@ -177,6 +186,41 @@ case $celeste_install_status in
 		exit 1
 esac
 
+function get_fmod() {
+	# ask to download FMOD
+	info "please download the iOS version \"FMOD Engine\" version 1.10.09 (click 'Older') from https://www.fmod.com/download?version=1.10.09#fmodengine and open the .dmg"
+	info "before proceeding! this SPECIFIC version of FMOD is required to build the game! please note that you while you need an account, the download is not paid!"
+	read -r
+
+	_fmod_path=$(mount |grep "FMOD Programmers API iOS" |sed 's/ (.*//g')
+	fmod_path="${_fmod_path#*on }"
+
+	if ! [ -d "$fmod_path" ]; then
+		error "FMOD not found, please download and mount the .dmg and try again."
+		get_fmod
+	fi
+
+	if ! head -n 10 "$fmod_path/FMOD Programmers API/doc/revision.txt"|grep "1.10.09"; then
+		error "the FMOD image you downloaded appears to be a different version than 1.10.09, please unmount the image and download the correct version."
+		get_fmod
+	fi
+
+	info "copying FMOD libraries from $fmod_path"
+	if ! cp "$fmod_path/FMOD Programmers API/api/lowlevel/lib/libfmod_iphoneos.a" "$script_dir/celestemeow/libfmod.a"; then
+		error "failed to copy libfmod_iphoneos.a"; exit 1
+	fi
+	if ! cp "$fmod_path/FMOD Programmers API/api/studio/lib/libfmodstudio_iphoneos.a" "$script_dir/celestemeow/libfmodstudio.a"; then
+		error "failed to copy libfmodstudio_iphoneos.a"; exit 1
+	fi
+}
+
+if ! [ -f "$script_dir/libfmod.a" ] || ! [ -f "$script_dir/libfmodstudio.a" ]; then
+	info "fmod not found, prompting to download it"
+	get_fmod
+else
+	info "fmod found"
+fi
+
 info "checking for required tools..."
 
 if ! command -v git &>/dev/null; then missing_tool git "please install Xcode."; fi
@@ -313,3 +357,9 @@ if ! msbuild /p:Configuration="AppStore" /p:"Configuration=Release;Platform=iPho
 	error "failed to build ios project"
 	exit 1
 fi
+
+info "moving built ipa to $script_dir"
+if ! mv "$script_dir/celestemeow/bin/iPhone/Release/celestemeow.ipa" "$script_dir/"; then error "failed to move ipa"; exit 1; fi
+
+success "done building celeste for ios!"
+success "the ipa is located in '$script_dir' and can be installed using something like TrollStore or AltStore" 1
