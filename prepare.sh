@@ -307,3 +307,9 @@ nativelib_build_err() {
 if ! ./updatelibs.sh; then nativelib_build_err; fi
 if ! ./buildlibs.sh ios; then nativelib_build_err; fi
 if ! cp -r "$script_dir/fnalibs-ios-builder-celeste/release/ios/device/." "$script_dir/celestemeow/"; then nativelib_build_err; fi
+
+cd "$script_dir" || cd_fail
+if ! msbuild /p:Configuration="AppStore" /p:"Configuration=Release;Platform=iPhone" /target:celestemeow; then
+	error "failed to build ios project"
+	exit 1
+fi
