@@ -252,7 +252,7 @@ cp -a "$celeste_path/." "$script_dir/_celeste_game/"
 
 info "decompiling the game"
 rm -rf _celeste_decomp 2>/dev/null
-mkdir _celeste_decomp 2>/dev/null
+mkdir _celeste_decomp 2>/dev/null || echo a >/dev/null
 if ! ilspycmd -o "_celeste_decomp" -p -d -r "_celeste_game" "$script_dir/_celeste_game/Celeste.exe"; then
 	error "failed to decompile the game!"
 	exit 1
@@ -266,7 +266,6 @@ if [ "$celeste_is_steam" == "1" ]; then
 	apply_patch "$script_dir/patches/remove-steam.patch" 1 # the 1 at the end will make the function temporarily rename the .git folder so git doesn't stop us from applying the patch
 	apply_patch "$script_dir/patches/remove-steam2.patch" 1 # (fuck you git)
 fi
-
 apply_patch "$script_dir/patches/crash-fixes.patch" 1 # fuck you git, again
 
 info "building the patched game"
@@ -285,3 +284,25 @@ copy_game_files "$script_dir/_celeste_game/mscorlib.dll" "$script_dir/celeste"
 copy_game_files "$script_dir/_celeste_game/Celeste.Content.dll" "$script_dir/celeste"
 copy_game_files "$script_dir/_celeste_game/Content" "$script_dir/celestemeow/"
 copy_game_files "$script_dir/misc/Celeste.dll.config" "$script_dir/celeste/"
+
+info "building native libraries"
+cd "$script_dir/fnalibs-ios-builder-celeste" || cd_fail
+
+nativelib_build_err() {
+	error "failed to build native libraries!"
+	error "do you want to use the prebuilt libraries? [Y/n]\c" 1
+	read -n 1 -r reply
+	if [ "$reply" != "" ]; then echo; fi
+	if [ "$reply" = "${reply#[Nn]}" ]; then
+		if ! cp -r "$script_dir/fnalibs-ios-builder-celeste/prebuilt/." "$script_dir/celestemeow/"; then
+			error "failed to copy prebuilt native libs!"
+			exit 1
+		fi
+	else
+		error "no native libraries, can't continue"
+		exit 1
+	fi
+}
+
+if ! ./updatelibs.sh; then nativelib_build_err; fi
+if ! ./buildlibs.sh ios; then nativelib_build_err; fi
