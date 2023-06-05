@@ -79,7 +79,7 @@ script_dir=$(dirname -- "$script_real_path")
 cd "$script_dir" || cd_fail # make sure we're running in the script directory in case we get invoked from another directory
 mv "$script_dir/.git-tmp" "$script_dir/.git" 2>/dev/null || echo a >/dev/null # in case the script got killed while applying patches
 
-echo -e " ~ ${BOLD_PINK}Celeste ${RESET}${BOLD_CYAN}iOS${RESET} prepare script ~"
+echo -e " ~ ${BOLD_PINK}Celeste ${RESET}${BOLD_CYAN}iOS${RESET} build script ~"
 echo -e "  written by ${BOLD_PINK}rooot${RESET}"
 echo -e "  https://github.com/RoootTheFox/celeste-ios"
 echo -e "\n"
