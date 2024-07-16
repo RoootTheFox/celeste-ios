@@ -66,7 +66,7 @@
         <MtouchDebug>true</MtouchDebug>
         <CreatePackage>true</CreatePackage>
         <BuildIpa>true</BuildIpa>
-        <MtouchExtraArgs>-cxx -gcc_flags "-L${ProjectDir} -lSDL2 -lFNA3D -lFAudio -ltheorafile -lMoltenVK -force_load ${ProjectDir}/libSDL2.a -force_load ${ProjectDir}/libFNA3D.a -force_load ${ProjectDir}/libFAudio.a -force_load ${ProjectDir}/libtheorafile.a -force_load ${ProjectDir}/libMoltenVK.a -framework AVFoundation -framework AudioToolbox -framework CoreGraphics -framework Metal -framework QuartzCore -framework OpenGLES -framework GameController -framework CoreMotion -framework MobileCoreServices -framework ImageIO -framework CoreHaptics -framework CoreBluetooth -framework IOSurface -lfmod -force_load ${ProjectDir}/libfmod.a -lfmodstudio -force_load ${ProjectDir}/libfmodstudio.a" -v</MtouchExtraArgs>
+        <MtouchExtraArgs>-cxx -gcc_flags "-L${ProjectDir} -lSDL2 -lFNA3D -ltheorafile -lMoltenVK -force_load ${ProjectDir}/libSDL2.a -force_load ${ProjectDir}/libFNA3D.a -force_load ${ProjectDir}/libtheorafile.a -force_load ${ProjectDir}/libMoltenVK.a -framework AVFoundation -framework AudioToolbox -framework CoreGraphics -framework Metal -framework QuartzCore -framework OpenGLES -framework GameController -framework CoreMotion -framework MobileCoreServices -framework ImageIO -framework CoreHaptics -framework CoreBluetooth -framework IOSurface -lfmod -force_load ${ProjectDir}/libfmod.a -lfmodstudio -force_load ${ProjectDir}/libfmodstudio.a" -v</MtouchExtraArgs>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
       <DebugSymbols>true</DebugSymbols>
@@ -82,7 +82,7 @@
         <CreatePackage>true</CreatePackage>
         <CodesignProvision></CodesignProvision>
         <BuildIpa>true</BuildIpa>
-        <MtouchExtraArgs>-cxx -gcc_flags "-L${ProjectDir} -lSDL2 -lFNA3D -lFAudio -lMoltenVK -force_load ${ProjectDir}/libSDL2.a -force_load ${ProjectDir}/libFNA3D.a -force_load ${ProjectDir}/libFAudio.a -force_load ${ProjectDir}/libMoltenVK.a -framework AVFoundation -framework AudioToolbox -framework CoreGraphics -framework Metal -framework QuartzCore -framework OpenGLES -framework GameController -framework CoreMotion -framework MobileCoreServices -framework ImageIO -framework CoreHaptics -framework CoreBluetooth -framework IOSurface -lfmod -force_load ${ProjectDir}/libfmod.a -lfmodstudio -force_load ${ProjectDir}/libfmodstudio.a" -v</MtouchExtraArgs>
+        <MtouchExtraArgs>-cxx -gcc_flags "-L${ProjectDir} -lSDL2 -lFNA3D -lMoltenVK -force_load ${ProjectDir}/libSDL2.a -force_load ${ProjectDir}/libFNA3D.a -force_load ${ProjectDir}/libMoltenVK.a -framework AVFoundation -framework AudioToolbox -framework CoreGraphics -framework Metal -framework QuartzCore -framework OpenGLES -framework GameController -framework CoreMotion -framework MobileCoreServices -framework ImageIO -framework CoreHaptics -framework CoreBluetooth -framework IOSurface -lfmod -force_load ${ProjectDir}/libfmod.a -lfmodstudio -force_load ${ProjectDir}/libfmodstudio.a" -v</MtouchExtraArgs>
         <MtouchLink>SdkOnly</MtouchLink>
         <MtouchInterpreter>-all</MtouchInterpreter>
         <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
