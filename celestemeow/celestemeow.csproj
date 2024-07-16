@@ -179,19 +179,6 @@
         <Compile Include="Main.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-    <Target Name="Codesign" />
-     	<Target Name="_DetectSigningIdentity" Condition="'$(_CanOutputAppBundle)' == 'true'" DependsOnTargets="_DetectAppManifest;_DetectSdkLocations;_ComputeTargetFrameworkMoniker">
-   	<DetectSigningIdentity SessionId="$(BuildSessionId)" Condition="'$(IsMacEnabled)' == 'true'" AppBundleName="$(_AppBundleName)" AppManifest="$(_AppManifest)" RequireCodeSigning="false" RequireProvisioningProfile="false" SdkIsSimulator="$(_SdkIsSimulator)" SdkPlatform="$(_SdkPlatform)" TargetFrameworkMoniker="$(_ComputedTargetFrameworkMoniker)">
-
-   		<Output TaskParameter="DetectedAppId" PropertyName="_AppIdentifier" />
-   		<Output TaskParameter="DetectedBundleId" PropertyName="_BundleIdentifier" />
-   		<Output TaskParameter="DetectedBundleVersion" PropertyName="_BundleVersion" />
-   		<Output TaskParameter="DetectedCodeSigningKey" PropertyName="_CodeSigningKey" />
-   		<Output TaskParameter="DetectedCodesignAllocate" PropertyName="_CodesignAllocate" />
-   		<Output TaskParameter="DetectedDistributionType" PropertyName="_DistributionType" />
-   		<Output TaskParameter="DetectedProvisioningProfile" PropertyName="_ProvisioningProfile" />
-   	</DetectSigningIdentity>
-   </Target>
    <!-- <Target Name="IncludeAllFilesInTargetDir" AfterTargets="Build">
   <ItemGroup>
     <Folder Include="./../celeste" />
