@@ -349,6 +349,19 @@ nativelib_build_err() {
 }
 
 if ! ./updatelibs.sh; then nativelib_build_err; fi
+while true; do
+	read -p "Do you want to enable a virtual game controller if no other input devices are detected? iOS 15+ only! (y/n) " yn
+	case $yn in
+		[Yy]* )
+			cd "$script_dir/fnalibs-ios-builder-celeste/SDL2" || cd_fail
+			apply_patch "$script_dir/patches/SDL-gamecontroller.patch"
+			cd "$script_dir/fnalibs-ios-builder-celeste" || cd_fail
+			break;;
+		[Nn]* )
+			break;;
+		* ) echo "Please answer y/n." ;;
+	esac
+done
 if ! ./buildlibs.sh ios; then nativelib_build_err; fi
 if ! cp -r "$script_dir/fnalibs-ios-builder-celeste/release/ios/device/." "$script_dir/celestemeow/"; then nativelib_build_err; fi
 

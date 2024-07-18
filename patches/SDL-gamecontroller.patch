@@ -1,0 +1,40 @@
+diff --git a/src/video/uikit/SDL_uikitmetalview.m b/src/video/uikit/SDL_uikitmetalview.m
+index 8274eaff9..04887a0d0 100644
+--- a/src/video/uikit/SDL_uikitmetalview.m
++++ b/src/video/uikit/SDL_uikitmetalview.m
+@@ -35,7 +35,9 @@
+ 
+ #import "SDL_uikitwindow.h"
+ #import "SDL_uikitmetalview.h"
++#import <GameController/GameController.h>
+ 
++GCVirtualController *CONTROLLER = NULL;
+ 
+ @implementation SDL_uikitmetalview
+ 
+@@ -54,6 +56,25 @@ - (instancetype)initWithFrame:(CGRect)frame
+         [self updateDrawableSize];
+     }
+ 
++    if ([GCController controllers].count == 0 && ![GCKeyboard coalescedKeyboard]) {
++        if (!CONTROLLER) {
++            GCVirtualControllerConfiguration *configuration = [GCVirtualControllerConfiguration new];
++            configuration.elements = [NSSet setWithArray:@[
++                GCInputButtonA,
++                GCInputButtonB,
++                GCInputButtonX,
++                GCInputButtonY,
++                GCInputRightTrigger,
++                GCInputLeftTrigger,
++                GCInputRightShoulder,
++                GCInputLeftShoulder,
++                GCInputLeftThumbstick
++            ]];
++            CONTROLLER = [GCVirtualController virtualControllerWithConfiguration:configuration];
++        }
++        [CONTROLLER connectWithReplyHandler:NULL];
++    }
++
+     return self;
+ }
+ 
