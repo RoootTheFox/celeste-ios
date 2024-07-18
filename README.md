@@ -7,9 +7,6 @@
 - Visual Studio for Mac with the C#, .NET and Xamarin.iOS workloads
 - patience
 
-## caveats
-- no touch support - you *need* a keyboard to play (if you want to implement touch support, feel free to make a PR!)
-
 ## how to build
 - install the needed software mentioned above
 - run `./build.sh`
