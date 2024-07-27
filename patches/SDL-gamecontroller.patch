@@ -16,7 +16,7 @@ index 8274eaff9..04887a0d0 100644
          [self updateDrawableSize];
      }
  
-+    if ([GCController controllers].count == 0 && ![GCKeyboard coalescedKeyboard]) {
++    if (@available(iOS 15, *) && [GCController controllers].count == 0 && ![GCKeyboard coalescedKeyboard]) {
 +        if (!CONTROLLER) {
 +            GCVirtualControllerConfiguration *configuration = [GCVirtualControllerConfiguration new];
 +            configuration.elements = [NSSet setWithArray:@[
