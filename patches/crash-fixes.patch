@@ -1,3 +1,1747 @@
+diff --git a/Celeste/AbsorbOrb.cs b/Celeste/AbsorbOrb.cs
+index dd67512..92f0318 100644
+--- a/Celeste/AbsorbOrb.cs
++++ b/Celeste/AbsorbOrb.cs
+@@ -39,7 +39,7 @@ public class AbsorbOrb : Entity
+ 		base.Depth = -2000000;
+ 		consumeDelay = 0.7f + Calc.Random.NextFloat() * 0.3f;
+ 		burstSpeed = 80f + Calc.Random.NextFloat() * 40f;
+-		burstDirection = Calc.AngleToVector(Calc.Random.NextFloat() * (MathF.PI * 2f), 1f);
++		burstDirection = Calc.AngleToVector(Calc.Random.NextFloat() * ((float)Math.PI * 2f), 1f);
+ 		Add(sprite = new Image(GFX.Game["collectables/heartGem/orb"]));
+ 		sprite.CenterOrigin();
+ 		Add(bloom = new BloomPoint(1f, 16f));
+diff --git a/Celeste/BirdNPC.cs b/Celeste/BirdNPC.cs
+index cd8a2c4..5003f1e 100644
+--- a/Celeste/BirdNPC.cs
++++ b/Celeste/BirdNPC.cs
+@@ -395,7 +395,7 @@ public class BirdNPC : Actor
+ 		{
+ 			Audio.Play(startleSound, Position);
+ 		}
+-		Dust.Burst(Position, -MathF.PI / 2f, 8);
++		Dust.Burst(Position, -(float)Math.PI / 2f, 8);
+ 		Sprite.Play("jump");
+ 		Tween tween = Tween.Create(Tween.TweenMode.Oneshot, Ease.CubeOut, duration, start: true);
+ 		tween.OnUpdate = delegate(Tween t)
+@@ -405,7 +405,7 @@ public class BirdNPC : Actor
+ 				level.Particles.Emit(P_Feather, 2, Position + Vector2.UnitY * -6f, Vector2.One * 4f);
+ 			}
+ 			Vector2 vector = Vector2.Lerp(new Vector2(100f, -100f) * multiplier.Value, new Vector2(20f, -20f) * multiplier.Value, t.Eased);
+-			vector.X *= 0 - Facing;
++			vector.X *= 0 - (float)Facing;
+ 			Position += vector * Engine.DeltaTime;
+ 		};
+ 		Add(tween);
+@@ -437,7 +437,7 @@ public class BirdNPC : Actor
+ 			Sprite.Rate = 1f - p * 0.5f;
+ 			yield return null;
+ 		}
+-		Dust.Burst(Position, -MathF.PI / 2f, 8);
++		Dust.Burst(Position, -(float)Math.PI / 2f, 8);
+ 		Position = target;
+ 		Facing = Facings.Left;
+ 		Sprite.Rate = 1f;
+diff --git a/Celeste/BirdPath.cs b/Celeste/BirdPath.cs
+index e216963..475e721 100644
+--- a/Celeste/BirdPath.cs
++++ b/Celeste/BirdPath.cs
+@@ -156,7 +156,7 @@ public class BirdPath : Entity
+ 		float startAngle = speed.Angle();
+ 		float endAngle = Calc.Angle(Position, target);
+ 		float num3 = Calc.AngleLerp(startAngle, endAngle, 0.5f);
+-		sprite.Rotation = MathF.PI / 2f + num3;
++		sprite.Rotation = (float)Math.PI / 2f + num3;
+ 		if ((lastTrail - Position).Length() > 32f)
+ 		{
+ 			TrailManager.Add(this, trailColor);
+diff --git a/Celeste/BlackholeBG.cs b/Celeste/BlackholeBG.cs
+index 0ee4bbd..b6e8a81 100644
+--- a/Celeste/BlackholeBG.cs
++++ b/Celeste/BlackholeBG.cs
+@@ -147,7 +147,7 @@ public class BlackholeBG : Backdrop
+ 			MTexture mTexture = (streams[i].Texture = Calc.Random.Choose(atlasSubtextures));
+ 			streams[i].Percent = Calc.Random.NextFloat();
+ 			streams[i].Speed = Calc.Random.Range(0.2f, 0.4f);
+-			streams[i].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * (MathF.PI * 2f), 1f);
++			streams[i].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * ((float)Math.PI * 2f), 1f);
+ 			streams[i].Color = Calc.Random.Next(colorsMild.Length);
+ 			streamVerts[num].TextureCoordinate = new Vector2(mTexture.LeftUV, mTexture.TopUV);
+ 			streamVerts[num + 1].TextureCoordinate = new Vector2(mTexture.RightUV, mTexture.TopUV);
+@@ -162,7 +162,7 @@ public class BlackholeBG : Backdrop
+ 		{
+ 			MTexture mTexture2 = (streams[j].Texture = Calc.Random.Choose(atlasSubtextures));
+ 			spirals[j].Percent = Calc.Random.NextFloat();
+-			spirals[j].Offset = Calc.Random.NextFloat(MathF.PI * 2f);
++			spirals[j].Offset = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 			spirals[j].Color = Calc.Random.Next(colorsMild.Length);
+ 			for (int k = 0; k < 12; k++)
+ 			{
+@@ -180,7 +180,7 @@ public class BlackholeBG : Backdrop
+ 		for (int l = 0; l < 220; l++)
+ 		{
+ 			particles[l].Percent = Calc.Random.NextFloat();
+-			particles[l].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * (MathF.PI * 2f), 1f);
++			particles[l].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * ((float)Math.PI * 2f), 1f);
+ 			particles[l].Color = Calc.Random.Next(colorsMild.Length);
+ 		}
+ 		center = new Vector2(320f, 180f) / 2f;
+@@ -240,12 +240,12 @@ public class BlackholeBG : Backdrop
+ 			streams[k].Percent += streams[k].Speed * Engine.DeltaTime * num * Direction;
+ 			if (streams[k].Percent >= 1f && Direction > 0f)
+ 			{
+-				streams[k].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * (MathF.PI * 2f), 1f);
++				streams[k].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * ((float)Math.PI * 2f), 1f);
+ 				streams[k].Percent -= 1f;
+ 			}
+ 			else if (streams[k].Percent < 0f && Direction < 0f)
+ 			{
+-				streams[k].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * (MathF.PI * 2f), 1f);
++				streams[k].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * ((float)Math.PI * 2f), 1f);
+ 				streams[k].Percent += 1f;
+ 			}
+ 			float percent = streams[k].Percent;
+@@ -274,12 +274,12 @@ public class BlackholeBG : Backdrop
+ 			particles[l].Percent += Engine.DeltaTime * num7 * Direction;
+ 			if (particles[l].Percent >= 1f && Direction > 0f)
+ 			{
+-				particles[l].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * (MathF.PI * 2f), 1f);
++				particles[l].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * ((float)Math.PI * 2f), 1f);
+ 				particles[l].Percent -= 1f;
+ 			}
+ 			else if (particles[l].Percent < 0f && Direction < 0f)
+ 			{
+-				particles[l].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * (MathF.PI * 2f), 1f);
++				particles[l].Normal = Calc.AngleToVector(Calc.Random.NextFloat() * ((float)Math.PI * 2f), 1f);
+ 				particles[l].Percent += 1f;
+ 			}
+ 		}
+@@ -292,12 +292,12 @@ public class BlackholeBG : Backdrop
+ 			spirals[m].Percent += streams[m].Speed * Engine.DeltaTime * num8 * Direction;
+ 			if (spirals[m].Percent >= 1f && Direction > 0f)
+ 			{
+-				spirals[m].Offset = Calc.Random.NextFloat(MathF.PI * 2f);
++				spirals[m].Offset = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 				spirals[m].Percent -= 1f;
+ 			}
+ 			else if (spirals[m].Percent < 0f && Direction < 0f)
+ 			{
+-				spirals[m].Offset = Calc.Random.NextFloat(MathF.PI * 2f);
++				spirals[m].Offset = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 				spirals[m].Percent += 1f;
+ 			}
+ 			float percent2 = spirals[m].Percent;
+@@ -332,7 +332,7 @@ public class BlackholeBG : Backdrop
+ 		offset += (vector9 - offset) * (1f - (float)Math.Pow(0.009999999776482582, Engine.DeltaTime));
+ 		if (scene.OnInterval(0.025f))
+ 		{
+-			shake = Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 2f * (StrengthMultiplier - 1f));
++			shake = Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 2f * (StrengthMultiplier - 1f));
+ 		}
+ 		spinTime += (2f + StrengthMultiplier) * Engine.DeltaTime;
+ 	}
+@@ -372,7 +372,7 @@ public class BlackholeBG : Backdrop
+ 			float num = (1f - spinTime % 1f) * 0.05f + (float)i / 20f;
+ 			Color color = Color.Lerp(bgColorInner, value, Ease.SineOut(num));
+ 			float scale = Calc.ClampedMap(num, 0f, 1f, 0.1f, 4f);
+-			float rotation = MathF.PI * 2f * num;
++			float rotation = (float)Math.PI * 2f * num;
+ 			bgTexture.DrawCentered(center + offset * num + shake * (1f - num), color, scale, rotation);
+ 		}
+ 		Draw.SpriteBatch.End();
+diff --git a/Celeste/Booster.cs b/Celeste/Booster.cs
+index f9c0646..090da92 100644
+--- a/Celeste/Booster.cs
++++ b/Celeste/Booster.cs
+@@ -106,7 +106,7 @@ public class Booster : Entity
+ 		ParticleSystem particlesBG = SceneAs<Level>().ParticlesBG;
+ 		for (int i = 0; i < 360; i += 30)
+ 		{
+-			particlesBG.Emit(red ? P_RedAppear : P_Appear, 1, base.Center, Vector2.One * 2f, (float)i * (MathF.PI / 180f));
++			particlesBG.Emit(red ? P_RedAppear : P_Appear, 1, base.Center, Vector2.One * 2f, (float)i * ((float)Math.PI / 180f));
+ 		}
+ 	}
+ 
+diff --git a/Celeste/BounceBlock.cs b/Celeste/BounceBlock.cs
+index dc49973..fdb4bf4 100644
+--- a/Celeste/BounceBlock.cs
++++ b/Celeste/BounceBlock.cs
+@@ -442,12 +442,12 @@ public class BounceBlock : Solid
+ 		Level level = SceneAs<Level>();
+ 		for (int i = 0; (float)i < base.Width; i += 4)
+ 		{
+-			level.Particles.Emit(P_Reform, new Vector2(base.X + 2f + (float)i + (float)Calc.Random.Range(-1, 1), base.Y), -MathF.PI / 2f);
+-			level.Particles.Emit(P_Reform, new Vector2(base.X + 2f + (float)i + (float)Calc.Random.Range(-1, 1), base.Bottom - 1f), MathF.PI / 2f);
++			level.Particles.Emit(P_Reform, new Vector2(base.X + 2f + (float)i + (float)Calc.Random.Range(-1, 1), base.Y), -(float)Math.PI / 2f);
++			level.Particles.Emit(P_Reform, new Vector2(base.X + 2f + (float)i + (float)Calc.Random.Range(-1, 1), base.Bottom - 1f), (float)Math.PI / 2f);
+ 		}
+ 		for (int j = 0; (float)j < base.Height; j += 4)
+ 		{
+-			level.Particles.Emit(P_Reform, new Vector2(base.X, base.Y + 2f + (float)j + (float)Calc.Random.Range(-1, 1)), MathF.PI);
++			level.Particles.Emit(P_Reform, new Vector2(base.X, base.Y + 2f + (float)j + (float)Calc.Random.Range(-1, 1)), (float)Math.PI);
+ 			level.Particles.Emit(P_Reform, new Vector2(base.Right - 1f, base.Y + 2f + (float)j + (float)Calc.Random.Range(-1, 1)), 0f);
+ 		}
+ 	}
+diff --git a/Celeste/BreathingMinigame.cs b/Celeste/BreathingMinigame.cs
+index 5d7670f..3b5324b 100644
+--- a/Celeste/BreathingMinigame.cs
++++ b/Celeste/BreathingMinigame.cs
+@@ -25,7 +25,7 @@ public class BreathingMinigame : Entity
+ 			Position = new Vector2(Calc.Random.NextFloat() * 1920f, Calc.Random.NextFloat() * 1080f);
+ 			Scale = Calc.Map(num, 0f, 1f, 0.05f, 0.8f);
+ 			Speed = Scale * Calc.Random.Range(2f, 8f);
+-			Sin = Calc.Random.NextFloat(MathF.PI * 2f);
++			Sin = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 		}
+ 	}
+ 
+diff --git a/Celeste/BridgeTile.cs b/Celeste/BridgeTile.cs
+index f0719d5..5568e25 100644
+--- a/Celeste/BridgeTile.cs
++++ b/Celeste/BridgeTile.cs
+@@ -77,7 +77,7 @@ public class BridgeTile : JumpThru
+ 					{
+ 						if (image.RenderPosition.Y > base.Y + 4f)
+ 						{
+-							Dust.Burst(image.RenderPosition, -MathF.PI / 2f, 8);
++							Dust.Burst(image.RenderPosition, -(float)Math.PI / 2f, 8);
+ 						}
+ 					}
+ 				}
+diff --git a/Celeste/Bumper.cs b/Celeste/Bumper.cs
+index 948c909..1e55dcd 100644
+--- a/Celeste/Bumper.cs
++++ b/Celeste/Bumper.cs
+@@ -134,7 +134,7 @@ public class Bumper : Entity
+ 		{
+ 			float num = Calc.Random.NextAngle();
+ 			ParticleType type = (fireMode ? P_FireAmbience : P_Ambience);
+-			float direction = (fireMode ? (-MathF.PI / 2f) : num);
++			float direction = (fireMode ? (-(float)Math.PI / 2f) : num);
+ 			float length = (fireMode ? 12 : 8);
+ 			SceneAs<Level>().Particles.Emit(type, 1, base.Center + Calc.AngleToVector(num, length), Vector2.One * 2f, direction);
+ 		}
+diff --git a/Celeste/CS00_Ending.cs b/Celeste/CS00_Ending.cs
+index 33130e6..69a100b 100644
+--- a/Celeste/CS00_Ending.cs
++++ b/Celeste/CS00_Ending.cs
+@@ -81,7 +81,7 @@ public class CS00_Ending : CutsceneEntity
+ 		}
+ 		bird.Position = to;
+ 		Audio.Play("event:/game/general/bird_land_dirt", bird.Position);
+-		Dust.Burst(bird.Position, -MathF.PI / 2f, 12);
++		Dust.Burst(bird.Position, -(float)Math.PI / 2f, 12);
+ 		bird.Sprite.Play("idle");
+ 		yield return WaitFor(0.5f);
+ 		bird.Sprite.Play("peck");
+diff --git a/Celeste/CS03_Ending.cs b/Celeste/CS03_Ending.cs
+index 0d26d28..b3464d6 100644
+--- a/Celeste/CS03_Ending.cs
++++ b/Celeste/CS03_Ending.cs
+@@ -117,7 +117,7 @@ public class CS03_Ending : CutsceneEntity
+ 		Tween tween = Tween.Create(Tween.TweenMode.Oneshot, Ease.SineInOut, 1.5f, start: true);
+ 		tween.OnUpdate = delegate(Tween t)
+ 		{
+-			angryOshiro.Sprite.Rotation = t.Eased * -100f * (MathF.PI / 180f);
++			angryOshiro.Sprite.Rotation = t.Eased * -100f * ((float)Math.PI / 180f);
+ 		};
+ 		Add(tween);
+ 		float t3;
+diff --git a/Celeste/CS06_StarJumpEnd.cs b/Celeste/CS06_StarJumpEnd.cs
+index ce12ecb..1203ffc 100644
+--- a/Celeste/CS06_StarJumpEnd.cs
++++ b/Celeste/CS06_StarJumpEnd.cs
+@@ -435,13 +435,13 @@ public class CS06_StarJumpEnd : CutsceneEntity
+ 		Vector2 baddyStart = badeline.Position;
+ 		Vector2 center = (maddyStart + baddyStart) / 2f;
+ 		float dist = Math.Abs(maddyStart.X - center.X);
+-		float timer = MathF.PI / 2f;
++		float timer = (float)Math.PI / 2f;
+ 		player.Sprite.Play("spin");
+ 		badeline.Sprite.Play("spin");
+ 		badeline.Sprite.Scale.X = 1f;
+ 		while (charactersSpinning)
+ 		{
+-			int num = (int)(timer / (MathF.PI * 2f) * 14f + 10f);
++			int num = (int)(timer / ((float)Math.PI * 2f) * 14f + 10f);
+ 			player.Sprite.SetAnimationFrame(num);
+ 			badeline.Sprite.SetAnimationFrame(num + 7);
+ 			float num2 = (float)Math.Sin(timer);
+diff --git a/Celeste/CS07_Ascend.cs b/Celeste/CS07_Ascend.cs
+index 08bb627..1af28a7 100644
+--- a/Celeste/CS07_Ascend.cs
++++ b/Celeste/CS07_Ascend.cs
+@@ -66,14 +66,14 @@ public class CS07_Ascend : CutsceneEntity
+ 	{
+ 		float dist = 0f;
+ 		Vector2 center = player.Position;
+-		float timer = MathF.PI / 2f;
++		float timer = (float)Math.PI / 2f;
+ 		player.Sprite.Play("spin");
+ 		badeline.Sprite.Play("spin");
+ 		badeline.Sprite.Scale.X = 1f;
+ 		while (spinning || dist > 0f)
+ 		{
+ 			dist = Calc.Approach(dist, spinning ? 1f : 0f, Engine.DeltaTime * 4f);
+-			int num = (int)(timer / (MathF.PI * 2f) * 14f + 10f);
++			int num = (int)(timer / ((float)Math.PI * 2f) * 14f + 10f);
+ 			float num2 = (float)Math.Sin(timer);
+ 			float num3 = (float)Math.Cos(timer);
+ 			float num4 = Ease.CubeOut(dist) * 32f;
+@@ -84,7 +84,7 @@ public class CS07_Ascend : CutsceneEntity
+ 			timer -= Engine.DeltaTime * 2f;
+ 			if (timer <= 0f)
+ 			{
+-				timer += MathF.PI * 2f;
++				timer += (float)Math.PI * 2f;
+ 			}
+ 			yield return null;
+ 		}
+diff --git a/Celeste/CS07_Credits.cs b/Celeste/CS07_Credits.cs
+index 106d548..378bcdd 100644
+--- a/Celeste/CS07_Credits.cs
++++ b/Celeste/CS07_Credits.cs
+@@ -571,7 +571,7 @@ public class CS07_Credits : CutsceneEntity
+ 		for (float p = 0f; p < 1f; p += Engine.DeltaTime / duration)
+ 		{
+ 			float num = p * 2f;
+-			badeline.Position = around + Calc.AngleToVector(angle - num * (MathF.PI * 2f), dist + Calc.YoYo(p) * 16f + (float)Math.Sin(p * (MathF.PI * 2f) * 4f) * 5f);
++			badeline.Position = around + Calc.AngleToVector(angle - num * ((float)Math.PI * 2f), dist + Calc.YoYo(p) * 16f + (float)Math.Sin(p * ((float)Math.PI * 2f) * 4f) * 5f);
+ 			badeline.Sprite.Scale.X = Math.Sign(around.X - badeline.X);
+ 			if (!removeAtEnd)
+ 			{
+diff --git a/Celeste/CS10_CatchTheBird.cs b/Celeste/CS10_CatchTheBird.cs
+index aebed26..8ff1056 100644
+--- a/Celeste/CS10_CatchTheBird.cs
++++ b/Celeste/CS10_CatchTheBird.cs
+@@ -62,7 +62,7 @@ public class CS10_CatchTheBird : CutsceneEntity
+ 			player.Speed.X = Calc.Approach(player.Speed.X, 0f, 160f * Engine.DeltaTime);
+ 			if (player.Speed.X != 0f && base.Scene.OnInterval(0.1f))
+ 			{
+-				Dust.BurstFG(player.Position, -MathF.PI / 2f, 2);
++				Dust.BurstFG(player.Position, -(float)Math.PI / 2f, 2);
+ 			}
+ 			flingBird.Position.X += Engine.DeltaTime * 80f * Ease.CubeOut(1f - p);
+ 			flingBird.Position.Y = ground;
+diff --git a/Celeste/CS10_MissTheBird.cs b/Celeste/CS10_MissTheBird.cs
+index 5dd6a8a..d3a3d29 100644
+--- a/Celeste/CS10_MissTheBird.cs
++++ b/Celeste/CS10_MissTheBird.cs
+@@ -74,7 +74,7 @@ public class CS10_MissTheBird : CutsceneEntity
+ 			player.Speed.X = Calc.Approach(player.Speed.X, 0f, 120f * Engine.DeltaTime);
+ 			if (base.Scene.OnInterval(0.1f))
+ 			{
+-				Dust.BurstFG(player.Position, -MathF.PI / 2f, 2);
++				Dust.BurstFG(player.Position, -(float)Math.PI / 2f, 2);
+ 			}
+ 			yield return null;
+ 		}
+diff --git a/Celeste/CSGEN_StrawberrySeeds.cs b/Celeste/CSGEN_StrawberrySeeds.cs
+index 66cf7c5..b675743 100644
+--- a/Celeste/CSGEN_StrawberrySeeds.cs
++++ b/Celeste/CSGEN_StrawberrySeeds.cs
+@@ -59,8 +59,8 @@ public class CSGEN_StrawberrySeeds : CutsceneEntity
+ 		system = new ParticleSystem(-2000002, 50);
+ 		system.Tag = Tags.FrozenUpdate;
+ 		level.Add(system);
+-		float num = MathF.PI * 2f / (float)strawberry.Seeds.Count;
+-		float num2 = MathF.PI / 2f;
++		float num = (float)Math.PI * 2f / (float)strawberry.Seeds.Count;
++		float num2 = (float)Math.PI / 2f;
+ 		Vector2 zero = Vector2.Zero;
+ 		foreach (StrawberrySeed seed2 in strawberry.Seeds)
+ 		{
+diff --git a/Celeste/Checkpoint.cs b/Celeste/Checkpoint.cs
+index 251c378..694dbe3 100644
+--- a/Celeste/Checkpoint.cs
++++ b/Celeste/Checkpoint.cs
+@@ -25,7 +25,7 @@ public class Checkpoint : Entity
+ 
+ 	private bool triggered;
+ 
+-	private float sine = MathF.PI / 2f;
++	private float sine = (float)Math.PI / 2f;
+ 
+ 	private float fade = 1f;
+ 
+diff --git a/Celeste/ChimneySmokeFx.cs b/Celeste/ChimneySmokeFx.cs
+index 80765d4..3b2e85e 100644
+--- a/Celeste/ChimneySmokeFx.cs
++++ b/Celeste/ChimneySmokeFx.cs
+@@ -8,7 +8,7 @@ public class ChimneySmokeFx
+ {
+ 	public static void Burst(Vector2 position, float direction, int count, ParticleSystem system = null)
+ 	{
+-		Vector2 vector = Calc.AngleToVector(direction - MathF.PI / 2f, 2f);
++		Vector2 vector = Calc.AngleToVector(direction - (float)Math.PI / 2f, 2f);
+ 		vector.X = Math.Abs(vector.X);
+ 		vector.Y = Math.Abs(vector.Y);
+ 		if (system == null)
+diff --git a/Celeste/CliffsideWindFlag.cs b/Celeste/CliffsideWindFlag.cs
+index 98d1e61..0882b7a 100644
+--- a/Celeste/CliffsideWindFlag.cs
++++ b/Celeste/CliffsideWindFlag.cs
+@@ -37,7 +37,7 @@ public class CliffsideWindFlag : Entity
+ 			};
+ 			segments[i] = segment;
+ 		}
+-		sine = Calc.Random.NextFloat(MathF.PI * 2f);
++		sine = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 		random = Calc.Random.NextFloat();
+ 		base.Depth = 8999;
+ 		base.Tag = Tags.TransitionUpdate;
+diff --git a/Celeste/Cloud.cs b/Celeste/Cloud.cs
+index a870014..f72fe64 100644
+--- a/Celeste/Cloud.cs
++++ b/Celeste/Cloud.cs
+@@ -153,7 +153,7 @@ public class Cloud : JumpThru
+ 		}
+ 		if (speed < 0f && base.Scene.OnInterval(0.02f))
+ 		{
+-			(base.Scene as Level).ParticlesBG.Emit(particleType, 1, Position + new Vector2(0f, 2f), new Vector2(base.Collider.Width / 2f, 1f), MathF.PI / 2f);
++			(base.Scene as Level).ParticlesBG.Emit(particleType, 1, Position + new Vector2(0f, 2f), new Vector2(base.Collider.Width / 2f, 1f), (float)Math.PI / 2f);
+ 		}
+ 		if (fragile && speed < 0f)
+ 		{
+diff --git a/Celeste/ClutterSwitch.cs b/Celeste/ClutterSwitch.cs
+index 8b57d54..5c2cae0 100644
+--- a/Celeste/ClutterSwitch.cs
++++ b/Celeste/ClutterSwitch.cs
+@@ -238,7 +238,7 @@ public class ClutterSwitch : Solid
+ 		{
+ 			for (int j = 0; j < 5; j++)
+ 			{
+-				Vector2 position = target + Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 320f);
++				Vector2 position = target + Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 320f);
+ 				effect.FlyClutter(position, Calc.Random.Choose(images), shake: false, 0f);
+ 			}
+ 			level.Shake();
+diff --git a/Celeste/CoreStarsFG.cs b/Celeste/CoreStarsFG.cs
+index eae7b54..dc4df59 100644
+--- a/Celeste/CoreStarsFG.cs
++++ b/Celeste/CoreStarsFG.cs
+@@ -46,9 +46,9 @@ public class CoreStarsFG : Backdrop
+ 		particles[i].Percent = p;
+ 		particles[i].Position = new Vector2(Calc.Random.Range(0, 320), Calc.Random.Range(0, 180));
+ 		particles[i].Speed = Calc.Random.Range(2f, 5f);
+-		particles[i].Spin = Calc.Random.Range(0.25f, MathF.PI * 6f);
++		particles[i].Spin = Calc.Random.Range(0.25f, (float)Math.PI * 6f);
+ 		particles[i].Duration = Calc.Random.Range(1f, 4f);
+-		particles[i].Direction = Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 1f);
++		particles[i].Direction = Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 1f);
+ 		particles[i].Color = Calc.Random.Next(colors.Length);
+ 	}
+ 
+diff --git a/Celeste/CrushBlock.cs b/Celeste/CrushBlock.cs
+index 99d8da8..3c400fd 100644
+--- a/Celeste/CrushBlock.cs
++++ b/Celeste/CrushBlock.cs
+@@ -393,21 +393,21 @@ public class CrushBlock : Solid
+ 		}
+ 		else if (dir == -Vector2.UnitX)
+ 		{
+-			direction = MathF.PI;
++			direction = (float)Math.PI;
+ 			position = base.CenterLeft + Vector2.UnitX;
+ 			positionRange = Vector2.UnitY * (base.Height - 2f) * 0.5f;
+ 			num = (int)(base.Height / 8f) * 4;
+ 		}
+ 		else if (dir == Vector2.UnitY)
+ 		{
+-			direction = MathF.PI / 2f;
++			direction = (float)Math.PI / 2f;
+ 			position = base.BottomCenter - Vector2.UnitY;
+ 			positionRange = Vector2.UnitX * (base.Width - 2f) * 0.5f;
+ 			num = (int)(base.Width / 8f) * 4;
+ 		}
+ 		else
+ 		{
+-			direction = -MathF.PI / 2f;
++			direction = -(float)Math.PI / 2f;
+ 			position = base.TopCenter + Vector2.UnitY;
+ 			positionRange = Vector2.UnitX * (base.Width - 2f) * 0.5f;
+ 			num = (int)(base.Width / 8f) * 4;
+@@ -469,7 +469,7 @@ public class CrushBlock : Solid
+ 				if (crushDir == Vector2.UnitX)
+ 				{
+ 					position = new Vector2(base.Left + 1f, Calc.Random.Range(base.Top + 3f, base.Bottom - 3f));
+-					direction = MathF.PI;
++					direction = (float)Math.PI;
+ 				}
+ 				else if (crushDir == -Vector2.UnitX)
+ 				{
+@@ -479,12 +479,12 @@ public class CrushBlock : Solid
+ 				else if (crushDir == Vector2.UnitY)
+ 				{
+ 					position = new Vector2(Calc.Random.Range(base.Left + 3f, base.Right - 3f), base.Top + 1f);
+-					direction = -MathF.PI / 2f;
++					direction = -(float)Math.PI / 2f;
+ 				}
+ 				else
+ 				{
+ 					position = new Vector2(Calc.Random.Range(base.Left + 3f, base.Right - 3f), base.Bottom - 1f);
+-					direction = MathF.PI / 2f;
++					direction = (float)Math.PI / 2f;
+ 				}
+ 				level.Particles.Emit(P_Crushing, position, direction);
+ 			}
+@@ -516,8 +516,8 @@ public class CrushBlock : Solid
+ 				Vector2 vector4 = new Vector2(base.Right + 1f, base.Top + 4f + (float)(j * 8));
+ 				if (!base.Scene.CollideCheck<Water>(vector4) && base.Scene.CollideCheck<Solid>(vector4))
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector4 + vector3, MathF.PI);
+-					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector4 - vector3, MathF.PI);
++					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector4 + vector3, (float)Math.PI);
++					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector4 - vector3, (float)Math.PI);
+ 				}
+ 			}
+ 		}
+@@ -529,8 +529,8 @@ public class CrushBlock : Solid
+ 				Vector2 vector6 = new Vector2(base.Left + 4f + (float)(k * 8), base.Top - 1f);
+ 				if (!base.Scene.CollideCheck<Water>(vector6) && base.Scene.CollideCheck<Solid>(vector6))
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector6 + vector5, MathF.PI / 2f);
+-					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector6 - vector5, MathF.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector6 + vector5, (float)Math.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector6 - vector5, (float)Math.PI / 2f);
+ 				}
+ 			}
+ 		}
+@@ -542,8 +542,8 @@ public class CrushBlock : Solid
+ 				Vector2 vector8 = new Vector2(base.Left + 4f + (float)(l * 8), base.Bottom + 1f);
+ 				if (!base.Scene.CollideCheck<Water>(vector8) && base.Scene.CollideCheck<Solid>(vector8))
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector8 + vector7, -MathF.PI / 2f);
+-					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector8 - vector7, -MathF.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector8 + vector7, -(float)Math.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(P_Impact, vector8 - vector7, -(float)Math.PI / 2f);
+ 				}
+ 			}
+ 		}
+diff --git a/Celeste/CrystalStaticSpinner.cs b/Celeste/CrystalStaticSpinner.cs
+index a8c62a9..a5fb6a6 100644
+--- a/Celeste/CrystalStaticSpinner.cs
++++ b/Celeste/CrystalStaticSpinner.cs
+@@ -327,7 +327,7 @@ public class CrystalStaticSpinner : Entity
+ 		List<MTexture> atlasSubtextures = GFX.Game.GetAtlasSubtextures(bgTextureLookup[color]);
+ 		Image image = new Image(Calc.Random.Choose(atlasSubtextures));
+ 		image.Position = offset;
+-		image.Rotation = (float)Calc.Random.Choose(0, 1, 2, 3) * (MathF.PI / 2f);
++		image.Rotation = (float)Calc.Random.Choose(0, 1, 2, 3) * ((float)Math.PI / 2f);
+ 		image.CenterOrigin();
+ 		if (color == CrystalColor.Rainbow)
+ 		{
+diff --git a/Celeste/DashSwitch.cs b/Celeste/DashSwitch.cs
+index fe158da..12fcd5b 100644
+--- a/Celeste/DashSwitch.cs
++++ b/Celeste/DashSwitch.cs
+@@ -73,14 +73,14 @@ public class DashSwitch : Solid
+ 		{
+ 		case Sides.Down:
+ 			sprite.Position = new Vector2(8f, 8f);
+-			sprite.Rotation = MathF.PI / 2f;
++			sprite.Rotation = (float)Math.PI / 2f;
+ 			pressedTarget = Position + Vector2.UnitY * 8f;
+ 			pressDirection = Vector2.UnitY;
+ 			startY = base.Y;
+ 			break;
+ 		case Sides.Up:
+ 			sprite.Position = new Vector2(8f, 0f);
+-			sprite.Rotation = -MathF.PI / 2f;
++			sprite.Rotation = -(float)Math.PI / 2f;
+ 			pressedTarget = Position + Vector2.UnitY * -8f;
+ 			pressDirection = -Vector2.UnitY;
+ 			break;
+@@ -92,7 +92,7 @@ public class DashSwitch : Solid
+ 			break;
+ 		case Sides.Left:
+ 			sprite.Position = new Vector2(0f, 8f);
+-			sprite.Rotation = MathF.PI;
++			sprite.Rotation = (float)Math.PI;
+ 			pressedTarget = Position + Vector2.UnitX * -8f;
+ 			pressDirection = -Vector2.UnitX;
+ 			break;
+@@ -201,8 +201,8 @@ public class DashSwitch : Solid
+ 			MoveTo(pressedTarget);
+ 			Collidable = false;
+ 			Position -= pressDirection * 2f;
+-			SceneAs<Level>().ParticlesFG.Emit(mirrorMode ? P_PressAMirror : P_PressA, 10, Position + sprite.Position, direction.Perpendicular() * 6f, sprite.Rotation - MathF.PI);
+-			SceneAs<Level>().ParticlesFG.Emit(mirrorMode ? P_PressBMirror : P_PressB, 4, Position + sprite.Position, direction.Perpendicular() * 6f, sprite.Rotation - MathF.PI);
++			SceneAs<Level>().ParticlesFG.Emit(mirrorMode ? P_PressAMirror : P_PressA, 10, Position + sprite.Position, direction.Perpendicular() * 6f, sprite.Rotation - (float)Math.PI);
++			SceneAs<Level>().ParticlesFG.Emit(mirrorMode ? P_PressBMirror : P_PressB, 4, Position + sprite.Position, direction.Perpendicular() * 6f, sprite.Rotation - (float)Math.PI);
+ 			if (allGates)
+ 			{
+ 				foreach (TempleGate entity in base.Scene.Tracker.GetEntities<TempleGate>())
+diff --git a/Celeste/DeathEffect.cs b/Celeste/DeathEffect.cs
+index f61260d..52bcf22 100644
+--- a/Celeste/DeathEffect.cs
++++ b/Celeste/DeathEffect.cs
+@@ -56,7 +56,7 @@ public class DeathEffect : Component
+ 		float num = ((ease < 0.5f) ? (0.5f + ease) : Ease.CubeOut(1f - (ease - 0.5f) * 2f));
+ 		for (int i = 0; i < 8; i++)
+ 		{
+-			Vector2 vector = Calc.AngleToVector(((float)i / 8f + ease * 0.25f) * (MathF.PI * 2f), Ease.CubeOut(ease) * 24f);
++			Vector2 vector = Calc.AngleToVector(((float)i / 8f + ease * 0.25f) * ((float)Math.PI * 2f), Ease.CubeOut(ease) * 24f);
+ 			mTexture.DrawCentered(position + vector + new Vector2(-1f, 0f), Color.Black, new Vector2(num, num));
+ 			mTexture.DrawCentered(position + vector + new Vector2(1f, 0f), Color.Black, new Vector2(num, num));
+ 			mTexture.DrawCentered(position + vector + new Vector2(0f, -1f), Color.Black, new Vector2(num, num));
+@@ -64,7 +64,7 @@ public class DeathEffect : Component
+ 		}
+ 		for (int j = 0; j < 8; j++)
+ 		{
+-			Vector2 vector2 = Calc.AngleToVector(((float)j / 8f + ease * 0.25f) * (MathF.PI * 2f), Ease.CubeOut(ease) * 24f);
++			Vector2 vector2 = Calc.AngleToVector(((float)j / 8f + ease * 0.25f) * ((float)Math.PI * 2f), Ease.CubeOut(ease) * 24f);
+ 			mTexture.DrawCentered(position + vector2, color2, new Vector2(num, num));
+ 		}
+ 	}
+diff --git a/Celeste/Debris.cs b/Celeste/Debris.cs
+index d7b163b..67836e6 100644
+--- a/Celeste/Debris.cs
++++ b/Celeste/Debris.cs
+@@ -85,7 +85,7 @@ public class Debris : Actor
+ 	{
+ 		float length = Calc.Random.Range(30, 40);
+ 		speed = (Position - from).SafeNormalize(length);
+-		speed = speed.Rotate(Calc.Random.Range(-MathF.PI / 12f, MathF.PI / 12f));
++		speed = speed.Rotate(Calc.Random.Range(-(float)Math.PI / 12f, (float)Math.PI / 12f));
+ 		return this;
+ 	}
+ 
+diff --git a/Celeste/Decal.cs b/Celeste/Decal.cs
+index e7819e0..21da878 100644
+--- a/Celeste/Decal.cs
++++ b/Celeste/Decal.cs
+@@ -396,7 +396,7 @@ public class Decal : Entity
+ 
+ 	private void MakeFloaty()
+ 	{
+-		Add(wave = new SineWave(Calc.Random.Range(0.1f, 0.4f), Calc.Random.NextFloat() * (MathF.PI * 2f)));
++		Add(wave = new SineWave(Calc.Random.Range(0.1f, 0.4f), Calc.Random.NextFloat() * ((float)Math.PI * 2f)));
+ 	}
+ 
+ 	private void MakeSolid(float x, float y, float w, float h, int surfaceSoundIndex, bool blockWaterfalls = true)
+@@ -410,7 +410,7 @@ public class Decal : Entity
+ 	private void CreateSmoke(Vector2 offset, bool inbg)
+ 	{
+ 		Level level = base.Scene as Level;
+-		ParticleEmitter particleEmitter = new ParticleEmitter(inbg ? level.ParticlesBG : level.ParticlesFG, ParticleTypes.Chimney, offset, new Vector2(4f, 1f), -MathF.PI / 2f, 1, 0.2f);
++		ParticleEmitter particleEmitter = new ParticleEmitter(inbg ? level.ParticlesBG : level.ParticlesFG, ParticleTypes.Chimney, offset, new Vector2(4f, 1f), -(float)Math.PI / 2f, 1, 0.2f);
+ 		Add(particleEmitter);
+ 		particleEmitter.SimulateCycle();
+ 	}
+@@ -549,7 +549,7 @@ public class Decal : Entity
+ 	{
+ 		Wiggler component = Wiggler.Create(1f, 4f, delegate(float v)
+ 		{
+-			(image as FinalFlagDecalImage).Rotation = MathF.PI / 15f * v;
++			(image as FinalFlagDecalImage).Rotation = (float)Math.PI / 15f * v;
+ 		}, start: true);
+ 		Vector2 position = Position;
+ 		position.X = Calc.Snap(position.X, 8f) - 8f;
+diff --git a/Celeste/DisperseImage.cs b/Celeste/DisperseImage.cs
+index bfbbc42..c34ba56 100644
+--- a/Celeste/DisperseImage.cs
++++ b/Celeste/DisperseImage.cs
+@@ -43,7 +43,7 @@ public class DisperseImage : Entity
+ 				{
+ 					Position = position + scale * (new Vector2(i, j) - origin),
+ 					Direction = Calc.AngleToVector(num + Calc.Random.Range(-0.2f, 0.2f), 1f),
+-					Sin = Calc.Random.NextFloat(MathF.PI * 2f),
++					Sin = Calc.Random.NextFloat((float)Math.PI * 2f),
+ 					Speed = Calc.Random.Range(0f, 4f),
+ 					Alpha = 1f,
+ 					Percent = 0f,
+diff --git a/Celeste/DreamBlock.cs b/Celeste/DreamBlock.cs
+index e6b2914..0433616 100644
+--- a/Celeste/DreamBlock.cs
++++ b/Celeste/DreamBlock.cs
+@@ -51,9 +51,9 @@ public class DreamBlock : Solid
+ 
+ 	private bool oneUse;
+ 
+-	private float wobbleFrom = Calc.Random.NextFloat(MathF.PI * 2f);
++	private float wobbleFrom = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 
+-	private float wobbleTo = Calc.Random.NextFloat(MathF.PI * 2f);
++	private float wobbleTo = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 
+ 	private float wobbleEase;
+ 
+@@ -189,7 +189,7 @@ public class DreamBlock : Solid
+ 			{
+ 				wobbleEase = 0f;
+ 				wobbleFrom = wobbleTo;
+-				wobbleTo = Calc.Random.NextFloat(MathF.PI * 2f);
++				wobbleTo = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 			}
+ 			SurfaceSoundIndex = 12;
+ 		}
+diff --git a/Celeste/DreamWipe.cs b/Celeste/DreamWipe.cs
+index 2352a4e..8d09170 100644
+--- a/Celeste/DreamWipe.cs
++++ b/Celeste/DreamWipe.cs
+@@ -92,7 +92,7 @@ public class DreamWipe : ScreenWipe
+ 			Vector2 vector = new Vector2(1f, 0f);
+ 			for (float num2 = 0f; num2 < 32f; num2 += 1f)
+ 			{
+-				Vector2 vector2 = Calc.AngleToVector((num2 + 1f) / 32f * (MathF.PI * 2f), 1f);
++				Vector2 vector2 = Calc.AngleToVector((num2 + 1f) / 32f * ((float)Math.PI * 2f), 1f);
+ 				vertexBuffer[num++].Position = new Vector3(circle.Position, 0f);
+ 				vertexBuffer[num++].Position = new Vector3(circle.Position + vector * circle.Radius, 0f);
+ 				vertexBuffer[num++].Position = new Vector3(circle.Position + vector2 * circle.Radius, 0f);
+diff --git a/Celeste/Dust.cs b/Celeste/Dust.cs
+index fb09f44..71d09ed 100644
+--- a/Celeste/Dust.cs
++++ b/Celeste/Dust.cs
+@@ -12,7 +12,7 @@ public static class Dust
+ 		{
+ 			particleType = ParticleTypes.Dust;
+ 		}
+-		Vector2 vector = Calc.AngleToVector(direction - MathF.PI / 2f, 4f);
++		Vector2 vector = Calc.AngleToVector(direction - (float)Math.PI / 2f, 4f);
+ 		vector.X = Math.Abs(vector.X);
+ 		vector.Y = Math.Abs(vector.Y);
+ 		Level level = Engine.Scene as Level;
+@@ -28,7 +28,7 @@ public static class Dust
+ 		{
+ 			particleType = ParticleTypes.Dust;
+ 		}
+-		Vector2 vector = Calc.AngleToVector(direction - MathF.PI / 2f, range);
++		Vector2 vector = Calc.AngleToVector(direction - (float)Math.PI / 2f, range);
+ 		vector.X = Math.Abs(vector.X);
+ 		vector.Y = Math.Abs(vector.Y);
+ 		Level level = Engine.Scene as Level;
+diff --git a/Celeste/DustGraphic.cs b/Celeste/DustGraphic.cs
+index 80217b5..876746a 100644
+--- a/Celeste/DustGraphic.cs
++++ b/Celeste/DustGraphic.cs
+@@ -153,7 +153,7 @@ public class DustGraphic : Component
+ 		center = Calc.Random.Choose(GFX.Game.GetAtlasSubtextures("danger/dustcreature/center"));
+ 		offset = Calc.Random.NextFloat() * 4f;
+ 		timer = Calc.Random.NextFloat();
+-		EyeTargetDirection = (EyeDirection = Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 1f));
++		EyeTargetDirection = (EyeDirection = Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 1f));
+ 		eyeTextureIndex = Calc.Random.Next(128);
+ 		eyesExist = true;
+ 		if (autoControlEyes)
+@@ -225,7 +225,7 @@ public class DustGraphic : Component
+ 					{
+ 						float target = vector.Angle();
+ 						float val2 = eyeLookRange.Angle();
+-						EyeTargetDirection = Calc.AngleToVector(Calc.AngleApproach(val2, target, MathF.PI / 4f), 1f);
++						EyeTargetDirection = Calc.AngleToVector(Calc.AngleApproach(val2, target, (float)Math.PI / 4f), 1f);
+ 					}
+ 					else
+ 					{
+@@ -366,7 +366,7 @@ public class DustGraphic : Component
+ 		Node node = new Node();
+ 		node.Base = Calc.Random.Choose(GFX.Game.GetAtlasSubtextures("danger/dustcreature/base"));
+ 		node.Overlay = Calc.Random.Choose(GFX.Game.GetAtlasSubtextures("danger/dustcreature/overlay"));
+-		node.Rotation = Calc.Random.NextFloat(MathF.PI * 2f);
++		node.Rotation = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 		node.Angle = angle * vector;
+ 		node.Enabled = enabled;
+ 		nodes.Add(node);
+diff --git a/Celeste/DustRotateSpinner.cs b/Celeste/DustRotateSpinner.cs
+index 39bf43c..9e3c01d 100644
+--- a/Celeste/DustRotateSpinner.cs
++++ b/Celeste/DustRotateSpinner.cs
+@@ -19,7 +19,7 @@ public class DustRotateSpinner : RotateSpinner
+ 		base.Update();
+ 		if (Moving)
+ 		{
+-			dusty.EyeDirection = (dusty.EyeTargetDirection = Calc.AngleToVector(base.Angle + MathF.PI / 2f * (float)(base.Clockwise ? 1 : (-1)), 1f));
++			dusty.EyeDirection = (dusty.EyeTargetDirection = Calc.AngleToVector(base.Angle + (float)Math.PI / 2f * (float)(base.Clockwise ? 1 : (-1)), 1f));
+ 			if (base.Scene.OnInterval(0.02f))
+ 			{
+ 				SceneAs<Level>().ParticlesBG.Emit(DustStaticSpinner.P_Move, 1, Position, Vector2.One * 4f);
+diff --git a/Celeste/DustTrackSpinner.cs b/Celeste/DustTrackSpinner.cs
+index 31650e6..145a2ae 100644
+--- a/Celeste/DustTrackSpinner.cs
++++ b/Celeste/DustTrackSpinner.cs
+@@ -69,7 +69,7 @@ public class DustTrackSpinner : TrackSpinner
+ 		}
+ 		outwards = -vector2;
+ 		dusty.Position -= vector2;
+-		dusty.EyeDirection = (dusty.EyeTargetDirection = Calc.AngleToVector(Calc.AngleLerp(outwards.Angle(), Up ? (Angle + MathF.PI) : Angle, 0.3f), 1f));
++		dusty.EyeDirection = (dusty.EyeTargetDirection = Calc.AngleToVector(Calc.AngleLerp(outwards.Angle(), Up ? (Angle + (float)Math.PI) : Angle, 0.3f), 1f));
+ 	}
+ 
+ 	public override void Update()
+@@ -91,10 +91,10 @@ public class DustTrackSpinner : TrackSpinner
+ 	{
+ 		if (outwards != Vector2.Zero)
+ 		{
+-			dusty.EyeTargetDirection = Calc.AngleToVector(Calc.AngleLerp(outwards.Angle(), Up ? (Angle + MathF.PI) : Angle, 0.3f), 1f);
++			dusty.EyeTargetDirection = Calc.AngleToVector(Calc.AngleLerp(outwards.Angle(), Up ? (Angle + (float)Math.PI) : Angle, 0.3f), 1f);
+ 			return;
+ 		}
+-		dusty.EyeTargetDirection = Calc.AngleToVector(Up ? (Angle + MathF.PI) : Angle, 1f);
++		dusty.EyeTargetDirection = Calc.AngleToVector(Up ? (Angle + (float)Math.PI) : Angle, 1f);
+ 		dusty.EyeFlip = -dusty.EyeFlip;
+ 	}
+ }
+diff --git a/Celeste/FallingBlock.cs b/Celeste/FallingBlock.cs
+index ad9c2ce..b1e1a5a 100644
+--- a/Celeste/FallingBlock.cs
++++ b/Celeste/FallingBlock.cs
+@@ -152,7 +152,7 @@ public class FallingBlock : Solid
+ 			{
+ 				if (base.Scene.CollideCheck<Solid>(base.TopLeft + new Vector2(i, -2f)))
+ 				{
+-					SceneAs<Level>().Particles.Emit(P_FallDustA, 2, new Vector2(base.X + (float)i, base.Y), Vector2.One * 4f, MathF.PI / 2f);
++					SceneAs<Level>().Particles.Emit(P_FallDustA, 2, new Vector2(base.X + (float)i, base.Y), Vector2.One * 4f, (float)Math.PI / 2f);
+ 				}
+ 				SceneAs<Level>().Particles.Emit(P_FallDustB, 2, new Vector2(base.X + (float)i, base.Y), Vector2.One * 4f);
+ 			}
+@@ -224,8 +224,8 @@ public class FallingBlock : Solid
+ 		{
+ 			if (base.Scene.CollideCheck<Solid>(base.BottomLeft + new Vector2(i, 3f)))
+ 			{
+-				SceneAs<Level>().ParticlesFG.Emit(P_FallDustA, 1, new Vector2(base.X + (float)i, base.Bottom), Vector2.One * 4f, -MathF.PI / 2f);
+-				float direction = ((!((float)i < base.Width / 2f)) ? 0f : MathF.PI);
++				SceneAs<Level>().ParticlesFG.Emit(P_FallDustA, 1, new Vector2(base.X + (float)i, base.Bottom), Vector2.One * 4f, -(float)Math.PI / 2f);
++				float direction = ((!((float)i < base.Width / 2f)) ? 0f : (float)Math.PI);
+ 				SceneAs<Level>().ParticlesFG.Emit(P_LandDust, 1, new Vector2(base.X + (float)i, base.Bottom), Vector2.One * 4f, direction);
+ 			}
+ 		}
+diff --git a/Celeste/FinalBoss.cs b/Celeste/FinalBoss.cs
+index 064b793..16500d3 100644
+--- a/Celeste/FinalBoss.cs
++++ b/Celeste/FinalBoss.cs
+@@ -397,9 +397,9 @@ public class FinalBoss : Entity
+ 		PushPlayer(player);
+ 		level.Shake();
+ 		yield return 0.05f;
+-		for (float num = 0f; num < MathF.PI * 2f; num += 0.17453292f)
++		for (float num = 0f; num < (float)Math.PI * 2f; num += 0.17453292f)
+ 		{
+-			Vector2 position = base.Center + Sprite.Position + Calc.AngleToVector(num + Calc.Random.Range(-MathF.PI / 90f, MathF.PI / 90f), Calc.Random.Range(16, 20));
++			Vector2 position = base.Center + Sprite.Position + Calc.AngleToVector(num + Calc.Random.Range(-(float)Math.PI / 90f, (float)Math.PI / 90f), Calc.Random.Range(16, 20));
+ 			level.Particles.Emit(P_Burst, position, num);
+ 		}
+ 		yield return 0.05f;
+diff --git a/Celeste/FinalBossMovingBlock.cs b/Celeste/FinalBossMovingBlock.cs
+index 6043c6b..cc4f7aa 100644
+--- a/Celeste/FinalBossMovingBlock.cs
++++ b/Celeste/FinalBossMovingBlock.cs
+@@ -186,8 +186,8 @@ public class FinalBossMovingBlock : Solid
+ 				Vector2 vector4 = new Vector2(base.Right + 1f, base.Top + 4f + (float)(j * 8));
+ 				if (!base.Scene.CollideCheck<Water>(vector4) && base.Scene.CollideCheck<Solid>(vector4))
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector4 + vector3, MathF.PI);
+-					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector4 - vector3, MathF.PI);
++					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector4 + vector3, (float)Math.PI);
++					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector4 - vector3, (float)Math.PI);
+ 				}
+ 			}
+ 		}
+@@ -199,8 +199,8 @@ public class FinalBossMovingBlock : Solid
+ 				Vector2 vector6 = new Vector2(base.Left + 4f + (float)(k * 8), base.Top - 1f);
+ 				if (!base.Scene.CollideCheck<Water>(vector6) && base.Scene.CollideCheck<Solid>(vector6))
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector6 + vector5, MathF.PI / 2f);
+-					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector6 - vector5, MathF.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector6 + vector5, (float)Math.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector6 - vector5, (float)Math.PI / 2f);
+ 				}
+ 			}
+ 		}
+@@ -216,8 +216,8 @@ public class FinalBossMovingBlock : Solid
+ 				Vector2 vector8 = new Vector2(base.Left + 4f + (float)(l * 8), base.Bottom + 1f);
+ 				if (!base.Scene.CollideCheck<Water>(vector8) && base.Scene.CollideCheck<Solid>(vector8))
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector8 + vector7, -MathF.PI / 2f);
+-					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector8 - vector7, -MathF.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector8 + vector7, -(float)Math.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(CrushBlock.P_Impact, vector8 - vector7, -(float)Math.PI / 2f);
+ 				}
+ 			}
+ 		}
+diff --git a/Celeste/Flagline.cs b/Celeste/Flagline.cs
+index c9322b2..6c1fc51 100644
+--- a/Celeste/Flagline.cs
++++ b/Celeste/Flagline.cs
+@@ -42,7 +42,7 @@ public class Flagline : Component
+ 		this.colors = colors;
+ 		this.lineColor = lineColor;
+ 		this.pinColor = pinColor;
+-		waveTimer = Calc.Random.NextFloat() * (MathF.PI * 2f);
++		waveTimer = Calc.Random.NextFloat() * ((float)Math.PI * 2f);
+ 		highlights = new Color[colors.Length];
+ 		for (int i = 0; i < colors.Length; i++)
+ 		{
+diff --git a/Celeste/FlingBirdIntro.cs b/Celeste/FlingBirdIntro.cs
+index f56c876..9a84354 100644
+--- a/Celeste/FlingBirdIntro.cs
++++ b/Celeste/FlingBirdIntro.cs
+@@ -1,5 +1,6 @@
+ using System;
+ using System.Collections;
++using System.Linq;
+ using Microsoft.Xna.Framework;
+ using Monocle;
+ 
+@@ -47,7 +48,7 @@ public class FlingBirdIntro : Entity
+ 		Add(new PlayerCollider(OnPlayer));
+ 		this.nodes = nodes;
+ 		start = position;
+-		BirdEndPosition = nodes[^1];
++		BirdEndPosition = nodes.Last();
+ 	}
+ 
+ 	public FlingBirdIntro(EntityData data, Vector2 levelOffset)
+diff --git a/Celeste/FloatingDebris.cs b/Celeste/FloatingDebris.cs
+index adb359d..40a7238 100644
+--- a/Celeste/FloatingDebris.cs
++++ b/Celeste/FloatingDebris.cs
+@@ -30,7 +30,7 @@ public class FloatingDebris : Entity
+ 		image = new Image(texture);
+ 		image.CenterOrigin();
+ 		Add(image);
+-		rotateSpeed = (float)(Calc.Random.Choose<int>(-2, -1, 0, 0, 0, 0, 0, 0, 0, 1, 2) * 40) * (MathF.PI / 180f);
++		rotateSpeed = (float)(Calc.Random.Choose<int>(-2, -1, 0, 0, 0, 0, 0, 0, 0, 1, 2) * 40) * ((float)Math.PI / 180f);
+ 		Add(sine = new SineWave(0.4f));
+ 		sine.Randomize();
+ 		image.Y = sine.Value * 2f;
+diff --git a/Celeste/FloatySpaceBlock.cs b/Celeste/FloatySpaceBlock.cs
+index 02565e2..3e45b51 100644
+--- a/Celeste/FloatySpaceBlock.cs
++++ b/Celeste/FloatySpaceBlock.cs
+@@ -49,7 +49,7 @@ public class FloatySpaceBlock : Solid
+ 		SurfaceSoundIndex = SurfaceIndex.TileToIndex[tileType];
+ 		if (!disableSpawnOffset)
+ 		{
+-			sineWave = Calc.Random.NextFloat(MathF.PI * 2f);
++			sineWave = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 		}
+ 		else
+ 		{
+diff --git a/Celeste/FlutterBird.cs b/Celeste/FlutterBird.cs
+index 179c428..2fd84ff 100644
+--- a/Celeste/FlutterBird.cs
++++ b/Celeste/FlutterBird.cs
+@@ -84,7 +84,7 @@ public class FlutterBird : Entity
+ 		sprite.Play("fly");
+ 		sprite.Scale.X = (float)(-direction) * 1.25f;
+ 		sprite.Scale.Y = 1.25f;
+-		level.ParticlesFG.Emit(Calc.Random.Choose<ParticleType>(ParticleTypes.Dust), Position, -MathF.PI / 2f);
++		level.ParticlesFG.Emit(Calc.Random.Choose<ParticleType>(ParticleTypes.Dust), Position, -(float)Math.PI / 2f);
+ 		Vector2 from = Position;
+ 		Vector2 to = Position + new Vector2(direction * 4, -8f);
+ 		for (float p = 0f; p < 1f; p += Engine.DeltaTime * 3f)
+diff --git a/Celeste/ForsakenCitySatellite.cs b/Celeste/ForsakenCitySatellite.cs
+index 5a2a9bb..5a41df1 100644
+--- a/Celeste/ForsakenCitySatellite.cs
++++ b/Celeste/ForsakenCitySatellite.cs
+@@ -67,7 +67,7 @@ public class ForsakenCitySatellite : Entity
+ 			speed = Vector2.Zero;
+ 			while (true)
+ 			{
+-				Vector2 target = origin + Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 16f + Calc.Random.NextFloat(40f));
++				Vector2 target = origin + Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 16f + Calc.Random.NextFloat(40f));
+ 				float reset = 0f;
+ 				while (reset < 1f && (target - Position).Length() > 8f)
+ 				{
+diff --git a/Celeste/Glider.cs b/Celeste/Glider.cs
+index 7a1473f..8480a73 100644
+--- a/Celeste/Glider.cs
++++ b/Celeste/Glider.cs
+@@ -103,8 +103,8 @@ public class Glider : Actor
+ 		{
+ 			level.Particles.Emit(P_Glow, 1, base.Center + Vector2.UnitY * -9f, new Vector2(10f, 4f));
+ 		}
+-		float target = ((!Hold.IsHeld) ? 0f : ((!Hold.Holder.OnGround()) ? Calc.ClampedMap(Hold.Holder.Speed.X, -300f, 300f, MathF.PI / 3f, -MathF.PI / 3f) : Calc.ClampedMap(Hold.Holder.Speed.X, -300f, 300f, 0.6981317f, -0.6981317f)));
+-		sprite.Rotation = Calc.Approach(sprite.Rotation, target, MathF.PI * Engine.DeltaTime);
++		float target = ((!Hold.IsHeld) ? 0f : ((!Hold.Holder.OnGround()) ? Calc.ClampedMap(Hold.Holder.Speed.X, -300f, 300f, (float)Math.PI / 3f, -(float)Math.PI / 3f) : Calc.ClampedMap(Hold.Holder.Speed.X, -300f, 300f, 0.6981317f, -0.6981317f)));
++		sprite.Rotation = Calc.Approach(sprite.Rotation, target, (float)Math.PI * Engine.DeltaTime);
+ 		if (Hold.IsHeld && !Hold.Holder.OnGround() && (sprite.CurrentAnimationID == "fall" || sprite.CurrentAnimationID == "fallLoop"))
+ 		{
+ 			if (!fallingSfx.Playing)
+@@ -302,7 +302,7 @@ public class Glider : Actor
+ 		{
+ 			sprite.Play("fall");
+ 			sprite.Scale = new Vector2(1.5f, 0.6f);
+-			level.Particles.Emit(P_Expand, 16, base.Center + (Vector2.UnitY * -12f).Rotate(sprite.Rotation), new Vector2(8f, 3f), -MathF.PI / 2f + sprite.Rotation);
++			level.Particles.Emit(P_Expand, 16, base.Center + (Vector2.UnitY * -12f).Rotate(sprite.Rotation), new Vector2(8f, 3f), -(float)Math.PI / 2f + sprite.Rotation);
+ 			if (Hold.IsHeld)
+ 			{
+ 				Input.Rumble(RumbleStrength.Medium, RumbleLength.Short);
+diff --git a/Celeste/Gondola.cs b/Celeste/Gondola.cs
+index aa1c203..50a536a 100644
+--- a/Celeste/Gondola.cs
++++ b/Celeste/Gondola.cs
+@@ -161,7 +161,7 @@ public class Gondola : Solid
+ 
+ 	public Vector2 GetRotatedFloorPositionAt(float x, float y = 52f)
+ 	{
+-		Vector2 vector = Calc.AngleToVector(Rotation + MathF.PI / 2f, 1f);
++		Vector2 vector = Calc.AngleToVector(Rotation + (float)Math.PI / 2f, 1f);
+ 		Vector2 vector2 = new Vector2(0f - vector.Y, vector.X);
+ 		return Position + new Vector2(0f, -52f) + vector * y - vector2 * x;
+ 	}
+diff --git a/Celeste/HangingLamp.cs b/Celeste/HangingLamp.cs
+index 07c2efe..2b07670 100644
+--- a/Celeste/HangingLamp.cs
++++ b/Celeste/HangingLamp.cs
+@@ -98,7 +98,7 @@ public class HangingLamp : Entity
+ 		{
+ 			image.Rotation = rotation;
+ 		}
+-		Vector2 vector = Calc.AngleToVector(rotation + MathF.PI / 2f, (float)Length - 4f);
++		Vector2 vector = Calc.AngleToVector(rotation + (float)Math.PI / 2f, (float)Length - 4f);
+ 		BloomPoint bloomPoint = bloom;
+ 		Vector2 position = (light.Position = vector);
+ 		bloomPoint.Position = position;
+diff --git a/Celeste/HeartGemDisplay.cs b/Celeste/HeartGemDisplay.cs
+index 58f8bb0..1a9f672 100644
+--- a/Celeste/HeartGemDisplay.cs
++++ b/Celeste/HeartGemDisplay.cs
+@@ -136,7 +136,7 @@ public class HeartGemDisplay : Component
+ 		{
+ 			if (Sprites[i].Visible)
+ 			{
+-				Sprites[i].Rotation = rotateWiggler.Value * 30f * (MathF.PI / 180f);
++				Sprites[i].Rotation = rotateWiggler.Value * 30f * ((float)Math.PI / 180f);
+ 				Sprites[i].Position = base.Entity.Position + Position + bounce;
+ 				Sprites[i].Render();
+ 			}
+diff --git a/Celeste/HeartGemDoor.cs b/Celeste/HeartGemDoor.cs
+index 4f4287f..1c9f194 100644
+--- a/Celeste/HeartGemDoor.cs
++++ b/Celeste/HeartGemDoor.cs
+@@ -287,8 +287,8 @@ public class HeartGemDoor : Entity
+ 			{
+ 				for (int i = 4; i < Size; i += 4)
+ 				{
+-					level.ParticlesBG.Emit(P_Shimmer, 1, new Vector2(TopSolid.Left + (float)i + 1f, TopSolid.Bottom - 2f), new Vector2(2f, 2f), -MathF.PI / 2f);
+-					level.ParticlesBG.Emit(P_Shimmer, 1, new Vector2(BotSolid.Left + (float)i + 1f, BotSolid.Top + 2f), new Vector2(2f, 2f), MathF.PI / 2f);
++					level.ParticlesBG.Emit(P_Shimmer, 1, new Vector2(TopSolid.Left + (float)i + 1f, TopSolid.Bottom - 2f), new Vector2(2f, 2f), -(float)Math.PI / 2f);
++					level.ParticlesBG.Emit(P_Shimmer, 1, new Vector2(BotSolid.Left + (float)i + 1f, BotSolid.Top + 2f), new Vector2(2f, 2f), (float)Math.PI / 2f);
+ 				}
+ 			}
+ 			yield return null;
+diff --git a/Celeste/HeartWipe.cs b/Celeste/HeartWipe.cs
+index 887c3be..feb6f98 100644
+--- a/Celeste/HeartWipe.cs
++++ b/Celeste/HeartWipe.cs
+@@ -32,7 +32,7 @@ public class HeartWipe : ScreenWipe
+ 		float num2 = (float)Engine.Width * 0.75f * num;
+ 		float num3 = (float)Engine.Width * num;
+ 		float num4 = -0.25f;
+-		float num5 = -MathF.PI / 2f;
++		float num5 = -(float)Math.PI / 2f;
+ 		Vector2 vector2 = vector + new Vector2((0f - (float)Math.Cos(num4)) * num2, (0f - num2) / 2f);
+ 		int num6 = 0;
+ 		for (int i = 1; i <= 16; i++)
+@@ -49,16 +49,16 @@ public class HeartWipe : ScreenWipe
+ 		vertex[num6++].Position = new Vector3(0f - num3, 0f - num3, 0f);
+ 		vertex[num6++].Position = new Vector3(vector2 + new Vector2(0f, 0f - num2), 0f);
+ 		vertex[num6++].Position = new Vector3(0f - num3, vector2.Y, 0f);
+-		float num7 = MathF.PI * 3f / 4f;
++		float num7 = (float)Math.PI * 3f / 4f;
+ 		for (int j = 1; j <= 16; j++)
+ 		{
+-			float angleRadians3 = -MathF.PI / 2f - (float)(j - 1) / 16f * num7;
+-			float angleRadians4 = -MathF.PI / 2f - (float)j / 16f * num7;
++			float angleRadians3 = -(float)Math.PI / 2f - (float)(j - 1) / 16f * num7;
++			float angleRadians4 = -(float)Math.PI / 2f - (float)j / 16f * num7;
+ 			vertex[num6++].Position = new Vector3(0f - num3, vector2.Y, 0f);
+ 			vertex[num6++].Position = new Vector3(vector2 + Calc.AngleToVector(angleRadians3, num2), 0f);
+ 			vertex[num6++].Position = new Vector3(vector2 + Calc.AngleToVector(angleRadians4, num2), 0f);
+ 		}
+-		Vector2 value = vector2 + Calc.AngleToVector(-MathF.PI / 2f - num7, num2);
++		Vector2 value = vector2 + Calc.AngleToVector(-(float)Math.PI / 2f - num7, num2);
+ 		Vector2 value2 = vector + new Vector2(0f, num2 * 1.8f);
+ 		vertex[num6++].Position = new Vector3(0f - num3, vector2.Y, 0f);
+ 		vertex[num6++].Position = new Vector3(value, 0f);
+diff --git a/Celeste/HeatWave.cs b/Celeste/HeatWave.cs
+index 5006190..a38b553 100644
+--- a/Celeste/HeatWave.cs
++++ b/Celeste/HeatWave.cs
+@@ -70,9 +70,9 @@ public class HeatWave : Backdrop
+ 		particles[i].Percent = p;
+ 		particles[i].Position = new Vector2(Calc.Random.Range(0, 320), Calc.Random.Range(0, 180));
+ 		particles[i].Speed = Calc.Random.Range(4, 14);
+-		particles[i].Spin = Calc.Random.Range(0.25f, MathF.PI * 6f);
++		particles[i].Spin = Calc.Random.Range(0.25f, (float)Math.PI * 6f);
+ 		particles[i].Duration = Calc.Random.Range(1f, 4f);
+-		particles[i].Direction = Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 1f);
++		particles[i].Direction = Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 1f);
+ 		particles[i].Color = Calc.Random.Next(hotColors.Length);
+ 	}
+ 
+diff --git a/Celeste/HiresSnow.cs b/Celeste/HiresSnow.cs
+index ee47981..d66f6b8 100644
+--- a/Celeste/HiresSnow.cs
++++ b/Celeste/HiresSnow.cs
+@@ -43,8 +43,8 @@ public class HiresSnow : Renderer
+ 			{
+ 				Position = new Vector2(Calc.Random.NextFloat(Engine.Width), Engine.Height + 128);
+ 			}
+-			Sin = Calc.Random.NextFloat(MathF.PI * 2f);
+-			Rotation = Calc.Random.NextFloat(MathF.PI * 2f);
++			Sin = Calc.Random.NextFloat((float)Math.PI * 2f);
++			Rotation = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 			Color = Color.Lerp(Color.White, Color.Transparent, num * 0.8f);
+ 		}
+ 	}
+diff --git a/Celeste/Input.cs b/Celeste/Input.cs
+index 124808f..f66bef6 100644
+--- a/Celeste/Input.cs
++++ b/Celeste/Input.cs
+@@ -347,20 +347,20 @@ public static class Input
+ 		{
+ 			float num = value.Angle();
+ 			int num2 = ((num < 0f) ? 1 : 0);
+-			float num3 = MathF.PI / 8f - (float)num2 * 0.08726646f;
++			float num3 = (float)Math.PI / 8f - (float)num2 * 0.08726646f;
+ 			if (Calc.AbsAngleDiff(num, 0f) < num3)
+ 			{
+ 				LastAim = new Vector2(1f, 0f);
+ 			}
+-			else if (Calc.AbsAngleDiff(num, MathF.PI) < num3)
++			else if (Calc.AbsAngleDiff(num, (float)Math.PI) < num3)
+ 			{
+ 				LastAim = new Vector2(-1f, 0f);
+ 			}
+-			else if (Calc.AbsAngleDiff(num, -MathF.PI / 2f) < num3)
++			else if (Calc.AbsAngleDiff(num, -(float)Math.PI / 2f) < num3)
+ 			{
+ 				LastAim = new Vector2(0f, -1f);
+ 			}
+-			else if (Calc.AbsAngleDiff(num, MathF.PI / 2f) < num3)
++			else if (Calc.AbsAngleDiff(num, (float)Math.PI / 2f) < num3)
+ 			{
+ 				LastAim = new Vector2(0f, 1f);
+ 			}
+diff --git a/Celeste/IntroCrusher.cs b/Celeste/IntroCrusher.cs
+index 4e44d8d..b27ece7 100644
+--- a/Celeste/IntroCrusher.cs
++++ b/Celeste/IntroCrusher.cs
+@@ -82,7 +82,7 @@ public class IntroCrusher : Solid
+ 		}
+ 		for (int i = 2; (float)i < base.Width; i += 4)
+ 		{
+-			SceneAs<Level>().Particles.Emit(FallingBlock.P_FallDustA, 2, new Vector2(base.X + (float)i, base.Y), Vector2.One * 4f, MathF.PI / 2f);
++			SceneAs<Level>().Particles.Emit(FallingBlock.P_FallDustA, 2, new Vector2(base.X + (float)i, base.Y), Vector2.One * 4f, (float)Math.PI / 2f);
+ 			SceneAs<Level>().Particles.Emit(FallingBlock.P_FallDustB, 2, new Vector2(base.X + (float)i, base.Y), Vector2.One * 4f);
+ 		}
+ 		shakingSfx.Param("release", 1f);
+@@ -96,8 +96,8 @@ public class IntroCrusher : Solid
+ 		while (!(time2 >= 1f));
+ 		for (int j = 0; (float)j <= base.Width; j += 4)
+ 		{
+-			SceneAs<Level>().ParticlesFG.Emit(FallingBlock.P_FallDustA, 1, new Vector2(base.X + (float)j, base.Bottom), Vector2.One * 4f, -MathF.PI / 2f);
+-			float direction = ((!((float)j < base.Width / 2f)) ? 0f : MathF.PI);
++			SceneAs<Level>().ParticlesFG.Emit(FallingBlock.P_FallDustA, 1, new Vector2(base.X + (float)j, base.Bottom), Vector2.One * 4f, -(float)Math.PI / 2f);
++			float direction = ((!((float)j < base.Width / 2f)) ? 0f : (float)Math.PI);
+ 			SceneAs<Level>().ParticlesFG.Emit(FallingBlock.P_LandDust, 1, new Vector2(base.X + (float)j, base.Bottom), Vector2.One * 4f, direction);
+ 		}
+ 		shakingSfx.Stop();
+diff --git a/Celeste/Key.cs b/Celeste/Key.cs
+index 052bbef..04d0419 100644
+--- a/Celeste/Key.cs
++++ b/Celeste/Key.cs
+@@ -185,14 +185,14 @@ public class Key : Entity
+ 		Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
+ 		for (int i = 0; i < 16; i++)
+ 		{
+-			SceneAs<Level>().ParticlesFG.Emit(P_Insert, base.Center, MathF.PI / 8f * (float)i);
++			SceneAs<Level>().ParticlesFG.Emit(P_Insert, base.Center, (float)Math.PI / 8f * (float)i);
+ 		}
+ 		sprite.Play("enter");
+ 		yield return 0.3f;
+ 		tween = Tween.Create(Tween.TweenMode.Oneshot, Ease.CubeIn, 0.3f, start: true);
+ 		tween.OnUpdate = delegate(Tween t)
+ 		{
+-			sprite.Rotation = t.Eased * (MathF.PI / 2f);
++			sprite.Rotation = t.Eased * ((float)Math.PI / 2f);
+ 		};
+ 		Add(tween);
+ 		yield return tween.Wait();
+@@ -215,7 +215,7 @@ public class Key : Entity
+ 		yield return 0.2f;
+ 		for (int j = 0; j < 8; j++)
+ 		{
+-			SceneAs<Level>().ParticlesFG.Emit(P_Insert, base.Center, MathF.PI / 4f * (float)j);
++			SceneAs<Level>().ParticlesFG.Emit(P_Insert, base.Center, (float)Math.PI / 4f * (float)j);
+ 		}
+ 		sprite.Visible = false;
+ 		Turning = false;
+diff --git a/Celeste/KeyDoorWipe.cs b/Celeste/KeyDoorWipe.cs
+index c4a2c13..13fba9e 100644
+--- a/Celeste/KeyDoorWipe.cs
++++ b/Celeste/KeyDoorWipe.cs
+@@ -40,8 +40,8 @@ public class KeyDoorWipe : ScreenWipe
+ 		vertex[num13++].Position = new Vector3(num8, num11 - num10, 0f);
+ 		for (int i = 1; i <= 8; i++)
+ 		{
+-			num12 = -MathF.PI / 2f - (float)(i - 1) / 8f * (MathF.PI / 2f);
+-			angleRadians = -MathF.PI / 2f - (float)i / 8f * (MathF.PI / 2f);
++			num12 = -(float)Math.PI / 2f - (float)(i - 1) / 8f * ((float)Math.PI / 2f);
++			angleRadians = -(float)Math.PI / 2f - (float)i / 8f * ((float)Math.PI / 2f);
+ 			vertex[num13++].Position = new Vector3(-10f, -10f, 0f);
+ 			vertex[num13++].Position = new Vector3(new Vector2(num8, num11) + Calc.AngleToVector(num12, 1f) * new Vector2(num9, num10), 0f);
+ 			vertex[num13++].Position = new Vector3(new Vector2(num8, num11) + Calc.AngleToVector(angleRadians, 1f) * new Vector2(num9, num10), 0f);
+@@ -51,8 +51,8 @@ public class KeyDoorWipe : ScreenWipe
+ 		vertex[num13++].Position = new Vector3(-10f, num, 0f);
+ 		for (int j = 1; j <= 6; j++)
+ 		{
+-			num12 = MathF.PI - (float)(j - 1) / 8f * (MathF.PI / 2f);
+-			angleRadians = MathF.PI - (float)j / 8f * (MathF.PI / 2f);
++			num12 = (float)Math.PI - (float)(j - 1) / 8f * ((float)Math.PI / 2f);
++			angleRadians = (float)Math.PI - (float)j / 8f * ((float)Math.PI / 2f);
+ 			vertex[num13++].Position = new Vector3(-10f, num, 0f);
+ 			vertex[num13++].Position = new Vector3(new Vector2(num8, num11) + Calc.AngleToVector(num12, 1f) * new Vector2(num9, num10), 0f);
+ 			vertex[num13++].Position = new Vector3(new Vector2(num8, num11) + Calc.AngleToVector(angleRadians, 1f) * new Vector2(num9, num10), 0f);
+diff --git a/Celeste/KeyboardConfigUI.cs b/Celeste/KeyboardConfigUI.cs
+index df8bde9..d7fde3f 100644
+--- a/Celeste/KeyboardConfigUI.cs
++++ b/Celeste/KeyboardConfigUI.cs
+@@ -1,3 +1,4 @@
++using System.Linq;
+ using Microsoft.Xna.Framework;
+ using Microsoft.Xna.Framework.Input;
+ using Monocle;
+@@ -178,9 +179,9 @@ public class KeyboardConfigUI : TextMenu
+ 			else
+ 			{
+ 				Keys[] pressedKeys = MInput.Keyboard.CurrentState.GetPressedKeys();
+-				if (pressedKeys != null && pressedKeys.Length != 0 && MInput.Keyboard.Pressed(pressedKeys[^1]))
++				if (pressedKeys != null && pressedKeys.Length != 0 && MInput.Keyboard.Pressed(pressedKeys.Last()))
+ 				{
+-					AddRemap(pressedKeys[^1]);
++					AddRemap(pressedKeys.Last());
+ 				}
+ 			}
+ 			timeout -= Engine.RawDeltaTime;
+diff --git a/Celeste/Level.cs b/Celeste/Level.cs
+index ff8973e..8c0dc9d 100644
+--- a/Celeste/Level.cs
++++ b/Celeste/Level.cs
+@@ -576,7 +576,7 @@ public class Level : Scene, IOverlayHandler
+ 				bool clockwise = entity3.Bool("clockwise");
+ 				float length = (vector2 - vector3).Length();
+ 				float num3 = (vector2 - vector3).Angle();
+-				float num4 = MathF.PI * 2f / (float)num2;
++				float num4 = (float)Math.PI * 2f / (float)num2;
+ 				for (int j = 0; j < num2; j++)
+ 				{
+ 					float angleRadians = num3 + num4 * (float)j;
+@@ -2035,7 +2035,7 @@ public class Level : Scene, IOverlayHandler
+ 		Distort.Render((RenderTarget2D)GameplayBuffers.Gameplay, (RenderTarget2D)GameplayBuffers.Displacement, Displacement.HasDisplacement(this));
+ 		Bloom.Apply(GameplayBuffers.Level, this);
+ 		Foreground.Render(this);
+-		Glitch.Apply(GameplayBuffers.Level, glitchTimer * 2f, glitchSeed, MathF.PI * 2f);
++		Glitch.Apply(GameplayBuffers.Level, glitchTimer * 2f, glitchSeed, (float)Math.PI * 2f);
+ 		if (Engine.DashAssistFreeze)
+ 		{
+ 			PlayerDashAssist entity = base.Tracker.GetEntity<PlayerDashAssist>();
+diff --git a/Celeste/LightBeam.cs b/Celeste/LightBeam.cs
+index ad2b04e..2237a83 100644
+--- a/Celeste/LightBeam.cs
++++ b/Celeste/LightBeam.cs
+@@ -32,7 +32,7 @@ public class LightBeam : Entity
+ 		LightWidth = data.Width;
+ 		LightLength = data.Height;
+ 		Flag = data.Attr("flag");
+-		Rotation = data.Float("rotation") * (MathF.PI / 180f);
++		Rotation = data.Float("rotation") * ((float)Math.PI / 180f);
+ 	}
+ 
+ 	public override void Update()
+@@ -42,7 +42,7 @@ public class LightBeam : Entity
+ 		Player entity = base.Scene.Tracker.GetEntity<Player>();
+ 		if (entity != null && (string.IsNullOrEmpty(Flag) || level.Session.GetFlag(Flag)))
+ 		{
+-			Vector2 vector = Calc.AngleToVector(Rotation + MathF.PI / 2f, 1f);
++			Vector2 vector = Calc.AngleToVector(Rotation + (float)Math.PI / 2f, 1f);
+ 			Vector2 vector2 = Calc.ClosestPointOnLine(Position, Position + vector * 10000f, entity.Center);
+ 			float target = Math.Min(1f, Math.Max(0f, (vector2 - Position).Length() - 8f) / (float)LightLength);
+ 			if ((vector2 - entity.Center).Length() > (float)LightWidth / 2f)
+@@ -57,11 +57,11 @@ public class LightBeam : Entity
+ 		}
+ 		if (alpha >= 0.5f && level.OnInterval(0.8f))
+ 		{
+-			Vector2 vector3 = Calc.AngleToVector(Rotation + MathF.PI / 2f, 1f);
++			Vector2 vector3 = Calc.AngleToVector(Rotation + (float)Math.PI / 2f, 1f);
+ 			Vector2 position = Position - vector3 * 4f;
+ 			float num = Calc.Random.Next(LightWidth - 4) + 2 - LightWidth / 2;
+ 			position += num * vector3.Perpendicular();
+-			level.Particles.Emit(P_Glow, position, Rotation + MathF.PI / 2f);
++			level.Particles.Emit(P_Glow, position, Rotation + (float)Math.PI / 2f);
+ 		}
+ 		base.Update();
+ 	}
+@@ -85,7 +85,7 @@ public class LightBeam : Entity
+ 
+ 	private void DrawTexture(float offset, float width, float length, float a)
+ 	{
+-		float rotation = Rotation + MathF.PI / 2f;
++		float rotation = Rotation + (float)Math.PI / 2f;
+ 		if (width >= 1f)
+ 		{
+ 			texture.Draw(Position + Calc.AngleToVector(Rotation, 1f) * offset, new Vector2(0f, 0.5f), color * a * alpha, new Vector2(1f / (float)texture.Width * length, width), rotation);
+diff --git a/Celeste/LightingRenderer.cs b/Celeste/LightingRenderer.cs
+index d7005bc..463b7c4 100644
+--- a/Celeste/LightingRenderer.cs
++++ b/Celeste/LightingRenderer.cs
+@@ -90,7 +90,7 @@ public class LightingRenderer : Renderer
+ 		lights = new VertexLight[64];
+ 		for (int i = 0; i < 20; i++)
+ 		{
+-			angles[i] = new Vector3(Calc.AngleToVector((float)i / 20f * (MathF.PI * 2f), 1f), 0f);
++			angles[i] = new Vector3(Calc.AngleToVector((float)i / 20f * ((float)Math.PI * 2f), 1f), 0f);
+ 		}
+ 	}
+ 
+@@ -513,7 +513,7 @@ public class LightingRenderer : Renderer
+ 			indices[indexCount++] = vertexCount;
+ 			indices[indexCount++] = vertexCount + 1;
+ 			vertexCount++;
+-			num = Calc.AngleApproach(num, num2, MathF.PI / 4f);
++			num = Calc.AngleApproach(num, num2, (float)Math.PI / 4f);
+ 		}
+ 		verts[vertexCount].Position = center + new Vector3(Calc.AngleToVector(num, 128f), 0f);
+ 		verts[vertexCount].Color = mask;
+diff --git a/Celeste/LightningBreakerBox.cs b/Celeste/LightningBreakerBox.cs
+index 76cd71e..82ac3e1 100644
+--- a/Celeste/LightningBreakerBox.cs
++++ b/Celeste/LightningBreakerBox.cs
+@@ -168,21 +168,21 @@ public class LightningBreakerBox : Solid
+ 		}
+ 		else if (dir == -Vector2.UnitX)
+ 		{
+-			direction = MathF.PI;
++			direction = (float)Math.PI;
+ 			position = base.CenterLeft + Vector2.UnitX * 12f;
+ 			positionRange = Vector2.UnitY * (base.Height - 6f) * 0.5f;
+ 			num = (int)(base.Height / 8f) * 4;
+ 		}
+ 		else if (dir == Vector2.UnitY)
+ 		{
+-			direction = MathF.PI / 2f;
++			direction = (float)Math.PI / 2f;
+ 			position = base.BottomCenter - Vector2.UnitY * 12f;
+ 			positionRange = Vector2.UnitX * (base.Width - 6f) * 0.5f;
+ 			num = (int)(base.Width / 8f) * 4;
+ 		}
+ 		else
+ 		{
+-			direction = -MathF.PI / 2f;
++			direction = -(float)Math.PI / 2f;
+ 			position = base.TopCenter + Vector2.UnitY * 12f;
+ 			positionRange = Vector2.UnitX * (base.Width - 6f) * 0.5f;
+ 			num = (int)(base.Width / 8f) * 4;
+diff --git a/Celeste/LightningRenderer.cs b/Celeste/LightningRenderer.cs
+index de0fb34..73286ce 100644
+--- a/Celeste/LightningRenderer.cs
++++ b/Celeste/LightningRenderer.cs
+@@ -499,7 +499,7 @@ public class LightningRenderer : Entity
+ 		b += vector2;
+ 		Vector2 vector3 = a;
+ 		int num2 = ((PseudoRand(ref seed) % 2u != 0) ? 1 : (-1));
+-		float num3 = PseudoRandRange(ref seed, 0f, MathF.PI * 2f);
++		float num3 = PseudoRandRange(ref seed, 0f, (float)Math.PI * 2f);
+ 		float num4 = 0f;
+ 		float num5 = (float)index + ((b - a).Length() / 4f + 1f) * 6f;
+ 		while (num5 >= (float)verts.Length)
+@@ -580,7 +580,7 @@ public class LightningRenderer : Entity
+ 		Vector2 vector2 = vector.TurnRight();
+ 		Vector2 vector3 = a;
+ 		int num2 = 1;
+-		PseudoRandRange(ref seed, 0f, MathF.PI * 2f);
++		PseudoRandRange(ref seed, 0f, (float)Math.PI * 2f);
+ 		float num3 = 0f;
+ 		do
+ 		{
+diff --git a/Celeste/LockBlock.cs b/Celeste/LockBlock.cs
+index 3c90bc0..8033526 100644
+--- a/Celeste/LockBlock.cs
++++ b/Celeste/LockBlock.cs
+@@ -63,7 +63,7 @@ public class LockBlock : Solid
+ 			Level level = base.Scene as Level;
+ 			if (!CollideCheck<Solid>(Position - Vector2.UnitX))
+ 			{
+-				level.Particles.Emit(P_Appear, 16, Position + new Vector2(3f, 16f), new Vector2(2f, 10f), MathF.PI);
++				level.Particles.Emit(P_Appear, 16, Position + new Vector2(3f, 16f), new Vector2(2f, 10f), (float)Math.PI);
+ 				level.Particles.Emit(P_Appear, 16, Position + new Vector2(29f, 16f), new Vector2(2f, 10f), 0f);
+ 			}
+ 			level.Shake();
+diff --git a/Celeste/Lookout.cs b/Celeste/Lookout.cs
+index 1e5b98d..e378f96 100644
+--- a/Celeste/Lookout.cs
++++ b/Celeste/Lookout.cs
+@@ -133,7 +133,7 @@ public class Lookout : Entity
+ 			}
+ 			MTexture mTexture = GFX.Gui["towerarrow"];
+ 			float y = (float)num3 * up - (float)(Math.Sin(timerUp) * 18.0 * (double)MathHelper.Lerp(0.5f, 1f, multUp)) - (1f - multUp) * 12f;
+-			mTexture.DrawCentered(new Vector2(960f, y), color * up, 1f, MathF.PI / 2f);
++			mTexture.DrawCentered(new Vector2(960f, y), color * up, 1f, (float)Math.PI / 2f);
+ 			float y2 = 1080f - (float)num3 * down + (float)(Math.Sin(timerDown) * 18.0 * (double)MathHelper.Lerp(0.5f, 1f, multDown)) + (1f - multDown) * 12f;
+ 			mTexture.DrawCentered(new Vector2(960f, y2), color * down, 1f, 4.712389f);
+ 			if (!TrackMode && !OnlyY)
+@@ -156,7 +156,7 @@ public class Lookout : Entity
+ 				float x = (float)num2 * num5 - (float)(Math.Sin(num7) * 18.0 * (double)MathHelper.Lerp(0.5f, 1f, num6)) - (1f - num6) * 12f;
+ 				mTexture.DrawCentered(new Vector2(x, 540f), color * num5);
+ 				float x2 = 1920f - (float)num2 * num8 + (float)(Math.Sin(num10) * 18.0 * (double)MathHelper.Lerp(0.5f, 1f, num9)) + (1f - num9) * 12f;
+-				mTexture.DrawCentered(new Vector2(x2, 540f), color * num8, 1f, MathF.PI);
++				mTexture.DrawCentered(new Vector2(x2, 540f), color * num8, 1f, (float)Math.PI);
+ 			}
+ 			else if (TrackMode)
+ 			{
+diff --git a/Celeste/MainMenuClimb.cs b/Celeste/MainMenuClimb.cs
+index d09c1f9..520dd2d 100644
+--- a/Celeste/MainMenuClimb.cs
++++ b/Celeste/MainMenuClimb.cs
+@@ -66,7 +66,7 @@ public class MainMenuClimb : MenuButton
+ 		{
+ 			vector2 += vector;
+ 		}
+-		icon.DrawOutlineJustified(Position + vector2, new Vector2(0.5f, 1f), Color.White, 1f, rotateWiggler.Value * 10f * (MathF.PI / 180f));
++		icon.DrawOutlineJustified(Position + vector2, new Vector2(0.5f, 1f), Color.White, 1f, rotateWiggler.Value * 10f * ((float)Math.PI / 180f));
+ 		ActiveFont.DrawOutline(label, Position + vector + new Vector2(0f, 48 + icon.Height), new Vector2(0.5f, 0.5f), Vector2.One * 1.5f * labelScale, base.SelectionColor, 2f, Color.Black);
+ 	}
+ }
+diff --git a/Celeste/MirrorFG.cs b/Celeste/MirrorFG.cs
+index d7cb48d..c3ef37a 100644
+--- a/Celeste/MirrorFG.cs
++++ b/Celeste/MirrorFG.cs
+@@ -42,9 +42,9 @@ public class MirrorFG : Backdrop
+ 		particles[i].Percent = p;
+ 		particles[i].Position = new Vector2(Calc.Random.Range(0, 320), Calc.Random.Range(0, 180));
+ 		particles[i].Speed = Calc.Random.Range(4, 14);
+-		particles[i].Spin = Calc.Random.Range(0.25f, MathF.PI * 6f);
++		particles[i].Spin = Calc.Random.Range(0.25f, (float)Math.PI * 6f);
+ 		particles[i].Duration = Calc.Random.Range(1f, 4f);
+-		particles[i].Direction = Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 1f);
++		particles[i].Direction = Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 1f);
+ 		particles[i].Color = Calc.Random.Next(colors.Length);
+ 	}
+ 
+diff --git a/Celeste/MoonCreature.cs b/Celeste/MoonCreature.cs
+index 3dacee9..c54dab7 100644
+--- a/Celeste/MoonCreature.cs
++++ b/Celeste/MoonCreature.cs
+@@ -119,7 +119,7 @@ public class MoonCreature : Entity
+ 		do
+ 		{
+ 			float length = Calc.Random.NextFloat(32f);
+-			float angleRadians = Calc.Random.NextFloat(MathF.PI * 2f);
++			float angleRadians = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 			target = start + Calc.AngleToVector(angleRadians, length);
+ 		}
+ 		while ((vector - target).Length() < 8f);
+diff --git a/Celeste/MoonParticle3D.cs b/Celeste/MoonParticle3D.cs
+index bac6c39..0a006e9 100644
+--- a/Celeste/MoonParticle3D.cs
++++ b/Celeste/MoonParticle3D.cs
+@@ -28,7 +28,7 @@ public class MoonParticle3D : Entity
+ 			Matrix = matrix;
+ 			Size = Vector2.One * Calc.Random.Range(0.05f, 0.15f) * size;
+ 			Distance = Calc.Random.Range(1.8f, 1.9f);
+-			Rotation = Calc.Random.NextFloat(MathF.PI * 2f);
++			Rotation = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 			YOff = Calc.Random.Range(-0.1f, 0.1f);
+ 			Spd = Calc.Random.Range(0.8f, 1.2f);
+ 		}
+diff --git a/Celeste/MountainModel.cs b/Celeste/MountainModel.cs
+index c05d8cc..c177a0d 100644
+--- a/Celeste/MountainModel.cs
++++ b/Celeste/MountainModel.cs
+@@ -250,7 +250,7 @@ public class MountainModel : IDisposable
+ 		{
+ 			rotation = lastCameraRotation;
+ 		}
+-		Matrix matrix = Matrix.CreatePerspectiveFieldOfView(MathF.PI / 4f, (float)Engine.Width / (float)Engine.Height, 0.25f, 50f);
++		Matrix matrix = Matrix.CreatePerspectiveFieldOfView((float)Math.PI / 4f, (float)Engine.Width / (float)Engine.Height, 0.25f, 50f);
+ 		Matrix matrix2 = Matrix.CreateTranslation(-Camera.Position) * Matrix.CreateFromQuaternion(rotation);
+ 		Matrix matrix3 = matrix2 * matrix;
+ 		Forward = Vector3.Transform(Vector3.Forward, Camera.Rotation.Conjugated());
+@@ -325,7 +325,7 @@ public class MountainModel : IDisposable
+ 			GFX.FxMountain.Parameters["fog"].SetValue(fog.TopColor.ToVector3());
+ 			MTN.MountainMoon.Draw(GFX.FxMountain);
+ 			float num = birdTimer * 0.2f;
+-			Matrix matrix6 = Matrix.CreateScale(0.25f) * Matrix.CreateRotationZ((float)Math.Cos(num * 2f) * 0.5f) * Matrix.CreateRotationX(0.4f + (float)Math.Sin(num) * 0.05f) * Matrix.CreateRotationY(0f - num - MathF.PI / 2f) * Matrix.CreateTranslation((float)Math.Cos(num) * 2.2f, 31f + (float)Math.Sin(num * 2f) * 0.8f, (float)Math.Sin(num) * 2.2f);
++			Matrix matrix6 = Matrix.CreateScale(0.25f) * Matrix.CreateRotationZ((float)Math.Cos(num * 2f) * 0.5f) * Matrix.CreateRotationX(0.4f + (float)Math.Sin(num) * 0.05f) * Matrix.CreateRotationY(0f - num - (float)Math.PI / 2f) * Matrix.CreateTranslation((float)Math.Cos(num) * 2.2f, 31f + (float)Math.Sin(num * 2f) * 0.8f, (float)Math.Sin(num) * 2.2f);
+ 			GFX.FxMountain.Parameters["WorldViewProj"].SetValue(matrix6 * matrix3);
+ 			GFX.FxMountain.Parameters["fog"].SetValue(fog.TopColor.ToVector3());
+ 			MTN.MountainBird.Draw(GFX.FxMountain);
+diff --git a/Celeste/MountainRenderer.cs b/Celeste/MountainRenderer.cs
+index 62d3d1c..7964ca8 100644
+--- a/Celeste/MountainRenderer.cs
++++ b/Celeste/MountainRenderer.cs
+@@ -24,7 +24,7 @@ public class MountainRenderer : Renderer
+ 
+ 	private float rotateAroundTargetDistance;
+ 
+-	private float rotateTimer = MathF.PI / 2f;
++	private float rotateTimer = (float)Math.PI / 2f;
+ 
+ 	private const float DurationDivisor = 3f;
+ 
+@@ -304,7 +304,7 @@ public class MountainRenderer : Renderer
+ 		float num = easeCameraFrom.Rotation.Forward().XZ().Angle();
+ 		float radiansB = easeCameraTo.Rotation.Forward().XZ().Angle();
+ 		float num2 = Calc.AngleDiff(num, radiansB);
+-		float num3 = (float)(-Math.Sign(num2)) * (MathF.PI * 2f - Math.Abs(num2));
++		float num3 = (float)(-Math.Sign(num2)) * ((float)Math.PI * 2f - Math.Abs(num2));
+ 		Vector3 between = GetBetween(easeCameraFrom.Position, easeCameraTo.Position, 0.5f);
+ 		Vector2 vector = Calc.AngleToVector(MathHelper.Lerp(num, num + num2, 0.5f), 1f);
+ 		Vector2 vector2 = Calc.AngleToVector(MathHelper.Lerp(num, num + num3, 0.5f), 1f);
+diff --git a/Celeste/MoveBlock.cs b/Celeste/MoveBlock.cs
+index f04c5b8..3eb624e 100644
+--- a/Celeste/MoveBlock.cs
++++ b/Celeste/MoveBlock.cs
+@@ -219,9 +219,9 @@ public class MoveBlock : Solid
+ 
+ 	private const float FastMoveSpeed = 75f;
+ 
+-	private const float SteerSpeed = MathF.PI * 16f;
++	private const float SteerSpeed = (float)Math.PI * 16f;
+ 
+-	private const float MaxAngle = MathF.PI / 4f;
++	private const float MaxAngle = (float)Math.PI / 4f;
+ 
+ 	private const float NoSteerTime = 0.2f;
+ 
+@@ -304,15 +304,15 @@ public class MoveBlock : Solid
+ 			angleSteerSign = 1;
+ 			break;
+ 		case Directions.Left:
+-			homeAngle = (targetAngle = (angle = MathF.PI));
++			homeAngle = (targetAngle = (angle = (float)Math.PI));
+ 			angleSteerSign = -1;
+ 			break;
+ 		case Directions.Up:
+-			homeAngle = (targetAngle = (angle = -MathF.PI / 2f));
++			homeAngle = (targetAngle = (angle = -(float)Math.PI / 2f));
+ 			angleSteerSign = 1;
+ 			break;
+ 		case Directions.Down:
+-			homeAngle = (targetAngle = (angle = MathF.PI / 2f));
++			homeAngle = (targetAngle = (angle = (float)Math.PI / 2f));
+ 			angleSteerSign = -1;
+ 			break;
+ 		}
+@@ -334,8 +334,8 @@ public class MoveBlock : Solid
+ 			for (int j = 0; j < num2; j++)
+ 			{
+ 				int num4 = ((j != 0) ? ((j < num2 - 1) ? 1 : 2) : 0);
+-				AddImage(mTexture2.GetSubtexture(num4 * 8, 0, 8, 8), new Vector2(-4f, j * 8), MathF.PI / 2f, new Vector2(1f, -1f), leftButton);
+-				AddImage(mTexture2.GetSubtexture(num4 * 8, 0, 8, 8), new Vector2((num - 1) * 8 + 4, j * 8), MathF.PI / 2f, new Vector2(1f, 1f), rightButton);
++				AddImage(mTexture2.GetSubtexture(num4 * 8, 0, 8, 8), new Vector2(-4f, j * 8), (float)Math.PI / 2f, new Vector2(1f, -1f), leftButton);
++				AddImage(mTexture2.GetSubtexture(num4 * 8, 0, 8, 8), new Vector2((num - 1) * 8 + 4, j * 8), (float)Math.PI / 2f, new Vector2(1f, 1f), rightButton);
+ 			}
+ 			mTexture = GFX.Game["objects/moveBlock/base_v"];
+ 		}
+@@ -404,11 +404,11 @@ public class MoveBlock : Solid
+ 						{
+ 							if (direction == Directions.Right || direction == Directions.Left)
+ 							{
+-								targetAngle = homeAngle + MathF.PI / 4f * (float)angleSteerSign * (float)Input.MoveY.Value;
++								targetAngle = homeAngle + (float)Math.PI / 4f * (float)angleSteerSign * (float)Input.MoveY.Value;
+ 							}
+ 							else
+ 							{
+-								targetAngle = homeAngle + MathF.PI / 4f * (float)angleSteerSign * (float)Input.MoveX.Value;
++								targetAngle = homeAngle + (float)Math.PI / 4f * (float)angleSteerSign * (float)Input.MoveX.Value;
+ 							}
+ 						}
+ 					}
+@@ -422,7 +422,7 @@ public class MoveBlock : Solid
+ 					MoveParticles();
+ 				}
+ 				speed = Calc.Approach(speed, targetSpeed, 300f * Engine.DeltaTime);
+-				angle = Calc.Approach(angle, targetAngle, MathF.PI * 16f * Engine.DeltaTime);
++				angle = Calc.Approach(angle, targetAngle, (float)Math.PI * 16f * Engine.DeltaTime);
+ 				Vector2 vector = Calc.AngleToVector(angle, speed);
+ 				Vector2 vec = vector * Engine.DeltaTime;
+ 				bool flag2;
+@@ -617,7 +617,7 @@ public class MoveBlock : Solid
+ 		}
+ 		if (moveSfx != null && moveSfx.Playing)
+ 		{
+-			int num = (int)Math.Floor((0f - (Calc.AngleToVector(angle, 1f) * new Vector2(-1f, 1f)).Angle() + MathF.PI * 2f) % (MathF.PI * 2f) / (MathF.PI * 2f) * 8f + 0.5f);
++			int num = (int)Math.Floor((0f - (Calc.AngleToVector(angle, 1f) * new Vector2(-1f, 1f)).Angle() + (float)Math.PI * 2f) % ((float)Math.PI * 2f) / ((float)Math.PI * 2f) * 8f + 0.5f);
+ 			moveSfx.Param("arrow_influence", num + 1);
+ 		}
+ 		border.Visible = Visible;
+@@ -770,7 +770,7 @@ public class MoveBlock : Solid
+ 		Draw.Rect(base.Center.X - 4f, base.Center.Y - 4f, 8f, 8f, fillColor);
+ 		if (state != MovementState.Breaking)
+ 		{
+-			int value = (int)Math.Floor((0f - angle + MathF.PI * 2f) % (MathF.PI * 2f) / (MathF.PI * 2f) * 8f + 0.5f);
++			int value = (int)Math.Floor((0f - angle + (float)Math.PI * 2f) % ((float)Math.PI * 2f) / ((float)Math.PI * 2f) * 8f + 0.5f);
+ 			arrows[Calc.Clamp(value, 0, 7)].DrawCentered(base.Center);
+ 		}
+ 		else
+@@ -790,7 +790,7 @@ public class MoveBlock : Solid
+ 		bool flag3 = (!canSteer || flag) && !CollideCheck<Player>(Position - Vector2.UnitY);
+ 		if (num)
+ 		{
+-			SceneAs<Level>().ParticlesBG.Emit(P_Activate, (int)(base.Height / 2f), base.CenterLeft, Vector2.UnitY * (base.Height - 4f) * 0.5f, MathF.PI);
++			SceneAs<Level>().ParticlesBG.Emit(P_Activate, (int)(base.Height / 2f), base.CenterLeft, Vector2.UnitY * (base.Height - 4f) * 0.5f, (float)Math.PI);
+ 		}
+ 		if (flag2)
+ 		{
+@@ -798,9 +798,9 @@ public class MoveBlock : Solid
+ 		}
+ 		if (flag3)
+ 		{
+-			SceneAs<Level>().ParticlesBG.Emit(P_Activate, (int)(base.Width / 2f), base.TopCenter, Vector2.UnitX * (base.Width - 4f) * 0.5f, -MathF.PI / 2f);
++			SceneAs<Level>().ParticlesBG.Emit(P_Activate, (int)(base.Width / 2f), base.TopCenter, Vector2.UnitX * (base.Width - 4f) * 0.5f, -(float)Math.PI / 2f);
+ 		}
+-		SceneAs<Level>().ParticlesBG.Emit(P_Activate, (int)(base.Width / 2f), base.BottomCenter, Vector2.UnitX * (base.Width - 4f) * 0.5f, MathF.PI / 2f);
++		SceneAs<Level>().ParticlesBG.Emit(P_Activate, (int)(base.Width / 2f), base.BottomCenter, Vector2.UnitX * (base.Width - 4f) * 0.5f, (float)Math.PI / 2f);
+ 	}
+ 
+ 	private void BreakParticles()
+@@ -826,7 +826,7 @@ public class MoveBlock : Solid
+ 		{
+ 			position = base.CenterLeft + Vector2.UnitX;
+ 			positionRange = Vector2.UnitY * (base.Height - 4f);
+-			num = MathF.PI;
++			num = (float)Math.PI;
+ 			num2 = base.Height / 32f;
+ 		}
+ 		else if (direction == Directions.Left)
+@@ -840,14 +840,14 @@ public class MoveBlock : Solid
+ 		{
+ 			position = base.TopCenter + Vector2.UnitY;
+ 			positionRange = Vector2.UnitX * (base.Width - 4f);
+-			num = -MathF.PI / 2f;
++			num = -(float)Math.PI / 2f;
+ 			num2 = base.Width / 32f;
+ 		}
+ 		else
+ 		{
+ 			position = base.BottomCenter;
+ 			positionRange = Vector2.UnitX * (base.Width - 4f);
+-			num = MathF.PI / 2f;
++			num = (float)Math.PI / 2f;
+ 			num2 = base.Width / 32f;
+ 		}
+ 		particleRemainder += num2;
+diff --git a/Celeste/NPC03_Theo_Escaping.cs b/Celeste/NPC03_Theo_Escaping.cs
+index f2247ce..d0308e3 100644
+--- a/Celeste/NPC03_Theo_Escaping.cs
++++ b/Celeste/NPC03_Theo_Escaping.cs
+@@ -22,7 +22,7 @@ public class NPC03_Theo_Escaping : NPC
+ 		{
+ 			Add(Sprite = new Image(GFX.Game["scenery/grate"]));
+ 			Sprite.JustifyOrigin(0.5f, 0f);
+-			Sprite.Rotation = MathF.PI / 2f;
++			Sprite.Rotation = (float)Math.PI / 2f;
+ 		}
+ 
+ 		public void Fall()
+diff --git a/Celeste/NPC06_Badeline_Crying.cs b/Celeste/NPC06_Badeline_Crying.cs
+index 1ba32fa..d851157 100644
+--- a/Celeste/NPC06_Badeline_Crying.cs
++++ b/Celeste/NPC06_Badeline_Crying.cs
+@@ -50,7 +50,7 @@ public class NPC06_Badeline_Crying : NPC
+ 			Ease = 0.2f;
+ 			while (true)
+ 			{
+-				Vector2 target = Target + Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 16f + Calc.Random.NextFloat(40f));
++				Vector2 target = Target + Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 16f + Calc.Random.NextFloat(40f));
+ 				float reset = 0f;
+ 				while (reset < 1f && (target - Position).Length() > 8f)
+ 				{
+@@ -203,7 +203,7 @@ public class NPC06_Badeline_Crying : NPC
+ 		int i = 0;
+ 		foreach (Orb orb2 in orbs)
+ 		{
+-			orb2.Routine.Replace(orb2.CircleRoutine((float)i / 8f * (MathF.PI * 2f)));
++			orb2.Routine.Replace(orb2.CircleRoutine((float)i / 8f * ((float)Math.PI * 2f)));
+ 			i++;
+ 			yield return 0.2f;
+ 		}
+diff --git a/Celeste/NorthernLights.cs b/Celeste/NorthernLights.cs
+index 229ba30..57bcba7 100644
+--- a/Celeste/NorthernLights.cs
++++ b/Celeste/NorthernLights.cs
+@@ -41,7 +41,7 @@ public class NorthernLights : Backdrop
+ 					Height = Calc.Random.Range(10, 80),
+ 					TopAlpha = Calc.Random.Range(0.3f, 0.8f),
+ 					BottomAlpha = Calc.Random.Range(0.5f, 1f),
+-					SineOffset = Calc.Random.NextFloat() * (MathF.PI * 2f),
++					SineOffset = Calc.Random.NextFloat() * ((float)Math.PI * 2f),
+ 					Color = Color.Lerp(value, Calc.Random.Choose(colors), Calc.Random.Range(0f, 0.3f))
+ 				};
+ 				num += Calc.Random.Range(0.02f, 0.2f);
+diff --git a/Celeste/OuiChapterPanel.cs b/Celeste/OuiChapterPanel.cs
+index 08f19dd..fc369d0 100644
+--- a/Celeste/OuiChapterPanel.cs
++++ b/Celeste/OuiChapterPanel.cs
+@@ -82,7 +82,7 @@ public class OuiChapterPanel : Oui
+ 			{
+ 				num = 750 / Siblings;
+ 			}
+-			Vector2 result = center + new Vector2(Slide * num, (float)Math.Sin(Pop * MathF.PI) * 70f - Pop * 12f);
++			Vector2 result = center + new Vector2(Slide * num, (float)Math.Sin(Pop * (float)Math.PI) * 70f - Pop * 12f);
+ 			result.Y += (1f - Ease.CubeOut(Appear)) * -200f;
+ 			result.Y -= (1f - Scale) * 80f;
+ 			return result;
+diff --git a/Celeste/OuiChapterSelectIcon.cs b/Celeste/OuiChapterSelectIcon.cs
+index 139abc6..ea9584b 100644
+--- a/Celeste/OuiChapterSelectIcon.cs
++++ b/Celeste/OuiChapterSelectIcon.cs
+@@ -259,10 +259,10 @@ public class OuiChapterSelectIcon : Entity
+ 		Vector2 vector = uI.OpenPosition + uI.IconOffset;
+ 		SimpleCurve simpleCurve = new SimpleCurve(from, vector, (from + vector) / 2f + new Vector2(0f, 30f));
+ 		float num = 1f + ((p < 0.5f) ? (p * 2f) : ((1f - p) * 2f));
+-		Scale.X = (float)Math.Cos(Ease.SineInOut(p) * (MathF.PI * 2f)) * num;
++		Scale.X = (float)Math.Cos(Ease.SineInOut(p) * ((float)Math.PI * 2f)) * num;
+ 		Scale.Y = num;
+ 		Position = simpleCurve.GetPoint(Ease.Invert(Ease.CubeInOut)(p));
+-		Rotation = Ease.UpDown(Ease.SineInOut(p)) * (MathF.PI / 180f) * 15f * (float)rotateDir;
++		Rotation = Ease.UpDown(Ease.SineInOut(p)) * ((float)Math.PI / 180f) * 15f * (float)rotateDir;
+ 		if (p <= 0f)
+ 		{
+ 			rotateDir = -1;
+diff --git a/Celeste/OuiJournal.cs b/Celeste/OuiJournal.cs
+index 872d8f2..d3192e7 100644
+--- a/Celeste/OuiJournal.cs
++++ b/Celeste/OuiJournal.cs
+@@ -237,11 +237,11 @@ public class OuiJournal : Oui
+ 		float num2 = Ease.CubeInOut(Math.Abs(Math.Min(0f, turningScale)));
+ 		if (SaveData.Instance.CheatMode)
+ 		{
+-			MTN.FileSelect["cheatmode"].DrawCentered(vector + new Vector2(80f, 360f), Color.White, 1f, MathF.PI / 2f);
++			MTN.FileSelect["cheatmode"].DrawCentered(vector + new Vector2(80f, 360f), Color.White, 1f, (float)Math.PI / 2f);
+ 		}
+ 		if (SaveData.Instance.AssistMode)
+ 		{
+-			MTN.FileSelect["assist"].DrawCentered(vector + new Vector2(100f, 370f), Color.White, 1f, MathF.PI / 2f);
++			MTN.FileSelect["assist"].DrawCentered(vector + new Vector2(100f, 370f), Color.White, 1f, (float)Math.PI / 2f);
+ 		}
+ 		MTexture mTexture = MTN.Journal["edge"];
+ 		mTexture.Draw(vector + new Vector2(-mTexture.Width, 0f), Vector2.Zero, Color.White, 1f, rotation);
+diff --git a/Celeste/OuiTitleScreen.cs b/Celeste/OuiTitleScreen.cs
+index 3daadc6..04a9225 100644
+--- a/Celeste/OuiTitleScreen.cs
++++ b/Celeste/OuiTitleScreen.cs
+@@ -150,7 +150,7 @@ public class OuiTitleScreen : Oui
+ 			logo.Scale = Vector2.One * num;
+ 			logo.Render();
+ 			float num2 = base.Scene.TimeActive * 3f;
+-			float num3 = 1f / (float)reflections.Count * (MathF.PI * 2f) * 2f;
++			float num3 = 1f / (float)reflections.Count * ((float)Math.PI * 2f) * 2f;
+ 			float num4 = (float)title.Width / logo.Width * num;
+ 			for (int i = 0; i < reflections.Count; i++)
+ 			{
+@@ -159,7 +159,7 @@ public class OuiTitleScreen : Oui
+ 				Vector2 position = new Vector2(1920f, 1080f) / 2f + new Vector2(x, logo.Height * 0.5f + (float)(i * 4)) * num4;
+ 				float num6 = Ease.CubeIn(1f - num5) * alpha * 0.9f;
+ 				reflections[i].DrawJustified(position, new Vector2(0.5f, 0.5f), Color.White * num6, new Vector2(1f, -1f) * num4);
+-				num2 += num3 * ((float)Math.Sin(base.Scene.TimeActive + (float)i * (MathF.PI * 2f) * 0.04f) + 1f);
++				num2 += num3 * ((float)Math.Sin(base.Scene.TimeActive + (float)i * ((float)Math.PI * 2f) * 0.04f) + 1f);
+ 			}
+ 		}
+ 	}
 diff --git a/Celeste/Overworld.cs b/Celeste/Overworld.cs
 index 879dc01..7230b42 100644
 --- a/Celeste/Overworld.cs
@@ -11,6 +1755,1138 @@ index 879dc01..7230b42 100644
  		foreach (Type type in types)
  		{
  			if (typeof(Oui).IsAssignableFrom(type) && !type.IsAbstract)
+diff --git a/Celeste/ParticleTypes.cs b/Celeste/ParticleTypes.cs
+index a71c6f5..03a1ee3 100644
+--- a/Celeste/ParticleTypes.cs
++++ b/Celeste/ParticleTypes.cs
+@@ -30,7 +30,7 @@ public static class ParticleTypes
+ 			LifeMax = 0.5f,
+ 			Size = 0.7f,
+ 			SizeRange = 0.2f,
+-			Direction = MathF.PI / 2f,
++			Direction = (float)Math.PI / 2f,
+ 			DirectionRange = 0.5f,
+ 			SpeedMin = 5f,
+ 			SpeedMax = 15f,
+@@ -56,7 +56,7 @@ public static class ParticleTypes
+ 			LifeMax = 4f,
+ 			Size = 1f,
+ 			SizeRange = 0.25f,
+-			Direction = MathF.PI / 2f,
++			Direction = (float)Math.PI / 2f,
+ 			DirectionRange = 0.5f,
+ 			SpeedMin = 4f,
+ 			SpeedMax = 12f,
+@@ -71,7 +71,7 @@ public static class ParticleTypes
+ 			LifeMax = 4f,
+ 			Size = 0.5f,
+ 			SizeRange = 0f,
+-			Direction = -MathF.PI / 2f,
++			Direction = -(float)Math.PI / 2f,
+ 			DirectionRange = 0.5f,
+ 			SpeedMin = 4f,
+ 			SpeedMax = 12f,
+@@ -88,7 +88,7 @@ public static class ParticleTypes
+ 			SizeRange = 0f,
+ 			SpeedMin = 20f,
+ 			SpeedMax = 40f,
+-			Direction = MathF.PI / 2f,
++			Direction = (float)Math.PI / 2f,
+ 			DirectionRange = 0.05f,
+ 			Acceleration = Vector2.UnitY * 20f,
+ 			LifeMin = 0.4f,
+@@ -106,7 +106,7 @@ public static class ParticleTypes
+ 			SpeedMin = 10f,
+ 			SpeedMax = 20f,
+ 			Acceleration = new Vector2(0f, 8f),
+-			DirectionRange = MathF.PI / 3f
++			DirectionRange = (float)Math.PI / 3f
+ 		};
+ 		Player.P_DashB = new ParticleType(Player.P_DashA)
+ 		{
+@@ -130,7 +130,7 @@ public static class ParticleTypes
+ 			SpeedMin = 8f,
+ 			SpeedMax = 16f,
+ 			Acceleration = new Vector2(0f, -24f),
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		Player.P_Split = new ParticleType
+ 		{
+@@ -144,7 +144,7 @@ public static class ParticleTypes
+ 			SpeedMin = 60f,
+ 			SpeedMax = 80f,
+ 			SpeedMultiplier = 0.1f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		Player.P_SummitLandA = new ParticleType(Dust)
+ 		{
+@@ -168,7 +168,7 @@ public static class ParticleTypes
+ 			Acceleration = Vector2.UnitY * -60f,
+ 			LifeMin = 0.8f,
+ 			LifeMax = 1.2f,
+-			DirectionRange = MathF.PI / 6f
++			DirectionRange = (float)Math.PI / 6f
+ 		};
+ 		Player.P_SummitLandC = new ParticleType
+ 		{
+@@ -179,7 +179,7 @@ public static class ParticleTypes
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			SpeedMin = 40f,
+ 			SpeedMax = 140f,
+-			Direction = -MathF.PI / 2f,
++			Direction = -(float)Math.PI / 2f,
+ 			DirectionRange = 1.7453293f,
+ 			SpeedMultiplier = 0.1f,
+ 			Acceleration = new Vector2(0f, 20f),
+@@ -198,7 +198,7 @@ public static class ParticleTypes
+ 			SpeedMin = 80f,
+ 			SpeedMax = 90f,
+ 			SpeedMultiplier = 0.03f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		Cloud.P_Cloud = new ParticleType
+ 		{
+@@ -242,7 +242,7 @@ public static class ParticleTypes
+ 		{
+ 			Size = 1f,
+ 			Color = Calc.HexToColor("4ACFC6"),
+-			DirectionRange = MathF.PI / 30f,
++			DirectionRange = (float)Math.PI / 30f,
+ 			LifeMin = 0.6f,
+ 			LifeMax = 1f,
+ 			SpeedMin = 40f,
+@@ -266,8 +266,8 @@ public static class ParticleTypes
+ 			LifeMax = 1.2f,
+ 			Size = 0.5f,
+ 			SizeRange = 0.4f,
+-			Direction = -MathF.PI / 2f,
+-			DirectionRange = MathF.PI / 6f,
++			Direction = -(float)Math.PI / 2f,
++			DirectionRange = (float)Math.PI / 6f,
+ 			SpeedMin = 12f,
+ 			SpeedMax = 10f,
+ 			SpeedMultiplier = 0.2f,
+@@ -289,7 +289,7 @@ public static class ParticleTypes
+ 			SpeedMin = 30f,
+ 			SpeedMax = 24f,
+ 			SpeedMultiplier = 0.98f,
+-			Direction = -MathF.PI / 2f,
++			Direction = -(float)Math.PI / 2f,
+ 			DirectionRange = 0.6981317f,
+ 			RotationMode = ParticleType.RotationModes.Random,
+ 			LifeMin = 0.35f,
+@@ -306,7 +306,7 @@ public static class ParticleTypes
+ 			Size = 1f,
+ 			SpeedMin = 2f,
+ 			SpeedMax = 8f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		Strawberry.P_GhostGlow = new ParticleType(Strawberry.P_Glow)
+ 		{
+@@ -334,7 +334,7 @@ public static class ParticleTypes
+ 			SpeedMin = 36f,
+ 			SpeedMax = 12f,
+ 			SpeedMultiplier = 0.98f,
+-			Direction = -MathF.PI / 2f,
++			Direction = -(float)Math.PI / 2f,
+ 			DirectionRange = 2.7925267f,
+ 			RotationMode = ParticleType.RotationModes.Random,
+ 			LifeMin = 1f,
+@@ -361,7 +361,7 @@ public static class ParticleTypes
+ 			Size = 1f,
+ 			SpeedMin = 1f,
+ 			SpeedMax = 2f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		Key.P_Insert = new ParticleType(Key.P_Shimmer)
+ 		{
+@@ -385,7 +385,7 @@ public static class ParticleTypes
+ 			SpeedMax = 210f,
+ 			SpeedMultiplier = 0.005f,
+ 			RotationMode = ParticleType.RotationModes.Random,
+-			SpinMin = MathF.PI / 2f,
++			SpinMin = (float)Math.PI / 2f,
+ 			SpinMax = 4.712389f,
+ 			SpinFlippedChance = true
+ 		};
+@@ -395,7 +395,7 @@ public static class ParticleTypes
+ 			LifeMax = 0.6f,
+ 			Size = 1f,
+ 			SizeRange = 0f,
+-			DirectionRange = MathF.PI * 2f,
++			DirectionRange = (float)Math.PI * 2f,
+ 			SpeedMin = 4f,
+ 			SpeedMax = 8f,
+ 			FadeMode = ParticleType.FadeModes.Late,
+@@ -408,7 +408,7 @@ public static class ParticleTypes
+ 			SpeedMin = 30f,
+ 			SpeedMax = 40f,
+ 			SpeedMultiplier = 0.2f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		Refill.P_ShatterTwo = new ParticleType(Refill.P_Shatter)
+ 		{
+@@ -463,7 +463,7 @@ public static class ParticleTypes
+ 			Color = Color.White,
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			Size = 1f,
+-			Direction = MathF.PI / 2f,
++			Direction = (float)Math.PI / 2f,
+ 			SpeedMin = 5f,
+ 			SpeedMax = 25f,
+ 			LifeMin = 0.8f,
+@@ -508,7 +508,7 @@ public static class ParticleTypes
+ 			SpeedMin = 5f,
+ 			SpeedMax = 10f,
+ 			Acceleration = new Vector2(0f, 6f),
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		SwitchGate.P_Dust = new ParticleType(Dust)
+ 		{
+@@ -522,7 +522,7 @@ public static class ParticleTypes
+ 			Color = Calc.HexToColor("847E87"),
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			Size = 1f,
+-			Direction = MathF.PI / 2f,
++			Direction = (float)Math.PI / 2f,
+ 			SpeedMin = 5f,
+ 			SpeedMax = 25f,
+ 			LifeMin = 0.8f,
+@@ -554,8 +554,8 @@ public static class ParticleTypes
+ 			ColorMode = ParticleType.ColorModes.Blink,
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			Size = 1f,
+-			Direction = -MathF.PI / 2f,
+-			DirectionRange = MathF.PI / 4f,
++			Direction = -(float)Math.PI / 2f,
++			DirectionRange = (float)Math.PI / 4f,
+ 			SpeedMin = 10f,
+ 			SpeedMax = 20f,
+ 			LifeMin = 0.3f,
+@@ -568,8 +568,8 @@ public static class ParticleTypes
+ 			ColorMode = ParticleType.ColorModes.Blink,
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			Size = 1f,
+-			Direction = -MathF.PI / 2f,
+-			DirectionRange = MathF.PI / 4f,
++			Direction = -(float)Math.PI / 2f,
++			DirectionRange = (float)Math.PI / 4f,
+ 			SpeedMin = 30f,
+ 			SpeedMax = 60f,
+ 			LifeMin = 0.8f,
+@@ -583,8 +583,8 @@ public static class ParticleTypes
+ 			ColorMode = ParticleType.ColorModes.Blink,
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			Size = 1f,
+-			Direction = -MathF.PI / 2f,
+-			DirectionRange = MathF.PI / 4f,
++			Direction = -(float)Math.PI / 2f,
++			DirectionRange = (float)Math.PI / 4f,
+ 			SpeedMin = 10f,
+ 			SpeedMax = 20f,
+ 			LifeMin = 0.8f,
+@@ -599,7 +599,7 @@ public static class ParticleTypes
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			Size = 1f,
+ 			Direction = 0f,
+-			DirectionRange = MathF.PI * 2f,
++			DirectionRange = (float)Math.PI * 2f,
+ 			SpeedMin = 5f,
+ 			SpeedMax = 10f,
+ 			LifeMin = 0.6f,
+@@ -621,7 +621,7 @@ public static class ParticleTypes
+ 			SpeedMultiplier = 0.05f,
+ 			Acceleration = new Vector2(0f, 40f),
+ 			RotationMode = ParticleType.RotationModes.Random,
+-			SpinMin = MathF.PI / 2f,
++			SpinMin = (float)Math.PI / 2f,
+ 			SpinMax = 4.712389f,
+ 			SpinFlippedChance = true
+ 		};
+@@ -654,7 +654,7 @@ public static class ParticleTypes
+ 			SizeRange = 0.2f,
+ 			SpeedMin = 5f,
+ 			SpeedMax = 10f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		ParticleType particleType = new ParticleType
+ 		{
+@@ -668,11 +668,11 @@ public static class ParticleTypes
+ 			LifeMax = 0.8f,
+ 			Size = 0.5f,
+ 			SizeRange = 0.2f,
+-			DirectionRange = MathF.PI * 2f,
++			DirectionRange = (float)Math.PI * 2f,
+ 			SpeedMin = 10f,
+ 			SpeedMax = 20f,
+ 			SpeedMultiplier = 0.8f,
+-			SpinMin = MathF.PI / 2f,
++			SpinMin = (float)Math.PI / 2f,
+ 			SpinMax = 4.712389f,
+ 			SpinFlippedChance = true
+ 		};
+@@ -699,7 +699,7 @@ public static class ParticleTypes
+ 			LifeMin = 0.3f,
+ 			LifeMax = 0.6f,
+ 			Size = 1f,
+-			DirectionRange = MathF.PI * 2f,
++			DirectionRange = (float)Math.PI * 2f,
+ 			SpeedMin = 4f,
+ 			SpeedMax = 8f,
+ 			SpeedMultiplier = 0.8f
+@@ -736,7 +736,7 @@ public static class ParticleTypes
+ 			SpeedMax = 210f,
+ 			SpeedMultiplier = 0.005f,
+ 			RotationMode = ParticleType.RotationModes.Random,
+-			SpinMin = MathF.PI / 2f,
++			SpinMin = (float)Math.PI / 2f,
+ 			SpinMax = 4.712389f,
+ 			SpinFlippedChance = true
+ 		};
+@@ -744,7 +744,7 @@ public static class ParticleTypes
+ 		{
+ 			LifeMin = 1f,
+ 			LifeMax = 1.6f,
+-			Direction = -MathF.PI / 2f,
++			Direction = -(float)Math.PI / 2f,
+ 			Acceleration = new Vector2(0f, 12f),
+ 			SpeedMin = 20f,
+ 			SpeedMax = 36f
+@@ -763,8 +763,8 @@ public static class ParticleTypes
+ 			LifeMax = 2f,
+ 			SpeedMin = 5f,
+ 			SpeedMax = 10f,
+-			Direction = -MathF.PI / 2f,
+-			DirectionRange = MathF.PI / 4f
++			Direction = -(float)Math.PI / 2f,
++			DirectionRange = (float)Math.PI / 4f
+ 		};
+ 		LightBeam.P_Glow = new ParticleType
+ 		{
+@@ -793,7 +793,7 @@ public static class ParticleTypes
+ 			SpeedMultiplier = 0.2f,
+ 			LifeMin = 0.4f,
+ 			LifeMax = 0.6f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		BadelineBoost.P_Ambience = new ParticleType
+ 		{
+@@ -802,7 +802,7 @@ public static class ParticleTypes
+ 			ColorMode = ParticleType.ColorModes.Blink,
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			Size = 1f,
+-			DirectionRange = MathF.PI * 2f,
++			DirectionRange = (float)Math.PI * 2f,
+ 			SpeedMin = 20f,
+ 			SpeedMax = 40f,
+ 			SpeedMultiplier = 0.2f,
+@@ -823,9 +823,9 @@ public static class ParticleTypes
+ 			SpeedMin = 60f,
+ 			SpeedMax = 70f,
+ 			SpeedMultiplier = 0.1f,
+-			DirectionRange = MathF.PI * 2f,
++			DirectionRange = (float)Math.PI * 2f,
+ 			SpinFlippedChance = true,
+-			SpinMin = MathF.PI / 6f,
++			SpinMin = (float)Math.PI / 6f,
+ 			SpinMax = 1.3962634f
+ 		};
+ 		FlyFeather.P_Boost = new ParticleType(FlyFeather.P_Collect)
+@@ -847,7 +847,7 @@ public static class ParticleTypes
+ 			SpeedMin = 60f,
+ 			SpeedMax = 70f,
+ 			SpeedMultiplier = 0.25f,
+-			DirectionRange = MathF.PI / 3f
++			DirectionRange = (float)Math.PI / 3f
+ 		};
+ 		FlyFeather.P_Respawn = new ParticleType(Refill.P_Regen)
+ 		{
+@@ -872,7 +872,7 @@ public static class ParticleTypes
+ 			RotationMode = ParticleType.RotationModes.SameAsDirection,
+ 			Size = 0.5f,
+ 			SizeRange = 0.2f,
+-			DirectionRange = MathF.PI / 6f,
++			DirectionRange = (float)Math.PI / 6f,
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			LifeMin = 0.5f,
+ 			LifeMax = 1.2f,
+@@ -890,7 +890,7 @@ public static class ParticleTypes
+ 			RotationMode = ParticleType.RotationModes.SameAsDirection,
+ 			Size = 0.5f,
+ 			SizeRange = 0.2f,
+-			DirectionRange = MathF.PI / 6f,
++			DirectionRange = (float)Math.PI / 6f,
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			LifeMin = 0.5f,
+ 			LifeMax = 1.1f,
+@@ -912,7 +912,7 @@ public static class ParticleTypes
+ 			LifeMax = 0.4f,
+ 			SpeedMin = 10f,
+ 			SpeedMax = 20f,
+-			DirectionRange = MathF.PI / 6f
++			DirectionRange = (float)Math.PI / 6f
+ 		};
+ 		Bumper.P_FireAmbience = new ParticleType(Bumper.P_Ambience)
+ 		{
+@@ -1007,7 +1007,7 @@ public static class ParticleTypes
+ 		};
+ 		Seeker.P_Stomp = new ParticleType(Seeker.P_Attack)
+ 		{
+-			Direction = -MathF.PI / 2f
++			Direction = -(float)Math.PI / 2f
+ 		};
+ 		Seeker.P_HitWall = new ParticleType
+ 		{
+@@ -1035,7 +1035,7 @@ public static class ParticleTypes
+ 			SpeedMin = 20f,
+ 			SpeedMax = 100f,
+ 			SpeedMultiplier = 0.4f,
+-			DirectionRange = MathF.PI / 3f
++			DirectionRange = (float)Math.PI / 3f
+ 		};
+ 		WaterInteraction.P_Drip = new ParticleType
+ 		{
+@@ -1049,7 +1049,7 @@ public static class ParticleTypes
+ 			SpeedMin = 10f,
+ 			SpeedMax = 12f,
+ 			SpeedMultiplier = 2f,
+-			Direction = MathF.PI / 2f,
++			Direction = (float)Math.PI / 2f,
+ 			DirectionRange = 0.05f
+ 		};
+ 		FireBarrier.P_Deactivate = new ParticleType
+@@ -1064,7 +1064,7 @@ public static class ParticleTypes
+ 			LifeMax = 0.8f,
+ 			SpeedMin = 5f,
+ 			SpeedMax = 25f,
+-			DirectionRange = MathF.PI / 6f
++			DirectionRange = (float)Math.PI / 6f
+ 		};
+ 		IceBlock.P_Deactivate = new ParticleType(FireBarrier.P_Deactivate)
+ 		{
+@@ -1082,7 +1082,7 @@ public static class ParticleTypes
+ 			Size = 1f,
+ 			LifeMin = 0.4f,
+ 			LifeMax = 0.8f,
+-			DirectionRange = MathF.PI / 6f
++			DirectionRange = (float)Math.PI / 6f
+ 		};
+ 		BounceBlock.P_FireBreak = new ParticleType(FireBarrier.P_Deactivate)
+ 		{
+@@ -1096,7 +1096,7 @@ public static class ParticleTypes
+ 			SpeedMin = 20f,
+ 			SpeedMax = 50f,
+ 			SpeedMultiplier = 0.2f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		FireBall.P_FireTrail = new ParticleType(FireBarrier.P_Deactivate)
+ 		{
+@@ -1105,7 +1105,7 @@ public static class ParticleTypes
+ 			LifeMax = 1.2f,
+ 			SpeedMin = 4f,
+ 			SpeedMax = 8f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		FireBall.P_IceTrail = new ParticleType(IceBlock.P_Deactivate)
+ 		{
+@@ -1114,7 +1114,7 @@ public static class ParticleTypes
+ 			LifeMax = 1.2f,
+ 			SpeedMin = 4f,
+ 			SpeedMax = 8f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		CrystalDebris.P_Dust = new ParticleType
+ 		{
+@@ -1127,7 +1127,7 @@ public static class ParticleTypes
+ 			Size = 1f,
+ 			SpeedMin = 2f,
+ 			SpeedMax = 8f,
+-			DirectionRange = MathF.PI * 2f
++			DirectionRange = (float)Math.PI * 2f
+ 		};
+ 		FinalBossShot.P_Trail = new ParticleType
+ 		{
+@@ -1149,7 +1149,7 @@ public static class ParticleTypes
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			SpeedMin = 15f,
+ 			SpeedMax = 30f,
+-			DirectionRange = MathF.PI / 3f,
++			DirectionRange = (float)Math.PI / 3f,
+ 			LifeMin = 0.3f,
+ 			LifeMax = 0.6f
+ 		};
+@@ -1184,7 +1184,7 @@ public static class ParticleTypes
+ 			ColorMode = ParticleType.ColorModes.Blink,
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			Size = 1f,
+-			DirectionRange = MathF.PI / 3f,
++			DirectionRange = (float)Math.PI / 3f,
+ 			SpeedMin = 40f,
+ 			SpeedMax = 100f,
+ 			SpeedMultiplier = 0.2f,
+@@ -1198,7 +1198,7 @@ public static class ParticleTypes
+ 			Color2 = Calc.HexToColor("f049be"),
+ 			ColorMode = ParticleType.ColorModes.Blink,
+ 			FadeMode = ParticleType.FadeModes.InAndOut,
+-			DirectionRange = MathF.PI * 2f,
++			DirectionRange = (float)Math.PI * 2f,
+ 			SpeedMin = 5f,
+ 			SpeedMax = 10f,
+ 			LifeMin = 0.6f,
+@@ -1223,7 +1223,7 @@ public static class ParticleTypes
+ 			Color2 = Color.White,
+ 			ColorMode = ParticleType.ColorModes.Blink,
+ 			FadeMode = ParticleType.FadeModes.InAndOut,
+-			Direction = -MathF.PI / 2f,
++			Direction = -(float)Math.PI / 2f,
+ 			DirectionRange = 1.3962634f,
+ 			SpeedMin = 5f,
+ 			SpeedMax = 10f,
+@@ -1241,7 +1241,7 @@ public static class ParticleTypes
+ 		HeartGem.P_FakeShine = new ParticleType(HeartGem.P_BlueShine)
+ 		{
+ 			Color = Calc.HexToColor("bebdb8"),
+-			Direction = MathF.PI / 2f,
++			Direction = (float)Math.PI / 2f,
+ 			DirectionRange = 0.34906584f,
+ 			LifeMin = 2f,
+ 			LifeMax = 4f
+@@ -1264,7 +1264,7 @@ public static class ParticleTypes
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			SpeedMin = 2f,
+ 			SpeedMax = 5f,
+-			DirectionRange = MathF.PI / 3f,
++			DirectionRange = (float)Math.PI / 3f,
+ 			LifeMin = 1.4f,
+ 			LifeMax = 2f
+ 		};
+@@ -1279,7 +1279,7 @@ public static class ParticleTypes
+ 			SpeedMax = 30f,
+ 			Acceleration = Vector2.UnitY * 20f,
+ 			DirectionRange = 0f,
+-			Direction = -MathF.PI / 2f,
++			Direction = -(float)Math.PI / 2f,
+ 			LifeMin = 0.4f,
+ 			LifeMax = 1.8f
+ 		};
+@@ -1293,8 +1293,8 @@ public static class ParticleTypes
+ 			SpeedMin = 5f,
+ 			SpeedMax = 30f,
+ 			Acceleration = Vector2.UnitY * 20f,
+-			DirectionRange = MathF.PI / 2f,
+-			Direction = -MathF.PI / 2f,
++			DirectionRange = (float)Math.PI / 2f,
++			Direction = -(float)Math.PI / 2f,
+ 			LifeMin = 0.8f,
+ 			LifeMax = 2f
+ 		};
+@@ -1303,8 +1303,8 @@ public static class ParticleTypes
+ 			Acceleration = Vector2.UnitY * 60f,
+ 			SpeedMin = 30f,
+ 			SpeedMax = 40f,
+-			Direction = -MathF.PI / 2f,
+-			DirectionRange = MathF.PI / 2f,
++			Direction = -(float)Math.PI / 2f,
++			DirectionRange = (float)Math.PI / 2f,
+ 			LifeMin = 0.6f,
+ 			LifeMax = 1.2f,
+ 			ColorMode = ParticleType.ColorModes.Blink,
+@@ -1327,7 +1327,7 @@ public static class ParticleTypes
+ 			Acceleration = Vector2.UnitY * 60f,
+ 			SpeedMin = 5f,
+ 			SpeedMax = 20f,
+-			Direction = -MathF.PI / 2f,
++			Direction = -(float)Math.PI / 2f,
+ 			LifeMin = 0.6f,
+ 			LifeMax = 1.4f,
+ 			FadeMode = ParticleType.FadeModes.Late,
+@@ -1337,7 +1337,7 @@ public static class ParticleTypes
+ 		{
+ 			SpeedMin = 8f,
+ 			SpeedMax = 16f,
+-			DirectionRange = MathF.PI * 2f,
++			DirectionRange = (float)Math.PI * 2f,
+ 			LifeMin = 0.4f,
+ 			LifeMax = 0.8f,
+ 			Size = 1f,
+@@ -1353,7 +1353,7 @@ public static class ParticleTypes
+ 			SpeedMultiplier = 0.2f,
+ 			LifeMin = 0.6f,
+ 			LifeMax = 1.2f,
+-			DirectionRange = MathF.PI * 3f / 4f
++			DirectionRange = (float)Math.PI * 3f / 4f
+ 		};
+ 		LightningBreakerBox.P_Smash = new ParticleType
+ 		{
+@@ -1381,7 +1381,7 @@ public static class ParticleTypes
+ 			RotationMode = ParticleType.RotationModes.SameAsDirection,
+ 			Size = 0.4f,
+ 			SizeRange = 0.1f,
+-			DirectionRange = MathF.PI * 2f,
++			DirectionRange = (float)Math.PI * 2f,
+ 			FadeMode = ParticleType.FadeModes.Late,
+ 			LifeMin = 0.1f,
+ 			LifeMax = 0.2f,
+diff --git a/Celeste/Petals.cs b/Celeste/Petals.cs
+index c5940cd..20d9c53 100644
+--- a/Celeste/Petals.cs
++++ b/Celeste/Petals.cs
+@@ -42,7 +42,7 @@ public class Petals : Backdrop
+ 		particles[i].Spin = Calc.Random.Range(8f, 12f) * 0.2f;
+ 		particles[i].Color = Calc.Random.Next(colors.Length);
+ 		particles[i].RotationCounter = Calc.Random.NextAngle();
+-		particles[i].MaxRotate = Calc.Random.Range(0.3f, 0.6f) * (MathF.PI / 2f);
++		particles[i].MaxRotate = Calc.Random.Range(0.3f, 0.6f) * ((float)Math.PI / 2f);
+ 	}
+ 
+ 	public override void Update(Scene scene)
+diff --git a/Celeste/Player.cs b/Celeste/Player.cs
+index 82665db..2288a63 100644
+--- a/Celeste/Player.cs
++++ b/Celeste/Player.cs
+@@ -1211,7 +1211,7 @@ public class Player : Actor
+ 				}
+ 				if (anim.Equals("push") && (currentAnimationFrame == 8 || currentAnimationFrame == 15))
+ 				{
+-					Dust.BurstFG(Position + new Vector2((0 - Facing) * 5, -1f), new Vector2(0 - Facing, -0.5f).Angle(), 1, 0f);
++					Dust.BurstFG(Position + new Vector2((0 - (float)Facing) * 5, -1f), new Vector2(0 - (float)Facing, -0.5f).Angle(), 1, 0f);
+ 				}
+ 			}
+ 		};
+@@ -2091,7 +2091,7 @@ public class Player : Actor
+ 					{
+ 						if (base.Scene.OnInterval(0.02f))
+ 						{
+-							Dust.Burst(Position, -MathF.PI / 2f);
++							Dust.Burst(Position, -(float)Math.PI / 2f);
+ 						}
+ 						Sprite.Play("skid");
+ 					}
+@@ -2151,7 +2151,7 @@ public class Player : Actor
+ 						{
+ 							Sprite.Play("edge");
+ 						}
+-						else if (!base.Scene.CollideCheck<Solid>(Position + new Vector2(0 - Facing, 2f)) && !base.Scene.CollideCheck<Solid>(Position + new Vector2((0 - Facing) * 4, 2f)) && !CollideCheck<JumpThru>(Position + new Vector2((0 - Facing) * 4, 2f)))
++						else if (!base.Scene.CollideCheck<Solid>(Position + new Vector2(0 - (float)Facing, 2f)) && !base.Scene.CollideCheck<Solid>(Position + new Vector2((0 - (float)Facing) * 4, 2f)) && !CollideCheck<JumpThru>(Position + new Vector2((0 - (float)Facing) * 4, 2f)))
+ 						{
+ 							Sprite.Play("edgeBack");
+ 						}
+@@ -2472,7 +2472,7 @@ public class Player : Actor
+ 			{
+ 				index = platformByPriority.GetLandSoundIndex(this);
+ 			}
+-			Dust.Burst(base.BottomCenter, -MathF.PI / 2f, 4, DustParticleFromSurfaceIndex(index));
++			Dust.Burst(base.BottomCenter, -(float)Math.PI / 2f, 4, DustParticleFromSurfaceIndex(index));
+ 		}
+ 		SaveData.Instance.TotalJumps++;
+ 	}
+@@ -2498,11 +2498,11 @@ public class Player : Actor
+ 			Speed.X *= 1.25f;
+ 			Speed.Y *= 0.5f;
+ 			Play("event:/char/madeline/jump_superslide");
+-			gliderBoostDir = Calc.AngleToVector(MathF.PI * -3f / 16f, 1f);
++			gliderBoostDir = Calc.AngleToVector((float)Math.PI * -3f / 16f, 1f);
+ 		}
+ 		else
+ 		{
+-			gliderBoostDir = Calc.AngleToVector(-MathF.PI / 4f, 1f);
++			gliderBoostDir = Calc.AngleToVector(-(float)Math.PI / 4f, 1f);
+ 			Play("event:/char/madeline/jump_super");
+ 		}
+ 		varJumpSpeed = Speed.Y;
+@@ -2514,7 +2514,7 @@ public class Player : Actor
+ 		{
+ 			index = platformByPriority.GetLandSoundIndex(this);
+ 		}
+-		Dust.Burst(base.BottomCenter, -MathF.PI / 2f, 4, DustParticleFromSurfaceIndex(index));
++		Dust.Burst(base.BottomCenter, -(float)Math.PI / 2f, 4, DustParticleFromSurfaceIndex(index));
+ 		SaveData.Instance.TotalJumps++;
+ 	}
+ 
+@@ -2595,11 +2595,11 @@ public class Player : Actor
+ 		Sprite.Scale = new Vector2(0.6f, 1.4f);
+ 		if (dir == -1)
+ 		{
+-			Dust.Burst(base.Center + Vector2.UnitX * 2f, MathF.PI * -3f / 4f, 4, DustParticleFromSurfaceIndex(num));
++			Dust.Burst(base.Center + Vector2.UnitX * 2f, (float)Math.PI * -3f / 4f, 4, DustParticleFromSurfaceIndex(num));
+ 		}
+ 		else
+ 		{
+-			Dust.Burst(base.Center + Vector2.UnitX * -2f, -MathF.PI / 4f, 4, DustParticleFromSurfaceIndex(num));
++			Dust.Burst(base.Center + Vector2.UnitX * -2f, -(float)Math.PI / 4f, 4, DustParticleFromSurfaceIndex(num));
+ 		}
+ 		SaveData.Instance.TotalWallJumps++;
+ 	}
+@@ -2632,11 +2632,11 @@ public class Player : Actor
+ 		}
+ 		if (dir == -1)
+ 		{
+-			Dust.Burst(base.Center + Vector2.UnitX * 2f, MathF.PI * -3f / 4f, 4, DustParticleFromSurfaceIndex(index));
++			Dust.Burst(base.Center + Vector2.UnitX * 2f, (float)Math.PI * -3f / 4f, 4, DustParticleFromSurfaceIndex(index));
+ 		}
+ 		else
+ 		{
+-			Dust.Burst(base.Center + Vector2.UnitX * -2f, -MathF.PI / 4f, 4, DustParticleFromSurfaceIndex(index));
++			Dust.Burst(base.Center + Vector2.UnitX * -2f, -(float)Math.PI / 4f, 4, DustParticleFromSurfaceIndex(index));
+ 		}
+ 		SaveData.Instance.TotalWallJumps++;
+ 	}
+@@ -2653,7 +2653,7 @@ public class Player : Actor
+ 		Jump(particles: false, playSfx: false);
+ 		if (moveX == 0)
+ 		{
+-			wallBoostDir = 0 - Facing;
++			wallBoostDir = 0 - (int)Facing;
+ 			wallBoostTimer = 0.2f;
+ 		}
+ 		int index = -1;
+@@ -2665,12 +2665,12 @@ public class Player : Actor
+ 		if (Facing == Facings.Right)
+ 		{
+ 			Play("event:/char/madeline/jump_climb_right");
+-			Dust.Burst(base.Center + Vector2.UnitX * 2f, MathF.PI * -3f / 4f, 4, DustParticleFromSurfaceIndex(index));
++			Dust.Burst(base.Center + Vector2.UnitX * 2f, (float)Math.PI * -3f / 4f, 4, DustParticleFromSurfaceIndex(index));
+ 		}
+ 		else
+ 		{
+ 			Play("event:/char/madeline/jump_climb_left");
+-			Dust.Burst(base.Center + Vector2.UnitX * -2f, -MathF.PI / 4f, 4, DustParticleFromSurfaceIndex(index));
++			Dust.Burst(base.Center + Vector2.UnitX * -2f, -(float)Math.PI / 4f, 4, DustParticleFromSurfaceIndex(index));
+ 		}
+ 	}
+ 
+@@ -3580,7 +3580,7 @@ public class Player : Actor
+ 						return 8;
+ 					}
+ 				}
+-				if (Speed.Y >= 0f && Math.Sign(Speed.X) != 0 - Facing)
++				if (Speed.Y >= 0f && Math.Sign(Speed.X) != 0 - (float)Facing)
+ 				{
+ 					if (ClimbCheck((int)Facing))
+ 					{
+@@ -3863,7 +3863,7 @@ public class Player : Actor
+ 			{
+ 				center += new Vector2(0f - num, 4f);
+ 			}
+-			Dust.Burst(center, -MathF.PI / 2f, 1, particleType);
++			Dust.Burst(center, -(float)Math.PI / 2f, 1, particleType);
+ 		}
+ 	}
+ 
+@@ -3932,9 +3932,9 @@ public class Player : Actor
+ 		}
+ 		if (Input.Jump.Pressed && (!Ducking || CanUnDuck))
+ 		{
+-			if (moveX == 0 - Facing)
++			if (moveX == 0 - (float)Facing)
+ 			{
+-				WallJump(0 - Facing);
++				WallJump(0 - (int)Facing);
+ 			}
+ 			else
+ 			{
+@@ -4626,7 +4626,7 @@ public class Player : Actor
+ 			return 2;
+ 		}
+ 		bool flag = SwimUnderwaterCheck();
+-		if (!flag && Speed.Y >= 0f && Input.GrabCheck && !IsTired && CanUnDuck && Math.Sign(Speed.X) != 0 - Facing && ClimbCheck((int)Facing))
++		if (!flag && Speed.Y >= 0f && Input.GrabCheck && !IsTired && CanUnDuck && Math.Sign(Speed.X) != 0 - (float)Facing && ClimbCheck((int)Facing))
+ 		{
+ 			if (SaveData.Instance.Assists.NoGrabbing)
+ 			{
+@@ -5066,7 +5066,7 @@ public class Player : Actor
+ 		Speed = -Vector2.UnitY * 240f;
+ 		if (level.OnInterval(0.2f))
+ 		{
+-			level.Add(Engine.Pooler.Create<SpeedRing>().Init(base.Center, MathF.PI / 2f, Color.White));
++			level.Add(Engine.Pooler.Create<SpeedRing>().Init(base.Center, (float)Math.PI / 2f, Color.White));
+ 		}
+ 		CrystalStaticSpinner crystalStaticSpinner = base.Scene.CollideFirst<CrystalStaticSpinner>(new Rectangle((int)(base.X - 4f), (int)(base.Y - 40f), 8, 12));
+ 		if (crystalStaticSpinner != null)
+@@ -5874,9 +5874,9 @@ public class Player : Actor
+ 		Input.Rumble(RumbleStrength.Strong, RumbleLength.Medium);
+ 		level.DirectionalShake(new Vector2(0f, 1f), 0.5f);
+ 		Speed.X = 0f;
+-		level.Particles.Emit(P_SummitLandA, 12, base.BottomCenter, Vector2.UnitX * 3f, -MathF.PI / 2f);
++		level.Particles.Emit(P_SummitLandA, 12, base.BottomCenter, Vector2.UnitX * 3f, -(float)Math.PI / 2f);
+ 		level.Particles.Emit(P_SummitLandB, 8, base.BottomCenter - Vector2.UnitX * 2f, Vector2.UnitX * 2f, 3.403392f);
+-		level.Particles.Emit(P_SummitLandB, 8, base.BottomCenter + Vector2.UnitX * 2f, Vector2.UnitX * 2f, -MathF.PI / 12f);
++		level.Particles.Emit(P_SummitLandB, 8, base.BottomCenter + Vector2.UnitX * 2f, Vector2.UnitX * 2f, -(float)Math.PI / 12f);
+ 		for (float p = 0f; p < 1f; p += Engine.DeltaTime)
+ 		{
+ 			yield return null;
+@@ -6054,9 +6054,9 @@ public class Player : Actor
+ 		Input.Rumble(RumbleStrength.Strong, RumbleLength.Medium);
+ 		if (wasSummitJump)
+ 		{
+-			level.Particles.Emit(P_SummitLandA, 12, base.BottomCenter, Vector2.UnitX * 3f, -MathF.PI / 2f);
++			level.Particles.Emit(P_SummitLandA, 12, base.BottomCenter, Vector2.UnitX * 3f, -(float)Math.PI / 2f);
+ 			level.Particles.Emit(P_SummitLandB, 8, base.BottomCenter - Vector2.UnitX * 2f, Vector2.UnitX * 2f, 3.403392f);
+-			level.Particles.Emit(P_SummitLandB, 8, base.BottomCenter + Vector2.UnitX * 2f, Vector2.UnitX * 2f, -MathF.PI / 12f);
++			level.Particles.Emit(P_SummitLandB, 8, base.BottomCenter + Vector2.UnitX * 2f, Vector2.UnitX * 2f, -(float)Math.PI / 12f);
+ 			level.ParticlesBG.Emit(P_SummitLandC, 30, base.BottomCenter, Vector2.UnitX * 5f);
+ 			yield return 0.35f;
+ 			for (int i = 0; i < Hair.Nodes.Count; i++)
+@@ -6271,7 +6271,7 @@ public class Player : Actor
+ 			Speed.X = Calc.Approach(Speed.X, 0f, 240f * Engine.DeltaTime);
+ 			if (base.Scene.OnInterval(0.04f))
+ 			{
+-				Dust.Burst(base.BottomCenter + new Vector2(0f, -2f), MathF.PI * -3f / 4f);
++				Dust.Burst(base.BottomCenter + new Vector2(0f, -2f), (float)Math.PI * -3f / 4f);
+ 			}
+ 			yield return null;
+ 		}
+diff --git a/Celeste/PlayerDashAssist.cs b/Celeste/PlayerDashAssist.cs
+index 5c01182..4b70440 100644
+--- a/Celeste/PlayerDashAssist.cs
++++ b/Celeste/PlayerDashAssist.cs
+@@ -67,10 +67,10 @@ public class PlayerDashAssist : Entity
+ 			}
+ 			else
+ 			{
+-				Direction = Calc.AngleApproach(Direction, num, MathF.PI * 6f * Engine.RawDeltaTime);
++				Direction = Calc.AngleApproach(Direction, num, (float)Math.PI * 6f * Engine.RawDeltaTime);
+ 			}
+ 			Scale = Calc.Approach(Scale, 1f, Engine.DeltaTime * 4f);
+-			int num2 = 1 + (8 + (int)Math.Round(num / (MathF.PI / 4f))) % 8;
++			int num2 = 1 + (8 + (int)Math.Round(num / ((float)Math.PI / 4f))) % 8;
+ 			if (lastIndex != 0 && lastIndex != num2)
+ 			{
+ 				Audio.Play("event:/game/general/assist_dash_aim", entity.Center, "dash_direction", num2);
+@@ -90,7 +90,7 @@ public class PlayerDashAssist : Entity
+ 		float num = float.MaxValue;
+ 		for (int i = 0; i < 8; i++)
+ 		{
+-			float num2 = Calc.AngleDiff(MathF.PI * 2f * ((float)i / 8f), Direction);
++			float num2 = Calc.AngleDiff((float)Math.PI * 2f * ((float)i / 8f), Direction);
+ 			if (Math.Abs(num2) < Math.Abs(num))
+ 			{
+ 				num = num2;
+diff --git a/Celeste/PlayerDeadBody.cs b/Celeste/PlayerDeadBody.cs
+index 241282a..63f645f 100644
+--- a/Celeste/PlayerDeadBody.cs
++++ b/Celeste/PlayerDeadBody.cs
+@@ -61,7 +61,7 @@ public class PlayerDeadBody : Entity
+ 			facing = (Facings)(-Math.Sign(bounce.X));
+ 			return;
+ 		}
+-		bounce = Calc.AngleToVector(Calc.AngleApproach(bounce.Angle(), new Vector2(0 - player.Facing, 0f).Angle(), 0.5f), 1f);
++		bounce = Calc.AngleToVector(Calc.AngleApproach(bounce.Angle(), new Vector2(0 - (float)player.Facing, 0f).Angle(), 0.5f), 1f);
+ 		if (bounce.Y < 0f)
+ 		{
+ 			sprite.Play("deadup");
+diff --git a/Celeste/PlayerHair.cs b/Celeste/PlayerHair.cs
+index 5f458c0..dc0ff18 100644
+--- a/Celeste/PlayerHair.cs
++++ b/Celeste/PlayerHair.cs
+@@ -50,7 +50,7 @@ public class PlayerHair : Component
+ 
+ 	public void Start()
+ 	{
+-		Vector2 value = base.Entity.Position + new Vector2((0 - Facing) * 200, 200f);
++		Vector2 value = base.Entity.Position + new Vector2((0 - (float)Facing) * 200, 200f);
+ 		for (int i = 0; i < Nodes.Count; i++)
+ 		{
+ 			Nodes[i] = value;
+diff --git a/Celeste/PlayerSeeker.cs b/Celeste/PlayerSeeker.cs
+index 2553235..4d609ce 100644
+--- a/Celeste/PlayerSeeker.cs
++++ b/Celeste/PlayerSeeker.cs
+@@ -102,9 +102,9 @@ public class PlayerSeeker : Actor
+ 	private void BreakOutParticles()
+ 	{
+ 		Level level = SceneAs<Level>();
+-		for (float num = 0f; num < MathF.PI * 2f; num += 0.17453292f)
++		for (float num = 0f; num < (float)Math.PI * 2f; num += 0.17453292f)
+ 		{
+-			Vector2 position = base.Center + Calc.AngleToVector(num + Calc.Random.Range(-MathF.PI / 90f, MathF.PI / 90f), Calc.Random.Range(12, 20));
++			Vector2 position = base.Center + Calc.AngleToVector(num + Calc.Random.Range(-(float)Math.PI / 90f, (float)Math.PI / 90f), Calc.Random.Range(12, 20));
+ 			level.Particles.Emit(Seeker.P_BreakOut, position, num);
+ 		}
+ 	}
+@@ -283,7 +283,7 @@ public class PlayerSeeker : Actor
+ 		Vector2 positionRange;
+ 		if (data.Direction.X > 0f)
+ 		{
+-			direction = MathF.PI;
++			direction = (float)Math.PI;
+ 			position = new Vector2(base.Right, base.Y);
+ 			positionRange = Vector2.UnitY * 4f;
+ 		}
+@@ -295,13 +295,13 @@ public class PlayerSeeker : Actor
+ 		}
+ 		else if (data.Direction.Y > 0f)
+ 		{
+-			direction = -MathF.PI / 2f;
++			direction = -(float)Math.PI / 2f;
+ 			position = new Vector2(base.X, base.Bottom);
+ 			positionRange = Vector2.UnitX * 4f;
+ 		}
+ 		else
+ 		{
+-			direction = MathF.PI / 2f;
++			direction = (float)Math.PI / 2f;
+ 			position = new Vector2(base.X, base.Top);
+ 			positionRange = Vector2.UnitX * 4f;
+ 		}
+diff --git a/Celeste/Poem.cs b/Celeste/Poem.cs
+index 739af93..1735629 100644
+--- a/Celeste/Poem.cs
++++ b/Celeste/Poem.cs
+@@ -17,7 +17,7 @@ public class Poem : Entity
+ 
+ 		public void Reset(float percent)
+ 		{
+-			Direction = Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 1f);
++			Direction = Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 1f);
+ 			Percent = percent;
+ 			Duration = 0.5f + Calc.Random.NextFloat() * 0.5f;
+ 		}
+diff --git a/Celeste/Puffer.cs b/Celeste/Puffer.cs
+index 81437b9..702fb3c 100644
+--- a/Celeste/Puffer.cs
++++ b/Celeste/Puffer.cs
+@@ -105,7 +105,7 @@ public class Puffer : Actor
+ 		scale = Vector2.One;
+ 		bounceWiggler = Wiggler.Create(0.6f, 2.5f, delegate(float v)
+ 		{
+-			sprite.Rotation = v * 20f * (MathF.PI / 180f);
++			sprite.Rotation = v * 20f * ((float)Math.PI / 180f);
+ 		});
+ 		Add(bounceWiggler);
+ 		inflateWiggler = Wiggler.Create(0.6f, 2f);
+@@ -264,9 +264,9 @@ public class Puffer : Actor
+ 		level.Displacement.AddBurst(Position, 0.4f, 12f, 36f, 0.5f);
+ 		level.Displacement.AddBurst(Position, 0.4f, 24f, 48f, 0.5f);
+ 		level.Displacement.AddBurst(Position, 0.4f, 36f, 60f, 0.5f);
+-		for (float num = 0f; num < MathF.PI * 2f; num += 0.17453292f)
++		for (float num = 0f; num < (float)Math.PI * 2f; num += 0.17453292f)
+ 		{
+-			Vector2 position = base.Center + Calc.AngleToVector(num + Calc.Random.Range(-MathF.PI / 90f, MathF.PI / 90f), Calc.Random.Range(12, 18));
++			Vector2 position = base.Center + Calc.AngleToVector(num + Calc.Random.Range(-(float)Math.PI / 90f, (float)Math.PI / 90f), Calc.Random.Range(12, 18));
+ 			level.Particles.Emit(Seeker.P_Regen, position, num);
+ 		}
+ 	}
+@@ -307,11 +307,11 @@ public class Puffer : Actor
+ 			for (int i = 0; i < 28; i++)
+ 			{
+ 				float num2 = (float)Math.Sin(base.Scene.TimeActive * 0.5f) * 0.02f;
+-				float num3 = Calc.Map((float)i / 28f + num2, 0f, 1f, -MathF.PI / 30f, 3.2463126f);
+-				num3 += bounceWiggler.Value * 20f * (MathF.PI / 180f);
++				float num3 = Calc.Map((float)i / 28f + num2, 0f, 1f, -(float)Math.PI / 30f, 3.2463126f);
++				num3 += bounceWiggler.Value * 20f * ((float)Math.PI / 180f);
+ 				Vector2 vector2 = Calc.AngleToVector(num3, 1f);
+ 				Vector2 vector3 = Position + vector2 * 32f;
+-				float t = Calc.ClampedMap(Calc.AbsAngleDiff(num3, radiansB), MathF.PI / 2f, 0.17453292f);
++				float t = Calc.ClampedMap(Calc.AbsAngleDiff(num3, radiansB), (float)Math.PI / 2f, 0.17453292f);
+ 				t = Ease.CubeOut(t) * 0.8f * num;
+ 				if (!(t > 0f))
+ 				{
+@@ -343,7 +343,7 @@ public class Puffer : Actor
+ 		{
+ 			Vector2 vector5 = Position + new Vector2(3f, (facing.X < 0f) ? (-5) : (-4)) * sprite.Scale;
+ 			Vector2 to = lastPlayerPos + new Vector2(0f, -4f);
+-			Vector2 vector6 = Calc.AngleToVector(Calc.Angle(vector5, to) + eyeSpin * (MathF.PI * 2f) * 2f, 1f);
++			Vector2 vector6 = Calc.AngleToVector(Calc.Angle(vector5, to) + eyeSpin * ((float)Math.PI * 2f) * 2f, 1f);
+ 			Vector2 vector7 = vector5 + new Vector2((float)Math.Round(vector6.X), (float)Math.Round(Calc.ClampedMap(vector6.Y, -1f, 1f, -1f, 2f)));
+ 			Draw.Rect(vector7.X, vector7.Y, 1f, 1f, Color.Black);
+ 		}
+diff --git a/Celeste/RainFG.cs b/Celeste/RainFG.cs
+index 5d25f56..7a45fa9 100644
+--- a/Celeste/RainFG.cs
++++ b/Celeste/RainFG.cs
+@@ -19,7 +19,7 @@ public class RainFG : Backdrop
+ 		public void Init()
+ 		{
+ 			Position = new Vector2(-32f + Calc.Random.NextFloat(384f), -32f + Calc.Random.NextFloat(244f));
+-			Rotation = MathF.PI / 2f + Calc.Random.Range(-0.05f, 0.05f);
++			Rotation = (float)Math.PI / 2f + Calc.Random.Range(-0.05f, 0.05f);
+ 			Speed = Calc.AngleToVector(Rotation, Calc.Random.Range(200f, 600f));
+ 			Scale = new Vector2(4f + (Speed.Length() - 200f) / 400f * 12f, 1f);
+ 		}
+diff --git a/Celeste/Refill.cs b/Celeste/Refill.cs
+index 812bae3..2aade4c 100644
+--- a/Celeste/Refill.cs
++++ b/Celeste/Refill.cs
+@@ -189,8 +189,8 @@ public class Refill : Entity
+ 		base.Depth = 8999;
+ 		yield return 0.05f;
+ 		float num = player.Speed.Angle();
+-		level.ParticlesFG.Emit(p_shatter, 5, Position, Vector2.One * 4f, num - MathF.PI / 2f);
+-		level.ParticlesFG.Emit(p_shatter, 5, Position, Vector2.One * 4f, num + MathF.PI / 2f);
++		level.ParticlesFG.Emit(p_shatter, 5, Position, Vector2.One * 4f, num - (float)Math.PI / 2f);
++		level.ParticlesFG.Emit(p_shatter, 5, Position, Vector2.One * 4f, num + (float)Math.PI / 2f);
+ 		SlashFx.Burst(Position, num);
+ 		if (oneUse)
+ 		{
+diff --git a/Celeste/ReflectionFG.cs b/Celeste/ReflectionFG.cs
+index ac055a9..dce90a0 100644
+--- a/Celeste/ReflectionFG.cs
++++ b/Celeste/ReflectionFG.cs
+@@ -42,9 +42,9 @@ public class ReflectionFG : Backdrop
+ 		particles[i].Percent = p;
+ 		particles[i].Position = new Vector2(Calc.Random.Range(0, 320), Calc.Random.Range(0, 180));
+ 		particles[i].Speed = Calc.Random.Range(4, 14);
+-		particles[i].Spin = Calc.Random.Range(0.25f, MathF.PI * 6f);
++		particles[i].Spin = Calc.Random.Range(0.25f, (float)Math.PI * 6f);
+ 		particles[i].Duration = Calc.Random.Range(1f, 4f);
+-		particles[i].Direction = Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 1f);
++		particles[i].Direction = Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 1f);
+ 		particles[i].Color = Calc.Random.Next(colors.Length);
+ 	}
+ 
+diff --git a/Celeste/ResortLantern.cs b/Celeste/ResortLantern.cs
+index 9ee4026..7399cab 100644
+--- a/Celeste/ResortLantern.cs
++++ b/Celeste/ResortLantern.cs
+@@ -41,7 +41,7 @@ public class ResortLantern : Entity
+ 		Add(lantern);
+ 		wiggler = Wiggler.Create(2.5f, 1.2f, delegate(float v)
+ 		{
+-			lantern.Rotation = v * (float)mult * (MathF.PI / 180f) * 30f;
++			lantern.Rotation = v * (float)mult * ((float)Math.PI / 180f) * 30f;
+ 		});
+ 		wiggler.StartZero = true;
+ 		Add(wiggler);
+diff --git a/Celeste/Ring.cs b/Celeste/Ring.cs
+index 247f81c..09a1ec7 100644
+--- a/Celeste/Ring.cs
++++ b/Celeste/Ring.cs
+@@ -32,14 +32,14 @@ public class Ring
+ 		{
+ 			float num = (float)(i - 1) / (float)steps;
+ 			float num2 = (float)i / (float)steps;
+-			Vector2 vector = Calc.AngleToVector(num * (MathF.PI * 2f), distance);
+-			Vector2 vector2 = Calc.AngleToVector(num2 * (MathF.PI * 2f), distance);
++			Vector2 vector = Calc.AngleToVector(num * ((float)Math.PI * 2f), distance);
++			Vector2 vector2 = Calc.AngleToVector(num2 * ((float)Math.PI * 2f), distance);
+ 			float num3 = 0f;
+ 			float num4 = 0f;
+ 			if (wavy > 0f)
+ 			{
+-				num3 = (float)Math.Sin(num * (MathF.PI * 2f) * 3f + wavy) * Math.Abs(top - bottom) * 0.4f;
+-				num4 = (float)Math.Sin(num2 * (MathF.PI * 2f) * 3f + wavy) * Math.Abs(top - bottom) * 0.4f;
++				num3 = (float)Math.Sin(num * ((float)Math.PI * 2f) * 3f + wavy) * Math.Abs(top - bottom) * 0.4f;
++				num4 = (float)Math.Sin(num2 * ((float)Math.PI * 2f) * 3f + wavy) * Math.Abs(top - bottom) * 0.4f;
+ 			}
+ 			int num5 = i * 6;
+ 			Verts[num5].Color = topColor;
+diff --git a/Celeste/RotateSpinner.cs b/Celeste/RotateSpinner.cs
+index e0029e7..86bfc4a 100644
+--- a/Celeste/RotateSpinner.cs
++++ b/Celeste/RotateSpinner.cs
+@@ -18,7 +18,7 @@ public class RotateSpinner : Entity
+ 
+ 	private bool fallOutOfScreen;
+ 
+-	public float Angle => MathHelper.Lerp(4.712389f, -MathF.PI / 2f, Easer(rotationPercent));
++	public float Angle => MathHelper.Lerp(4.712389f, -(float)Math.PI / 2f, Easer(rotationPercent));
+ 
+ 	public bool Clockwise { get; private set; }
+ 
+@@ -46,7 +46,7 @@ public class RotateSpinner : Entity
+ 		});
+ 		float angleRadians = Calc.Angle(center, Position);
+ 		angleRadians = Calc.WrapAngle(angleRadians);
+-		rotationPercent = EaserInverse(Calc.Percent(angleRadians, -MathF.PI / 2f, 4.712389f));
++		rotationPercent = EaserInverse(Calc.Percent(angleRadians, -(float)Math.PI / 2f, 4.712389f));
+ 		length = (Position - center).Length();
+ 		Position = center + Calc.AngleToVector(Angle, length);
+ 	}
+diff --git a/Celeste/RotatingPlatform.cs b/Celeste/RotatingPlatform.cs
+index 3899123..2e1a8e6 100644
+--- a/Celeste/RotatingPlatform.cs
++++ b/Celeste/RotatingPlatform.cs
+@@ -6,7 +6,7 @@ namespace Celeste;
+ 
+ public class RotatingPlatform : JumpThru
+ {
+-	private const float RotateSpeed = MathF.PI / 3f;
++	private const float RotateSpeed = (float)Math.PI / 3f;
+ 
+ 	private Vector2 center;
+ 
+@@ -34,11 +34,11 @@ public class RotatingPlatform : JumpThru
+ 		base.Update();
+ 		if (clockwise)
+ 		{
+-			currentAngle -= MathF.PI / 3f * Engine.DeltaTime;
++			currentAngle -= (float)Math.PI / 3f * Engine.DeltaTime;
+ 		}
+ 		else
+ 		{
+-			currentAngle += MathF.PI / 3f * Engine.DeltaTime;
++			currentAngle += (float)Math.PI / 3f * Engine.DeltaTime;
+ 		}
+ 		currentAngle = Calc.WrapAngle(currentAngle);
+ 		MoveTo(center + Calc.AngleToVector(currentAngle, length));
+diff --git a/Celeste/Seeker.cs b/Celeste/Seeker.cs
+index 5e0aa78..c0ede6c 100644
+--- a/Celeste/Seeker.cs
++++ b/Celeste/Seeker.cs
+@@ -589,7 +589,7 @@ public class Seeker : Actor
+ 		float x;
+ 		if (data.Direction.X > 0f)
+ 		{
+-			direction = MathF.PI;
++			direction = (float)Math.PI;
+ 			x = base.Right;
+ 		}
+ 		else
+@@ -859,11 +859,11 @@ public class Seeker : Actor
+ 			float num = vector.Angle();
+ 			if (base.Y < FollowTarget.Y - 2f)
+ 			{
+-				num = Calc.AngleLerp(num, MathF.PI / 2f, 0.5f);
++				num = Calc.AngleLerp(num, (float)Math.PI / 2f, 0.5f);
+ 			}
+ 			else if (base.Y > FollowTarget.Y + 2f)
+ 			{
+-				num = Calc.AngleLerp(num, -MathF.PI / 2f, 0.5f);
++				num = Calc.AngleLerp(num, -(float)Math.PI / 2f, 0.5f);
+ 			}
+ 			vector = Calc.AngleToVector(num, 60f);
+ 			Vector2 vector2 = Vector2.UnitX * Math.Sign(base.X - lastSpottedAt.X) * 48f;
+@@ -1065,9 +1065,9 @@ public class Seeker : Actor
+ 		level.Displacement.AddBurst(Position, 0.4f, 12f, 36f, 0.5f);
+ 		level.Displacement.AddBurst(Position, 0.4f, 24f, 48f, 0.5f);
+ 		level.Displacement.AddBurst(Position, 0.4f, 36f, 60f, 0.5f);
+-		for (float num = 0f; num < MathF.PI * 2f; num += 0.17453292f)
++		for (float num = 0f; num < (float)Math.PI * 2f; num += 0.17453292f)
+ 		{
+-			Vector2 position = base.Center + Calc.AngleToVector(num + Calc.Random.Range(-MathF.PI / 90f, MathF.PI / 90f), Calc.Random.Range(12, 18));
++			Vector2 position = base.Center + Calc.AngleToVector(num + Calc.Random.Range(-(float)Math.PI / 90f, (float)Math.PI / 90f), Calc.Random.Range(12, 18));
+ 			level.Particles.Emit(P_Regen, position, num);
+ 		}
+ 		shaker.On = false;
+diff --git a/Celeste/SeekerStatue.cs b/Celeste/SeekerStatue.cs
+index cf6bd56..84fc802 100644
+--- a/Celeste/SeekerStatue.cs
++++ b/Celeste/SeekerStatue.cs
+@@ -69,9 +69,9 @@ public class SeekerStatue : Entity
+ 	private void BreakOutParticles()
+ 	{
+ 		Level level = SceneAs<Level>();
+-		for (float num = 0f; num < MathF.PI * 2f; num += 0.17453292f)
++		for (float num = 0f; num < (float)Math.PI * 2f; num += 0.17453292f)
+ 		{
+-			Vector2 position = base.Center + Calc.AngleToVector(num + Calc.Random.Range(-MathF.PI / 90f, MathF.PI / 90f), Calc.Random.Range(12, 20));
++			Vector2 position = base.Center + Calc.AngleToVector(num + Calc.Random.Range(-(float)Math.PI / 90f, (float)Math.PI / 90f), Calc.Random.Range(12, 20));
+ 			level.Particles.Emit(Seeker.P_BreakOut, position, num);
+ 		}
+ 	}
 diff --git a/Celeste/Settings.cs b/Celeste/Settings.cs
 index 8dff80c..0784941 100644
 --- a/Celeste/Settings.cs
@@ -33,8 +2909,767 @@ index 8dff80c..0784941 100644
  
  	public int MaxScale => Math.Min(Engine.Instance.GraphicsDevice.Adapter.CurrentDisplayMode.Width / 320, Engine.Instance.GraphicsDevice.Adapter.CurrentDisplayMode.Height / 180);
  
+diff --git a/Celeste/SlashFx.cs b/Celeste/SlashFx.cs
+index 3ade3b1..4c5f13f 100644
+--- a/Celeste/SlashFx.cs
++++ b/Celeste/SlashFx.cs
+@@ -40,7 +40,7 @@ public class SlashFx : Entity
+ 		slashFx.Sprite.Play("play", restart: true);
+ 		slashFx.Sprite.Scale = Vector2.One;
+ 		slashFx.Sprite.Rotation = 0f;
+-		if (Math.Abs(direction - MathF.PI) > 0.01f)
++		if (Math.Abs(direction - (float)Math.PI) > 0.01f)
+ 		{
+ 			slashFx.Sprite.Rotation = direction;
+ 		}
+diff --git a/Celeste/Snow.cs b/Celeste/Snow.cs
+index b484794..0f0e5c0 100644
+--- a/Celeste/Snow.cs
++++ b/Celeste/Snow.cs
+@@ -21,7 +21,7 @@ public class Snow : Backdrop
+ 			Position = new Vector2(Calc.Random.NextFloat(320f), Calc.Random.NextFloat(180f));
+ 			Color = Calc.Random.Next(maxColors);
+ 			Speed = Calc.Random.Range(speedMin, speedMax);
+-			Sin = Calc.Random.NextFloat(MathF.PI * 2f);
++			Sin = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 		}
+ 	}
+ 
+diff --git a/Celeste/Snow3D.cs b/Celeste/Snow3D.cs
+index 3fae7ee..7c046e6 100644
+--- a/Celeste/Snow3D.cs
++++ b/Celeste/Snow3D.cs
+@@ -146,7 +146,7 @@ public class Snow3D : Entity
+ 				break;
+ 			}
+ 		}
+-		Matrix matrix = Matrix.CreatePerspectiveFieldOfView(MathF.PI * 5f / 16f, (float)Engine.Width / (float)Engine.Height, 0.1f, Range);
++		Matrix matrix = Matrix.CreatePerspectiveFieldOfView((float)Math.PI * 5f / 16f, (float)Engine.Width / (float)Engine.Height, 0.1f, Range);
+ 		Matrix matrix2 = Matrix.CreateTranslation(-Model.Camera.Position) * Matrix.CreateFromQuaternion(Model.Camera.Rotation) * matrix;
+ 		if (base.Scene.OnInterval(0.05f))
+ 		{
+diff --git a/Celeste/SpeedRing.cs b/Celeste/SpeedRing.cs
+index 66efa69..e724c81 100644
+--- a/Celeste/SpeedRing.cs
++++ b/Celeste/SpeedRing.cs
+@@ -55,7 +55,7 @@ public class SpeedRing : Entity
+ 		Vector2 vector = GetVectorAtAngle(0f, maxRadius);
+ 		for (int i = 1; i <= 8; i++)
+ 		{
+-			float radians = (float)i * (MathF.PI / 8f);
++			float radians = (float)i * ((float)Math.PI / 8f);
+ 			Vector2 vectorAtAngle = GetVectorAtAngle(radians, maxRadius);
+ 			Draw.Line(position + vector, position + vectorAtAngle, Color.White);
+ 			Draw.Line(position - vector, position - vectorAtAngle, Color.White);
+diff --git a/Celeste/Spikes.cs b/Celeste/Spikes.cs
+index 5b129ad..02b417e 100644
+--- a/Celeste/Spikes.cs
++++ b/Celeste/Spikes.cs
+@@ -146,7 +146,7 @@ public class Spikes : Entity
+ 		sprite.SetAnimationFrame(Calc.Random.Next(sprite.CurrentAnimationTotalFrames));
+ 		if (Direction == Directions.Up)
+ 		{
+-			sprite.Rotation = -MathF.PI / 2f;
++			sprite.Rotation = -(float)Math.PI / 2f;
+ 			sprite.Y++;
+ 		}
+ 		else if (Direction == Directions.Right)
+@@ -156,15 +156,15 @@ public class Spikes : Entity
+ 		}
+ 		else if (Direction == Directions.Left)
+ 		{
+-			sprite.Rotation = MathF.PI;
++			sprite.Rotation = (float)Math.PI;
+ 			sprite.X++;
+ 		}
+ 		else if (Direction == Directions.Down)
+ 		{
+-			sprite.Rotation = MathF.PI / 2f;
++			sprite.Rotation = (float)Math.PI / 2f;
+ 			sprite.Y--;
+ 		}
+-		sprite.Rotation += MathF.PI / 2f;
++		sprite.Rotation += (float)Math.PI / 2f;
+ 		Add(sprite);
+ 	}
+ 
+diff --git a/Celeste/SpotlightWipe.cs b/Celeste/SpotlightWipe.cs
+index 9ad0eaf..474c0f6 100644
+--- a/Celeste/SpotlightWipe.cs
++++ b/Celeste/SpotlightWipe.cs
+@@ -72,7 +72,7 @@ public class SpotlightWipe : ScreenWipe
+ 		Vector2 vector = new Vector2(1f, 0f);
+ 		for (int i = 0; i < vertexBuffer.Length; i += 12)
+ 		{
+-			Vector2 vector2 = Calc.AngleToVector(((float)i + 12f) / (float)vertexBuffer.Length * (MathF.PI * 2f), 1f);
++			Vector2 vector2 = Calc.AngleToVector(((float)i + 12f) / (float)vertexBuffer.Length * ((float)Math.PI * 2f), 1f);
+ 			vertexBuffer[i].Position = new Vector3(position + vector * 5000f, 0f);
+ 			vertexBuffer[i].Color = color;
+ 			vertexBuffer[i + 1].Position = new Vector3(position + vector * radius, 0f);
+diff --git a/Celeste/Spring.cs b/Celeste/Spring.cs
+index ae76a8d..3b534bc 100644
+--- a/Celeste/Spring.cs
++++ b/Celeste/Spring.cs
+@@ -80,12 +80,12 @@ public class Spring : Entity
+ 		case Orientations.WallLeft:
+ 			base.Collider = new Hitbox(6f, 16f, 0f, -8f);
+ 			pufferCollider.Collider = new Hitbox(12f, 16f, 0f, -8f);
+-			sprite.Rotation = MathF.PI / 2f;
++			sprite.Rotation = (float)Math.PI / 2f;
+ 			break;
+ 		case Orientations.WallRight:
+ 			base.Collider = new Hitbox(6f, 16f, -6f, -8f);
+ 			pufferCollider.Collider = new Hitbox(12f, 16f, -12f, -8f);
+-			sprite.Rotation = -MathF.PI / 2f;
++			sprite.Rotation = -(float)Math.PI / 2f;
+ 			break;
+ 		default:
+ 			throw new Exception("Orientation not supported!");
+diff --git a/Celeste/StardustFG.cs b/Celeste/StardustFG.cs
+index 53ca5fd..8972236 100644
+--- a/Celeste/StardustFG.cs
++++ b/Celeste/StardustFG.cs
+@@ -49,9 +49,9 @@ public class StardustFG : Backdrop
+ 		particles[i].Percent = p;
+ 		particles[i].Position = new Vector2(Calc.Random.Range(0, 320), Calc.Random.Range(0, 180));
+ 		particles[i].Speed = Calc.Random.Range(4, 14);
+-		particles[i].Spin = Calc.Random.Range(0.25f, MathF.PI * 6f);
++		particles[i].Spin = Calc.Random.Range(0.25f, (float)Math.PI * 6f);
+ 		particles[i].Duration = Calc.Random.Range(1f, 4f);
+-		particles[i].Direction = Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 1f);
++		particles[i].Direction = Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 1f);
+ 		particles[i].Color = Calc.Random.Next(colors.Length);
+ 	}
+ 
+diff --git a/Celeste/Starfield.cs b/Celeste/Starfield.cs
+index 4b299b9..1224d5a 100644
+--- a/Celeste/Starfield.cs
++++ b/Celeste/Starfield.cs
+@@ -61,7 +61,7 @@ public class Starfield : Backdrop
+ 			Stars[j].NodeIndex = Calc.Random.Next(YNodes.Count - 1);
+ 			Stars[j].NodePercent = Calc.Random.NextFloat(1f);
+ 			Stars[j].Distance = 4f + num3 * 20f;
+-			Stars[j].Sine = Calc.Random.NextFloat(MathF.PI * 2f);
++			Stars[j].Sine = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 			Stars[j].Position = GetTargetOfStar(ref Stars[j]);
+ 			Stars[j].Color = Color.Lerp(Color, Color.Transparent, num3 * 0.5f);
+ 			int index = (int)Calc.Clamp(Ease.CubeIn(1f - num3) * (float)atlasSubtextures.Count, 0f, atlasSubtextures.Count - 1);
+diff --git a/Celeste/StarfieldWipe.cs b/Celeste/StarfieldWipe.cs
+index 4c35343..e6aacd7 100644
+--- a/Celeste/StarfieldWipe.cs
++++ b/Celeste/StarfieldWipe.cs
+@@ -29,10 +29,10 @@ public class StarfieldWipe : ScreenWipe
+ 			float num = 1f - scale;
+ 			X = Calc.Random.Range(0, 2920);
+ 			Y = 1080f * (0.5f + (float)Calc.Random.Choose(-1, 1) * num * Calc.Random.Range(0.25f, 0.5f));
+-			Sine = Calc.Random.NextFloat(MathF.PI * 2f);
++			Sine = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 			SineDistance = scale * 1080f * 0.05f;
+ 			Speed = (0.5f + (1f - Scale) * 0.5f) * 1920f * 0.05f;
+-			Rotation = Calc.Random.NextFloat(MathF.PI * 2f);
++			Rotation = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 		}
+ 
+ 		public void Update()
+@@ -66,7 +66,7 @@ public class StarfieldWipe : ScreenWipe
+ 	{
+ 		for (int i = 0; i < 5; i++)
+ 		{
+-			starShape[i] = Calc.AngleToVector((float)i / 5f * (MathF.PI * 2f), 1f);
++			starShape[i] = Calc.AngleToVector((float)i / 5f * ((float)Math.PI * 2f), 1f);
+ 		}
+ 		for (int j = 0; j < stars.Length; j++)
+ 		{
+diff --git a/Celeste/StarsBG.cs b/Celeste/StarsBG.cs
+index 1931666..63c0e23 100644
+--- a/Celeste/StarsBG.cs
++++ b/Celeste/StarsBG.cs
+@@ -43,7 +43,7 @@ public class StarsBG : Backdrop
+ 			stars[i] = new Star
+ 			{
+ 				Position = new Vector2(Calc.Random.NextFloat(320f), Calc.Random.NextFloat(180f)),
+-				Timer = Calc.Random.NextFloat(MathF.PI * 2f),
++				Timer = Calc.Random.NextFloat((float)Math.PI * 2f),
+ 				Rate = 2f + Calc.Random.NextFloat(2f),
+ 				TextureSet = Calc.Random.Next(textures.Count)
+ 			};
+diff --git a/Celeste/Strawberry.cs b/Celeste/Strawberry.cs
+index ac3ace7..8268ed4 100644
+--- a/Celeste/Strawberry.cs
++++ b/Celeste/Strawberry.cs
+@@ -151,7 +151,7 @@ public class Strawberry : Entity
+ 		}));
+ 		Add(rotateWiggler = Wiggler.Create(0.5f, 4f, delegate(float v)
+ 		{
+-			sprite.Rotation = v * 30f * (MathF.PI / 180f);
++			sprite.Rotation = v * 30f * ((float)Math.PI / 180f);
+ 		}));
+ 		Add(bloom = new BloomPoint((Golden || Moon || isGhostBerry) ? 0.5f : 1f, 12f));
+ 		Add(light = new VertexLight(Color.White, 1f, 16, 24));
+diff --git a/Celeste/StrawberrySeed.cs b/Celeste/StrawberrySeed.cs
+index 079568a..5225cac 100644
+--- a/Celeste/StrawberrySeed.cs
++++ b/Celeste/StrawberrySeed.cs
+@@ -209,7 +209,7 @@ public class StrawberrySeed : Entity
+ 		Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
+ 		for (int i = 0; i < 6; i++)
+ 		{
+-			float num = Calc.Random.NextFloat(MathF.PI * 2f);
++			float num = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 			level.ParticlesFG.Emit(P_Burst, 1, Position + Calc.AngleToVector(num, 4f), Vector2.Zero, num);
+ 		}
+ 		Visible = false;
+@@ -250,7 +250,7 @@ public class StrawberrySeed : Entity
+ 		tween = Tween.Create(Tween.TweenMode.Oneshot, Ease.CubeInOut, time, start: true);
+ 		tween.OnUpdate = delegate(Tween t)
+ 		{
+-			float angleRadians = MathF.PI / 2f + angleOffset - MathHelper.Lerp(0f, 32.201324f, t.Eased);
++			float angleRadians = (float)Math.PI / 2f + angleOffset - MathHelper.Lerp(0f, 32.201324f, t.Eased);
+ 			Vector2 value = Vector2.Lerp(averagePos, centerPos, spinLerp) + Calc.AngleToVector(angleRadians, 25f);
+ 			Position = Vector2.Lerp(start, value, spinLerp);
+ 		};
+@@ -264,7 +264,7 @@ public class StrawberrySeed : Entity
+ 		Tween tween = Tween.Create(Tween.TweenMode.Oneshot, Ease.BigBackIn, time, start: true);
+ 		tween.OnUpdate = delegate(Tween t)
+ 		{
+-			float angleRadians = MathHelper.Lerp(startAngle, startAngle - MathF.PI * 2f, Ease.CubeIn(t.Percent));
++			float angleRadians = MathHelper.Lerp(startAngle, startAngle - (float)Math.PI * 2f, Ease.CubeIn(t.Percent));
+ 			float length = MathHelper.Lerp(25f, 0f, t.Eased);
+ 			Position = centerPos + Calc.AngleToVector(angleRadians, length);
+ 		};
+@@ -273,7 +273,7 @@ public class StrawberrySeed : Entity
+ 			Visible = false;
+ 			for (int i = 0; i < 6; i++)
+ 			{
+-				float num = Calc.Random.NextFloat(MathF.PI * 2f);
++				float num = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 				particleSystem.Emit(P_Burst, 1, Position + Calc.AngleToVector(num, 4f), Vector2.Zero, num);
+ 			}
+ 			RemoveSelf();
+diff --git a/Celeste/SummitCheckpoint.cs b/Celeste/SummitCheckpoint.cs
+index c46469c..363dfe0 100644
+--- a/Celeste/SummitCheckpoint.cs
++++ b/Celeste/SummitCheckpoint.cs
+@@ -48,7 +48,7 @@ public class SummitCheckpoint : Entity
+ 				particles[i].Timer = Calc.Random.NextFloat();
+ 				particles[i].Duration = Calc.Random.Range(2, 4);
+ 				particles[i].Alpha = 1f;
+-				float angleRadians = -MathF.PI / 2f + Calc.Random.Range(-0.5f, 0.5f);
++				float angleRadians = -(float)Math.PI / 2f + Calc.Random.Range(-0.5f, 0.5f);
+ 				int num = Calc.Random.Range(140, 220);
+ 				particles[i].Speed = Calc.AngleToVector(angleRadians, num);
+ 			}
+@@ -84,7 +84,7 @@ public class SummitCheckpoint : Entity
+ 				else
+ 				{
+ 					num = (float)Math.Sin(particles[i].Timer * 4f) * 1f;
+-					position += Calc.AngleToVector(MathF.PI / 2f + num, particles[i].Approach);
++					position += Calc.AngleToVector((float)Math.PI / 2f + num, particles[i].Approach);
+ 				}
+ 				GFX.Game["particles/confetti"].DrawCentered(position + Vector2.UnitY, Color.Black * (particles[i].Alpha * 0.5f), 1f, num);
+ 				GFX.Game["particles/confetti"].DrawCentered(position, particles[i].Color * particles[i].Alpha, 1f, num);
+diff --git a/Celeste/SummitGem.cs b/Celeste/SummitGem.cs
+index 59c823e..0c1d026 100644
+--- a/Celeste/SummitGem.cs
++++ b/Celeste/SummitGem.cs
+@@ -118,8 +118,8 @@ public class SummitGem : Entity
+ 		Celeste.Freeze(0.1f);
+ 		P_Shatter.Color = GemColors[GemID];
+ 		float num = player.Speed.Angle();
+-		level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num - MathF.PI / 2f);
+-		level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num + MathF.PI / 2f);
++		level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num - (float)Math.PI / 2f);
++		level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num + (float)Math.PI / 2f);
+ 		SlashFx.Burst(Position, num);
+ 		for (int i = 0; i < 10; i++)
+ 		{
+diff --git a/Celeste/SummitGemManager.cs b/Celeste/SummitGemManager.cs
+index 88afe18..66d9829 100644
+--- a/Celeste/SummitGemManager.cs
++++ b/Celeste/SummitGemManager.cs
+@@ -145,7 +145,7 @@ public class SummitGemManager : Entity
+ 				Input.Rumble(RumbleStrength.Light, RumbleLength.Short);
+ 				for (int i = 0; i < 20; i++)
+ 				{
+-					level.ParticlesFG.Emit(SummitGem.P_Shatter, gem.Position + new Vector2(Calc.Random.Range(-8, 8), Calc.Random.Range(-8, 8)), SummitGem.GemColors[index], Calc.Random.NextFloat(MathF.PI * 2f));
++					level.ParticlesFG.Emit(SummitGem.P_Shatter, gem.Position + new Vector2(Calc.Random.Range(-8, 8), Calc.Random.Range(-8, 8)), SummitGem.GemColors[index], Calc.Random.NextFloat((float)Math.PI * 2f));
+ 				}
+ 				broken++;
+ 				gem.Bloom.RemoveSelf();
+diff --git a/Celeste/SwapBlock.cs b/Celeste/SwapBlock.cs
+index 66996bc..2eebb6d 100644
+--- a/Celeste/SwapBlock.cs
++++ b/Celeste/SwapBlock.cs
+@@ -300,7 +300,7 @@ public class SwapBlock : Solid
+ 		{
+ 			position = base.CenterLeft;
+ 			positionRange = Vector2.UnitY * (base.Height - 6f);
+-			direction = MathF.PI;
++			direction = (float)Math.PI;
+ 			num = Math.Max(2f, base.Height / 14f);
+ 		}
+ 		else if (normal.X < 0f)
+@@ -314,14 +314,14 @@ public class SwapBlock : Solid
+ 		{
+ 			position = base.TopCenter;
+ 			positionRange = Vector2.UnitX * (base.Width - 6f);
+-			direction = -MathF.PI / 2f;
++			direction = -(float)Math.PI / 2f;
+ 			num = Math.Max(2f, base.Width / 14f);
+ 		}
+ 		else
+ 		{
+ 			position = base.BottomCenter;
+ 			positionRange = Vector2.UnitX * (base.Width - 6f);
+-			direction = MathF.PI / 2f;
++			direction = (float)Math.PI / 2f;
+ 			num = Math.Max(2f, base.Width / 14f);
+ 		}
+ 		particlesRemainder += num;
+diff --git a/Celeste/SwitchGate.cs b/Celeste/SwitchGate.cs
+index 5172b66..869f128 100644
+--- a/Celeste/SwitchGate.cs
++++ b/Celeste/SwitchGate.cs
+@@ -154,8 +154,8 @@ public class SwitchGate : Solid
+ 				Vector2 point = vector2 + Vector2.UnitX;
+ 				if (base.Scene.CollideCheck<Solid>(vector2) && !base.Scene.CollideCheck<Solid>(point))
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector2 + vector, MathF.PI);
+-					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector2 - vector, MathF.PI);
++					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector2 + vector, (float)Math.PI);
++					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector2 - vector, (float)Math.PI);
+ 				}
+ 			}
+ 		}
+@@ -182,8 +182,8 @@ public class SwitchGate : Solid
+ 				Vector2 point3 = vector6 + Vector2.UnitY;
+ 				if (base.Scene.CollideCheck<Solid>(vector6) && !base.Scene.CollideCheck<Solid>(point3))
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector6 + vector5, -MathF.PI / 2f);
+-					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector6 - vector5, -MathF.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector6 + vector5, -(float)Math.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector6 - vector5, -(float)Math.PI / 2f);
+ 				}
+ 			}
+ 		}
+@@ -196,8 +196,8 @@ public class SwitchGate : Solid
+ 				Vector2 point4 = vector8 - Vector2.UnitY * 2f;
+ 				if (base.Scene.CollideCheck<Solid>(vector8) && !base.Scene.CollideCheck<Solid>(point4))
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector8 + vector7, MathF.PI / 2f);
+-					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector8 - vector7, MathF.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector8 + vector7, (float)Math.PI / 2f);
++					SceneAs<Level>().ParticlesFG.Emit(P_Dust, vector8 - vector7, (float)Math.PI / 2f);
+ 				}
+ 			}
+ 		}
+@@ -219,7 +219,7 @@ public class SwitchGate : Solid
+ 		{
+ 			for (int m = 0; m < 32; m++)
+ 			{
+-				float num = Calc.Random.NextFloat(MathF.PI * 2f);
++				float num = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 				SceneAs<Level>().ParticlesFG.Emit(TouchSwitch.P_Fire, Position + iconOffset + Calc.AngleToVector(num, 4f), num);
+ 			}
+ 		}
+diff --git a/Celeste/TempleBigEyeball.cs b/Celeste/TempleBigEyeball.cs
+index 9080599..5235b29 100644
+--- a/Celeste/TempleBigEyeball.cs
++++ b/Celeste/TempleBigEyeball.cs
+@@ -194,7 +194,7 @@ public class TempleBigEyeball : Entity
+ 		}
+ 		else if (pupilDelay < 0f)
+ 		{
+-			pupilTarget = Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 1f);
++			pupilTarget = Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 1f);
+ 			pupilDelay = Calc.Random.Choose(0.2f, 1f, 2f);
+ 		}
+ 		else
+diff --git a/Celeste/TempleMirrorPortal.cs b/Celeste/TempleMirrorPortal.cs
+index 45be96b..fbaafd7 100644
+--- a/Celeste/TempleMirrorPortal.cs
++++ b/Celeste/TempleMirrorPortal.cs
+@@ -222,7 +222,7 @@ public class TempleMirrorPortal : Entity
+ 			if (debrisStart < (float)debris.Length)
+ 			{
+ 				int num = (int)debrisStart;
+-				debris[num].Direction = Calc.AngleToVector(Calc.Random.NextFloat(MathF.PI * 2f), 1f);
++				debris[num].Direction = Calc.AngleToVector(Calc.Random.NextFloat((float)Math.PI * 2f), 1f);
+ 				debris[num].Enabled = true;
+ 				debris[num].Duration = 0.5f + Calc.Random.NextFloat(0.7f);
+ 			}
+@@ -255,7 +255,7 @@ public class TempleMirrorPortal : Entity
+ 			float num = bufferTimer % 1f * 0.1f + (float)i / 10f;
+ 			Color color = Color.Lerp(Color.Black, Color.Purple, num);
+ 			float scale = num;
+-			float rotation = MathF.PI * 2f * num;
++			float rotation = (float)Math.PI * 2f * num;
+ 			mTexture.DrawCentered(position, color, scale, rotation);
+ 		}
+ 		Draw.SpriteBatch.End();
+diff --git a/Celeste/TheoCrystal.cs b/Celeste/TheoCrystal.cs
+index 3efdf16..09cfd02 100644
+--- a/Celeste/TheoCrystal.cs
++++ b/Celeste/TheoCrystal.cs
+@@ -393,7 +393,7 @@ public class TheoCrystal : Actor
+ 		Vector2 positionRange;
+ 		if (dir.X > 0f)
+ 		{
+-			direction = MathF.PI;
++			direction = (float)Math.PI;
+ 			position = new Vector2(base.Right, base.Y - 4f);
+ 			positionRange = Vector2.UnitY * 6f;
+ 		}
+@@ -405,13 +405,13 @@ public class TheoCrystal : Actor
+ 		}
+ 		else if (dir.Y > 0f)
+ 		{
+-			direction = -MathF.PI / 2f;
++			direction = -(float)Math.PI / 2f;
+ 			position = new Vector2(base.X, base.Bottom);
+ 			positionRange = Vector2.UnitX * 6f;
+ 		}
+ 		else
+ 		{
+-			direction = MathF.PI / 2f;
++			direction = (float)Math.PI / 2f;
+ 			position = new Vector2(base.X, base.Top);
+ 			positionRange = Vector2.UnitX * 6f;
+ 		}
+diff --git a/Celeste/TouchSwitch.cs b/Celeste/TouchSwitch.cs
+index 47a99ca..9864edf 100644
+--- a/Celeste/TouchSwitch.cs
++++ b/Celeste/TouchSwitch.cs
+@@ -59,7 +59,7 @@ public class TouchSwitch : Entity
+ 			wiggler.Start();
+ 			for (int i = 0; i < 32; i++)
+ 			{
+-				float num = Calc.Random.NextFloat(MathF.PI * 2f);
++				float num = Calc.Random.NextFloat((float)Math.PI * 2f);
+ 				level.Particles.Emit(P_FireWhite, Position + Calc.AngleToVector(num, 6f), num);
+ 			}
+ 			icon.Rate = 4f;
+diff --git a/Celeste/ViewportAdjustmentUI.cs b/Celeste/ViewportAdjustmentUI.cs
+index 47163a5..b58e72e 100644
+--- a/Celeste/ViewportAdjustmentUI.cs
++++ b/Celeste/ViewportAdjustmentUI.cs
+@@ -112,10 +112,10 @@ public class ViewportAdjustmentUI : Entity
+ 		Draw.Rect(0f, 16f, 16f, Engine.Height - 32, color2);
+ 		Draw.Rect(Engine.Width - 16, 16f, 16f, Engine.Height - 32, color2);
+ 		Draw.Rect(0f, Engine.Height - 16, Engine.Width, 16f, color2);
+-		Draw.LineAngle(new Vector2(8f, 8f), MathF.PI / 4f, 128f, color2, 16f);
+-		Draw.LineAngle(new Vector2(Engine.Width - 8, 8f), MathF.PI * 3f / 4f, 128f, color2, 16f);
+-		Draw.LineAngle(new Vector2(8f, Engine.Height - 8), -MathF.PI / 4f, 128f, color2, 16f);
+-		Draw.LineAngle(new Vector2(Engine.Width - 8, Engine.Height - 8), MathF.PI * -3f / 4f, 128f, color2, 16f);
++		Draw.LineAngle(new Vector2(8f, 8f), (float)Math.PI / 4f, 128f, color2, 16f);
++		Draw.LineAngle(new Vector2(Engine.Width - 8, 8f), (float)Math.PI * 3f / 4f, 128f, color2, 16f);
++		Draw.LineAngle(new Vector2(8f, Engine.Height - 8), -(float)Math.PI / 4f, 128f, color2, 16f);
++		Draw.LineAngle(new Vector2(Engine.Width - 8, Engine.Height - 8), (float)Math.PI * -3f / 4f, 128f, color2, 16f);
+ 		string text = Dialog.Clean("OPTIONS_VIEWPORT_PC");
+ 		ActiveFont.Measure(text);
+ 		float num2 = (float)Math.Sin(base.Scene.RawTimeActive * 2f) * 16f;
+diff --git a/Celeste/WaveDashPage05.cs b/Celeste/WaveDashPage05.cs
+index 236966e..ab04616 100644
+--- a/Celeste/WaveDashPage05.cs
++++ b/Celeste/WaveDashPage05.cs
+@@ -79,7 +79,7 @@ public class WaveDashPage05 : WaveDashPage
+ 			Info.DrawJustifyPerLine(Position + Vector2.UnitY * 200f, new Vector2(0.5f, 0f), Vector2.One * 0.8f, 1f);
+ 			if (xEase > 0f)
+ 			{
+-				Vector2 vector = Calc.AngleToVector((1f - xEase) * 0.1f + MathF.PI / 4f, 1f);
++				Vector2 vector = Calc.AngleToVector((1f - xEase) * 0.1f + (float)Math.PI / 4f, 1f);
+ 				Vector2 vector2 = vector.Perpendicular();
+ 				float num = 0.5f + (1f - xEase) * 0.5f;
+ 				float thickness = 64f * num;
+diff --git a/Celeste/WaveDashPresentation.cs b/Celeste/WaveDashPresentation.cs
+index 08783b1..bc8bc22 100644
+--- a/Celeste/WaveDashPresentation.cs
++++ b/Celeste/WaveDashPresentation.cs
+@@ -257,9 +257,9 @@ public class WaveDashPresentation : Entity
+ 			}
+ 			else if (CurrPage.Transition == WaveDashPage.Transitions.Rotate3D)
+ 			{
+-				float num = -MathF.PI / 2f * pageEase;
++				float num = -(float)Math.PI / 2f * pageEase;
+ 				RenderQuad((RenderTarget2D)prevPageBuffer, pageEase, num);
+-				RenderQuad((RenderTarget2D)currPageBuffer, pageEase, MathF.PI / 2f + num);
++				RenderQuad((RenderTarget2D)currPageBuffer, pageEase, (float)Math.PI / 2f + num);
+ 			}
+ 			else if (CurrPage.Transition == WaveDashPage.Transitions.Blocky)
+ 			{
+@@ -325,7 +325,7 @@ public class WaveDashPresentation : Entity
+ 		verts[5].TextureCoordinate = new Vector2(0f, 1f);
+ 		verts[5].Color = Color.White;
+ 		float num4 = 4.15f + Calc.YoYo(ease) * 1.7f;
+-		Matrix value = Matrix.CreateTranslation(0f, 0f, num) * Matrix.CreateRotationY(rotation) * Matrix.CreateTranslation(0f, 0f, 0f - num4) * Matrix.CreatePerspectiveFieldOfView(MathF.PI / 4f, num, 1f, 10f);
++		Matrix value = Matrix.CreateTranslation(0f, 0f, num) * Matrix.CreateRotationY(rotation) * Matrix.CreateTranslation(0f, 0f, 0f - num4) * Matrix.CreatePerspectiveFieldOfView((float)Math.PI / 4f, num, 1f, 10f);
+ 		Engine.Instance.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+ 		Engine.Instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+ 		Engine.Instance.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+diff --git a/Celeste/WindSnowFG.cs b/Celeste/WindSnowFG.cs
+index ef79922..c200031 100644
+--- a/Celeste/WindSnowFG.cs
++++ b/Celeste/WindSnowFG.cs
+@@ -59,7 +59,7 @@ public class WindSnowFG : Backdrop
+ 		else
+ 		{
+ 			scale.X = Math.Max(1f, Math.Abs(level.Wind.Y) / 40f);
+-			rotation = Calc.Approach(rotation, -MathF.PI / 2f, Engine.DeltaTime * 8f);
++			rotation = Calc.Approach(rotation, -(float)Math.PI / 2f, Engine.DeltaTime * 8f);
+ 		}
+ 		scale.Y = 1f / Math.Max(1f, scale.X * 0.25f);
+ 		for (int j = 0; j < positions.Length; j++)
+diff --git a/Celeste/ZipMover.cs b/Celeste/ZipMover.cs
+index 8600b78..b6582fa 100644
+--- a/Celeste/ZipMover.cs
++++ b/Celeste/ZipMover.cs
+@@ -42,10 +42,10 @@ public class ZipMover : Solid
+ 			to = ZipMover.target + new Vector2(ZipMover.Width / 2f, ZipMover.Height / 2f);
+ 			sparkAdd = (from - to).SafeNormalize(5f).Perpendicular();
+ 			float num = (from - to).Angle();
+-			sparkDirFromA = num + MathF.PI / 8f;
+-			sparkDirFromB = num - MathF.PI / 8f;
+-			sparkDirToA = num + MathF.PI - MathF.PI / 8f;
+-			sparkDirToB = num + MathF.PI + MathF.PI / 8f;
++			sparkDirFromA = num + (float)Math.PI / 8f;
++			sparkDirFromB = num - (float)Math.PI / 8f;
++			sparkDirToA = num + (float)Math.PI - (float)Math.PI / 8f;
++			sparkDirToB = num + (float)Math.PI + (float)Math.PI / 8f;
+ 			if (zipMover.theme == Themes.Moon)
+ 			{
+ 				cog = GFX.Game["objects/zipmover/moon/cog"];
+@@ -79,10 +79,10 @@ public class ZipMover : Solid
+ 			Vector2 vector = (to - from).SafeNormalize();
+ 			Vector2 vector2 = vector.Perpendicular() * 3f;
+ 			Vector2 vector3 = -vector.Perpendicular() * 4f;
+-			float rotation = ZipMover.percent * MathF.PI * 2f;
++			float rotation = ZipMover.percent * (float)Math.PI * 2f;
+ 			Draw.Line(from + vector2 + offset, to + vector2 + offset, colorOverride.HasValue ? colorOverride.Value : ropeColor);
+ 			Draw.Line(from + vector3 + offset, to + vector3 + offset, colorOverride.HasValue ? colorOverride.Value : ropeColor);
+-			for (float num = 4f - ZipMover.percent * MathF.PI * 8f % 4f; num < (to - from).Length(); num += 4f)
++			for (float num = 4f - ZipMover.percent * (float)Math.PI * 8f % 4f; num < (to - from).Length(); num += 4f)
+ 			{
+ 				Vector2 vector4 = from + vector2 + vector.Perpendicular() + vector * num;
+ 				Vector2 vector5 = to + vector3 - vector * num;
+@@ -210,7 +210,7 @@ public class ZipMover : Solid
+ 			int num3 = num;
+ 			for (int j = 4; (float)j <= base.Width - 4f; j += 8)
+ 			{
+-				int index = (int)(mod((num2 + (float)num * percent * MathF.PI * 4f) / (MathF.PI / 2f), 1f) * (float)count);
++				int index = (int)(mod((num2 + (float)num * percent * (float)Math.PI * 4f) / ((float)Math.PI / 2f), 1f) * (float)count);
+ 				MTexture mTexture = innerCogs[index];
+ 				Rectangle rectangle = new Rectangle(0, 0, mTexture.Width, mTexture.Height);
+ 				Vector2 zero = Vector2.Zero;
+@@ -239,7 +239,7 @@ public class ZipMover : Solid
+ 				mTexture = mTexture.GetSubtexture(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, temp);
+ 				mTexture.DrawCentered(Position + new Vector2(j, i) + zero, Color.White * ((num < 0) ? 0.5f : 1f));
+ 				num = -num;
+-				num2 += MathF.PI / 3f;
++				num2 += (float)Math.PI / 3f;
+ 			}
+ 			if (num3 == num)
+ 			{
+@@ -288,14 +288,14 @@ public class ZipMover : Solid
+ 			{
+ 				for (int i = num2; i < num3; i += 8)
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(P_Scrape, base.TopLeft + new Vector2(0f, (float)i + (float)num * 2f), (num == 1) ? (-MathF.PI / 4f) : (MathF.PI / 4f));
++					SceneAs<Level>().ParticlesFG.Emit(P_Scrape, base.TopLeft + new Vector2(0f, (float)i + (float)num * 2f), (num == 1) ? (-(float)Math.PI / 4f) : ((float)Math.PI / 4f));
+ 				}
+ 			}
+ 			if (base.Scene.CollideCheck<Solid>(vector + new Vector2(base.Width + 2f, num * -2)))
+ 			{
+ 				for (int j = num2; j < num3; j += 8)
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(P_Scrape, base.TopRight + new Vector2(-1f, (float)j + (float)num * 2f), (num == 1) ? (MathF.PI * -3f / 4f) : (MathF.PI * 3f / 4f));
++					SceneAs<Level>().ParticlesFG.Emit(P_Scrape, base.TopRight + new Vector2(-1f, (float)j + (float)num * 2f), (num == 1) ? ((float)Math.PI * -3f / 4f) : ((float)Math.PI * 3f / 4f));
+ 				}
+ 			}
+ 		}
+@@ -321,14 +321,14 @@ public class ZipMover : Solid
+ 			{
+ 				for (int k = num5; k < num6; k += 8)
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(P_Scrape, base.TopLeft + new Vector2((float)k + (float)num4 * 2f, -1f), (num4 == 1) ? (MathF.PI * 3f / 4f) : (MathF.PI / 4f));
++					SceneAs<Level>().ParticlesFG.Emit(P_Scrape, base.TopLeft + new Vector2((float)k + (float)num4 * 2f, -1f), (num4 == 1) ? ((float)Math.PI * 3f / 4f) : ((float)Math.PI / 4f));
+ 				}
+ 			}
+ 			if (base.Scene.CollideCheck<Solid>(vector2 + new Vector2(num4 * -2, base.Height + 2f)))
+ 			{
+ 				for (int l = num5; l < num6; l += 8)
+ 				{
+-					SceneAs<Level>().ParticlesFG.Emit(P_Scrape, base.BottomLeft + new Vector2((float)l + (float)num4 * 2f, 0f), (num4 == 1) ? (MathF.PI * -3f / 4f) : (-MathF.PI / 4f));
++					SceneAs<Level>().ParticlesFG.Emit(P_Scrape, base.BottomLeft + new Vector2((float)l + (float)num4 * 2f, 0f), (num4 == 1) ? ((float)Math.PI * -3f / 4f) : (-(float)Math.PI / 4f));
+ 				}
+ 			}
+ 		}
+diff --git a/Celeste.Pico8/Emulator.cs b/Celeste.Pico8/Emulator.cs
+index 98ae28c..ff84e41 100644
+--- a/Celeste.Pico8/Emulator.cs
++++ b/Celeste.Pico8/Emulator.cs
+@@ -489,12 +489,12 @@ public class Emulator : Scene
+ 
+ 	public float sin(float a)
+ 	{
+-		return (float)Math.Sin((1f - a) * (MathF.PI * 2f));
++		return (float)Math.Sin((1f - a) * ((float)Math.PI * 2f));
+ 	}
+ 
+ 	public float cos(float a)
+ 	{
+-		return (float)Math.Cos((1f - a) * (MathF.PI * 2f));
++		return (float)Math.Cos((1f - a) * ((float)Math.PI * 2f));
+ 	}
+ 
+ 	public float mod(float a, float b)
+@@ -535,8 +535,8 @@ public class Emulator : Scene
+ 			{
+ 				float num = vector.Angle();
+ 				int num2 = ((num < 0f) ? 1 : 0);
+-				float num3 = MathF.PI / 8f - (float)num2 * 0.08726646f;
+-				vector = ((Calc.AbsAngleDiff(num, 0f) < num3) ? new Vector2(1f, 0f) : ((Calc.AbsAngleDiff(num, MathF.PI) < num3) ? new Vector2(-1f, 0f) : ((Calc.AbsAngleDiff(num, -MathF.PI / 2f) < num3) ? new Vector2(0f, -1f) : ((!(Calc.AbsAngleDiff(num, MathF.PI / 2f) < num3)) ? new Vector2(Math.Sign(vector.X), Math.Sign(vector.Y)).SafeNormalize() : new Vector2(0f, 1f)))));
++				float num3 = (float)Math.PI / 8f - (float)num2 * 0.08726646f;
++				vector = ((Calc.AbsAngleDiff(num, 0f) < num3) ? new Vector2(1f, 0f) : ((Calc.AbsAngleDiff(num, (float)Math.PI) < num3) ? new Vector2(-1f, 0f) : ((Calc.AbsAngleDiff(num, -(float)Math.PI / 2f) < num3) ? new Vector2(0f, -1f) : ((!(Calc.AbsAngleDiff(num, (float)Math.PI / 2f) < num3)) ? new Vector2(Math.Sign(vector.X), Math.Sign(vector.Y)).SafeNormalize() : new Vector2(0f, 1f)))));
+ 			}
+ 		}
+ 		return vector;
+diff --git a/Monocle/Calc.cs b/Monocle/Calc.cs
+index 21bb097..aacd601 100644
+--- a/Monocle/Calc.cs
++++ b/Monocle/Calc.cs
+@@ -24,35 +24,35 @@ public static class Calc
+ 
+ 	public const float Right = 0f;
+ 
+-	public const float Up = -MathF.PI / 2f;
++	public const float Up = -(float)Math.PI / 2f;
+ 
+-	public const float Left = MathF.PI;
++	public const float Left = (float)Math.PI;
+ 
+-	public const float Down = MathF.PI / 2f;
++	public const float Down = (float)Math.PI / 2f;
+ 
+-	public const float UpRight = -MathF.PI / 4f;
++	public const float UpRight = -(float)Math.PI / 4f;
+ 
+-	public const float UpLeft = MathF.PI * -3f / 4f;
++	public const float UpLeft = (float)Math.PI * -3f / 4f;
+ 
+-	public const float DownRight = MathF.PI / 4f;
++	public const float DownRight = (float)Math.PI / 4f;
+ 
+-	public const float DownLeft = MathF.PI * 3f / 4f;
++	public const float DownLeft = (float)Math.PI * 3f / 4f;
+ 
+-	public const float DegToRad = MathF.PI / 180f;
++	public const float DegToRad = (float)Math.PI / 180f;
+ 
+-	public const float RadToDeg = 180f / MathF.PI;
++	public const float RadToDeg = 180f / (float)Math.PI;
+ 
+-	public const float DtR = MathF.PI / 180f;
++	public const float DtR = (float)Math.PI / 180f;
+ 
+-	public const float RtD = 180f / MathF.PI;
++	public const float RtD = 180f / (float)Math.PI;
+ 
+-	public const float Circle = MathF.PI * 2f;
++	public const float Circle = (float)Math.PI * 2f;
+ 
+-	public const float HalfCircle = MathF.PI;
++	public const float HalfCircle = (float)Math.PI;
+ 
+-	public const float QuarterCircle = MathF.PI / 2f;
++	public const float QuarterCircle = (float)Math.PI / 2f;
+ 
+-	public const float EighthCircle = MathF.PI / 4f;
++	public const float EighthCircle = (float)Math.PI / 4f;
+ 
+ 	private const string Hex = "0123456789ABCDEF";
+ 
+@@ -419,7 +419,7 @@ public static class Calc
+ 
+ 	public static float NextAngle(this Random random)
+ 	{
+-		return random.NextFloat() * (MathF.PI * 2f);
++		return random.NextFloat() * ((float)Math.PI * 2f);
+ 	}
+ 
+ 	public static Vector2 ShakeVector(this Random random)
+@@ -683,12 +683,12 @@ public static class Calc
+ 
+ 	public static float ToRad(this float f)
+ 	{
+-		return f * (MathF.PI / 180f);
++		return f * ((float)Math.PI / 180f);
+ 	}
+ 
+ 	public static float ToDeg(this float f)
+ 	{
+-		return f * (180f / MathF.PI);
++		return f * (180f / (float)Math.PI);
+ 	}
+ 
+ 	public static int Axis(bool negative, bool positive, int both = 0)
+@@ -847,7 +847,7 @@ public static class Calc
+ 
+ 	public static float WrapAngle(float angleRadians)
+ 	{
+-		return ((angleRadians * (float)Math.Sign(angleRadians) + MathF.PI) % (MathF.PI * 2f) - MathF.PI) * (float)Math.Sign(angleRadians);
++		return ((angleRadians * (float)Math.Sign(angleRadians) + (float)Math.PI) % ((float)Math.PI * 2f) - (float)Math.PI) * (float)Math.Sign(angleRadians);
+ 	}
+ 
+ 	public static Vector2 AngleToVector(float angleRadians, float length)
+@@ -882,10 +882,10 @@ public static class Calc
+ 	public static float AngleDiff(float radiansA, float radiansB)
+ 	{
+ 		float num;
+-		for (num = radiansB - radiansA; num > MathF.PI; num -= MathF.PI * 2f)
++		for (num = radiansB - radiansA; num > (float)Math.PI; num -= (float)Math.PI * 2f)
+ 		{
+ 		}
+-		for (; num <= -MathF.PI; num += MathF.PI * 2f)
++		for (; num <= -(float)Math.PI; num += (float)Math.PI * 2f)
+ 		{
+ 		}
+ 		return num;
+@@ -1059,7 +1059,7 @@ public static class Calc
+ 		{
+ 			return Vector2.Zero;
+ 		}
+-		vec = AngleToVector((float)Math.Floor((vec.Angle() + MathF.PI / 4f) / (MathF.PI / 2f)) * (MathF.PI / 2f), 1f);
++		vec = AngleToVector((float)Math.Floor((vec.Angle() + (float)Math.PI / 4f) / ((float)Math.PI / 2f)) * ((float)Math.PI / 2f), 1f);
+ 		if (Math.Abs(vec.X) < 0.5f)
+ 		{
+ 			vec.X = 0f;
+@@ -1085,7 +1085,7 @@ public static class Calc
+ 		{
+ 			return Vector2.Zero;
+ 		}
+-		vec = AngleToVector((float)Math.Floor((vec.Angle() + MathF.PI / 8f) / (MathF.PI / 4f)) * (MathF.PI / 4f), 1f);
++		vec = AngleToVector((float)Math.Floor((vec.Angle() + (float)Math.PI / 8f) / ((float)Math.PI / 4f)) * ((float)Math.PI / 4f), 1f);
+ 		if (Math.Abs(vec.X) < 0.5f)
+ 		{
+ 			vec.X = 0f;
+@@ -1099,13 +1099,13 @@ public static class Calc
+ 
+ 	public static Vector2 SnappedNormal(this Vector2 vec, float slices)
+ 	{
+-		float num = MathF.PI * 2f / slices;
++		float num = (float)Math.PI * 2f / slices;
+ 		return AngleToVector((float)Math.Floor((vec.Angle() + num / 2f) / num) * num, 1f);
+ 	}
+ 
+ 	public static Vector2 Snapped(this Vector2 vec, float slices)
+ 	{
+-		float num = MathF.PI * 2f / slices;
++		float num = (float)Math.PI * 2f / slices;
+ 		return AngleToVector((float)Math.Floor((vec.Angle() + num / 2f) / num) * num, vec.Length());
+ 	}
+ 
 diff --git a/Monocle/Commands.cs b/Monocle/Commands.cs
-index 85975ea..830ef55 100644
+index 406942a..224e448 100644
 --- a/Monocle/Commands.cs
 +++ b/Monocle/Commands.cs
 @@ -611,7 +611,7 @@ public class Commands
@@ -46,6 +3681,74 @@ index 85975ea..830ef55 100644
  		for (int i = 0; i < types.Length; i++)
  		{
  			MethodInfo[] methods = types[i].GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+diff --git a/Monocle/Draw.cs b/Monocle/Draw.cs
+index efa4738..44a53d6 100644
+--- a/Monocle/Draw.cs
++++ b/Monocle/Draw.cs
+@@ -78,7 +78,7 @@ public static class Draw
+ 		Vector2 vector2 = vector.Perpendicular();
+ 		for (int i = 1; i <= resolution; i++)
+ 		{
+-			Vector2 vector3 = Calc.AngleToVector((float)i * (MathF.PI / 2f) / (float)resolution, radius);
++			Vector2 vector3 = Calc.AngleToVector((float)i * ((float)Math.PI / 2f) / (float)resolution, radius);
+ 			Vector2 vector4 = vector3.Perpendicular();
+ 			Line(position + vector, position + vector3, color);
+ 			Line(position - vector, position - vector3, color);
+@@ -100,7 +100,7 @@ public static class Draw
+ 		Vector2 vector2 = vector.Perpendicular();
+ 		for (int i = 1; i <= resolution; i++)
+ 		{
+-			Vector2 vector3 = Calc.AngleToVector((float)i * (MathF.PI / 2f) / (float)resolution, radius);
++			Vector2 vector3 = Calc.AngleToVector((float)i * ((float)Math.PI / 2f) / (float)resolution, radius);
+ 			Vector2 vector4 = vector3.Perpendicular();
+ 			Line(position + vector, position + vector3, color, thickness);
+ 			Line(position - vector, position - vector3, color, thickness);
+@@ -299,7 +299,7 @@ public static class Draw
+ 		SpriteBatch.DrawString(font, text, position.Floor(), color, 0f, origin, scale, SpriteEffects.None, 0f);
+ 	}
+ 
+-	public static void SineTextureH(MTexture tex, Vector2 position, Vector2 origin, Vector2 scale, float rotation, Color color, SpriteEffects effects, float sineCounter, float amplitude = 2f, int sliceSize = 2, float sliceAdd = MathF.PI / 4f)
++	public static void SineTextureH(MTexture tex, Vector2 position, Vector2 origin, Vector2 scale, float rotation, Color color, SpriteEffects effects, float sineCounter, float amplitude = 2f, int sliceSize = 2, float sliceAdd = (float)Math.PI / 4f)
+ 	{
+ 		position = position.Floor();
+ 		Rectangle clipRect = tex.ClipRect;
+@@ -315,7 +315,7 @@ public static class Draw
+ 		}
+ 	}
+ 
+-	public static void SineTextureV(MTexture tex, Vector2 position, Vector2 origin, Vector2 scale, float rotation, Color color, SpriteEffects effects, float sineCounter, float amplitude = 2f, int sliceSize = 2, float sliceAdd = MathF.PI / 4f)
++	public static void SineTextureV(MTexture tex, Vector2 position, Vector2 origin, Vector2 scale, float rotation, Color color, SpriteEffects effects, float sineCounter, float amplitude = 2f, int sliceSize = 2, float sliceAdd = (float)Math.PI / 4f)
+ 	{
+ 		position = position.Floor();
+ 		Rectangle clipRect = tex.ClipRect;
+@@ -331,7 +331,7 @@ public static class Draw
+ 		}
+ 	}
+ 
+-	public static void TextureBannerV(MTexture tex, Vector2 position, Vector2 origin, Vector2 scale, float rotation, Color color, SpriteEffects effects, float sineCounter, float amplitude = 2f, int sliceSize = 2, float sliceAdd = MathF.PI / 4f)
++	public static void TextureBannerV(MTexture tex, Vector2 position, Vector2 origin, Vector2 scale, float rotation, Color color, SpriteEffects effects, float sineCounter, float amplitude = 2f, int sliceSize = 2, float sliceAdd = (float)Math.PI / 4f)
+ 	{
+ 		position = position.Floor();
+ 		Rectangle clipRect = tex.ClipRect;
+diff --git a/Monocle/Ease.cs b/Monocle/Ease.cs
+index 6f0d535..ff35b0c 100644
+--- a/Monocle/Ease.cs
++++ b/Monocle/Ease.cs
+@@ -8,11 +8,11 @@ public static class Ease
+ 
+ 	public static readonly Easer Linear = (float t) => t;
+ 
+-	public static readonly Easer SineIn = (float t) => 0f - (float)Math.Cos(MathF.PI / 2f * t) + 1f;
++	public static readonly Easer SineIn = (float t) => 0f - (float)Math.Cos((float)Math.PI / 2f * t) + 1f;
+ 
+-	public static readonly Easer SineOut = (float t) => (float)Math.Sin(MathF.PI / 2f * t);
++	public static readonly Easer SineOut = (float t) => (float)Math.Sin((float)Math.PI / 2f * t);
+ 
+-	public static readonly Easer SineInOut = (float t) => (0f - (float)Math.Cos(MathF.PI * t)) / 2f + 0.5f;
++	public static readonly Easer SineInOut = (float t) => (0f - (float)Math.Cos((float)Math.PI * t)) / 2f + 0.5f;
+ 
+ 	public static readonly Easer QuadIn = (float t) => t * t;
+ 
 diff --git a/Monocle/Engine.cs b/Monocle/Engine.cs
 index 5e3f97a..a77d26f 100644
 --- a/Monocle/Engine.cs
@@ -72,6 +3775,46 @@ index eb6b065..47e4aa9 100644
  		foreach (Type type in types)
  		{
  			if (type.GetCustomAttributes(typeof(Pooled), inherit: false).Length != 0)
+diff --git a/Monocle/SineWave.cs b/Monocle/SineWave.cs
+index 89c99c2..0c8ef10 100644
+--- a/Monocle/SineWave.cs
++++ b/Monocle/SineWave.cs
+@@ -28,7 +28,7 @@ public class SineWave : Component
+ 		}
+ 		set
+ 		{
+-			counter = (value + MathF.PI * 8f) % (MathF.PI * 8f);
++			counter = (value + (float)Math.PI * 8f) % ((float)Math.PI * 8f);
+ 			Value = (float)Math.Sin(counter);
+ 			ValueOverTwo = (float)Math.Sin(counter / 2f);
+ 			TwoValue = (float)Math.Sin(counter * 2f);
+@@ -49,7 +49,7 @@ public class SineWave : Component
+ 
+ 	public override void Update()
+ 	{
+-		Counter += MathF.PI * 2f * Frequency * Rate * (UseRawDeltaTime ? Engine.RawDeltaTime : Engine.DeltaTime);
++		Counter += (float)Math.PI * 2f * Frequency * Rate * (UseRawDeltaTime ? Engine.RawDeltaTime : Engine.DeltaTime);
+ 		if (OnUpdate != null)
+ 		{
+ 			OnUpdate(Value);
+@@ -63,7 +63,7 @@ public class SineWave : Component
+ 
+ 	public SineWave Randomize()
+ 	{
+-		Counter = Calc.Random.NextFloat() * (MathF.PI * 2f) * 2f;
++		Counter = Calc.Random.NextFloat() * ((float)Math.PI * 2f) * 2f;
+ 		return this;
+ 	}
+ 
+@@ -74,7 +74,7 @@ public class SineWave : Component
+ 
+ 	public void StartUp()
+ 	{
+-		Counter = MathF.PI / 2f;
++		Counter = (float)Math.PI / 2f;
+ 	}
+ 
+ 	public void StartDown()
 diff --git a/Monocle/Tracker.cs b/Monocle/Tracker.cs
 index 08dfdc9..c675f04 100644
 --- a/Monocle/Tracker.cs
@@ -94,3 +3837,34 @@ index 08dfdc9..c675f04 100644
  		foreach (Type type2 in types)
  		{
  			if (type != type2 && type.IsAssignableFrom(type2))
+diff --git a/Monocle/Wiggler.cs b/Monocle/Wiggler.cs
+index 64cf72e..e2fbbc6 100644
+--- a/Monocle/Wiggler.cs
++++ b/Monocle/Wiggler.cs
+@@ -42,7 +42,7 @@ public class Wiggler : Component
+ 		Counter = (sineCounter = 0f);
+ 		UseRawDeltaTime = false;
+ 		increment = 1f / duration;
+-		sineAdd = MathF.PI * 2f * frequency;
++		sineAdd = (float)Math.PI * 2f * frequency;
+ 		this.onChange = onChange;
+ 		this.removeSelfOnFinish = removeSelfOnFinish;
+ 		if (start)
+@@ -66,7 +66,7 @@ public class Wiggler : Component
+ 		Counter = 1f;
+ 		if (StartZero)
+ 		{
+-			sineCounter = MathF.PI / 2f;
++			sineCounter = (float)Math.PI / 2f;
+ 			Value = 0f;
+ 			if (onChange != null)
+ 			{
+@@ -88,7 +88,7 @@ public class Wiggler : Component
+ 	public void Start(float duration, float frequency)
+ 	{
+ 		increment = 1f / duration;
+-		sineAdd = MathF.PI * 2f * frequency;
++		sineAdd = (float)Math.PI * 2f * frequency;
+ 		Start();
+ 	}
+ 
