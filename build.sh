@@ -124,6 +124,10 @@ check_celeste_install() {
 	fi
 }
 
+if [[ $celeste_path == *.app ]]; then
+	celeste_path="${celeste_path}/Contents/Resources"
+fi
+
 if ! [ -d "$celeste_path" ]; then
 	error "the path you specified doesn't exist"
 	exit 1
