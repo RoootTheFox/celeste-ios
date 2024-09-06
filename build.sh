@@ -86,7 +86,7 @@ echo -e "\n"
 
 echo -e "This project has been tested on the ${BOLD_CYAN}Linux Steam build of Celeste 1.4.0.0${RESET} but SHOULD work on any other FNA-based Celeste build"
 echo -e "Enter the full path to an ${BOLD_RED}UNMODIFIED${RESET}, ${BOLD_RED}FNA-based (!)${RESET} Celeste install: \c"
-read -r celeste_path
+read celeste_path
 
 # for some reason bash fails to check for relative paths, that's why we need to do this
 #if ! [ -d "$celeste_path" ]; then
