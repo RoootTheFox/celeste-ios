@@ -66,6 +66,8 @@ Once you have installed Celeste, make sure the folder contains content such as `
    git clone https://github.com/RoootTheFox/celeste-ios.git
    ```
 
+      ****Make sure the path you clone into doesn't have any spaces in it, as this can cause problems***
+
 3. Navigate to the cloned directory:
    ```bash
    cd celeste-ios
