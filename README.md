@@ -7,7 +7,8 @@ This guide will walk you through building a Celeste IPA for iOS using macOS. Ple
 ## Prerequisites
 
 1. **Install Xcode**  
-   Make sure you have Xcode installed and set up correctly. You can download it from the [Mac App Store](https://apps.apple.com/us/app/xcode/id497799835).
+   - Make sure you have Xcode installed and set up correctly. You can download it from the [Mac App Store](https://apps.apple.com/us/app/xcode/id497799835).
+   - Install the iOS Simulator in Xcode
 
 2. **Install Git**  
    If Git isn't already installed, running `git` from your terminal will often prompt to install it.
@@ -21,6 +22,7 @@ This guide will walk you through building a Celeste IPA for iOS using macOS. Ple
 
 4. **Install Visual Studio for macOS**  
    - Download Visual Studio for macOS from [here](https://visualstudio.microsoft.com/vs/older-downloads/).
+     - If that download link doesn't work, use [this one](https://visual-studio.macupdate.com)
    - Follow the websites links until it lets you download **Visual Studio 2022 for Mac**
    - Follow the installation instructions.
    - When prompted during installation, make sure to select the following components:
@@ -31,7 +33,7 @@ This guide will walk you through building a Celeste IPA for iOS using macOS. Ple
    - You do **not** need to sign into Visual Studio, but the installation will require your macOS password.
    - Once the installation is complete and you see the option to create or open a project, simply close the program. We won’t need to open Visual Studio after this.
 
-## Installing Celeste (FNA Build)
+## Installing Celeste (FNA Linux Build)
 
 ### 1. **From itch.io**  
    - You can download/buy Celeste directly [here](https://mattmakesgames.itch.io/celeste).  
