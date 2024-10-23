@@ -20,7 +20,8 @@ This guide will walk you through building a Celeste IPA for iOS using macOS. Ple
    - After downloading, mount the downloaded `fmodstudioapi11009ios-installer.dmg` file by double-clicking it. **No need to do anything further**; simply ensure it's mounted.
 
 4. **Install Visual Studio for macOS**  
-   - Download Visual Studio for macOS from [here](https://my.visualstudio.com/Downloads?q=visual%20studio%20for%20mac).
+   - Download Visual Studio for macOS from [here](https://visualstudio.microsoft.com/vs/older-downloads/).
+   - Follow the websites links until it lets you download **Visual Studio 2022 for Mac**
    - Follow the installation instructions.
    - When prompted during installation, make sure to select the following components:
      - `.NET`
