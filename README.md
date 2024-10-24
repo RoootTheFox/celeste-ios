@@ -41,7 +41,7 @@ This guide will walk you through building a Celeste IPA for iOS using macOS. Ple
 
 ### 2. **From Steam**  
    - Make sure Steam is installed on your system.
-   - Make sure Steam is not open.
+   - Make sure Steam is **not** open.
    - Type `steam://open/console` into the URL bar of your browser, and allow it to open Steam.
    - Steam should open with a new **Console** Tab, go into it.
    - Type `download_depot 504230 504233 1505052356460012099` into the Steam console and wait for it to install (there won't be a progress bar).
