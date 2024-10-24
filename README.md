@@ -55,6 +55,7 @@ This guide will walk you through building a Celeste IPA for iOS using macOS. Ple
    - Please move this folder to somewhere else, like your Downloads, or Documents folder, you can also rename it something like `Celeste-Linux`
 
 Once you have installed Celeste, make sure the folder contains content such as `Celeste.exe`, `Content` (folder), `Backups` (folder), `lib` (folder), `lib64` (folder).
+Also, Make sure the Name of this folder has no spaces in it, and make sure the path it's in has no spaces in it.
 
 
 ## Building the IPA
