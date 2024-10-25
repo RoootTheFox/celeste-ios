@@ -92,7 +92,7 @@ Also, Make sure the Name of this folder has no spaces in it, and make sure the p
    - **"Do you want to build MoltenVK as well? This is required for FNA3D, but building takes a while so it can be skipped on subsequent rebuilds. (y/n)"**  
      If this is your first time building this, type `y` for **yes**
 
-## Completion
+## Installation
 
 the script will tell you where the final .ipa file is located - just sideload it to your iOS device using something like TrollStore, AltStore or similar
 
