@@ -94,10 +94,11 @@ Also, Make sure the Name of this folder has no spaces in it, and make sure the p
 
 ## Completion
 
-After a while, the script will generate an IPA file called **celestemeow.ipa**, located in the folder where you cloned the project.
+the script will tell you where the final .ipa file is located - just sideload it to your iOS device using something like TrollStore, AltStore or similar
 
-You're now ready to install the IPA on your iOS device using something like TrollStore, AltStore or similar!
-* *Please note if you're using purchased certs from someone like KravaSign or Signulous, it is advised to use the website [KravaSigner](http://kravasigner.com) to sign your ipa's even if you didn't purchase your certs through KravaSign, apps like esign, feather and others can cause issues to do with rendered screen size*
+
+> [!note]
+> Apps like esign, feather and others can cause issues with rendered size, see #2
 
 ## credits
 - **@TheSpydog** for demonstrating this being possible and for developing the fnalibs-ios-builder
