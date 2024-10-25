@@ -98,7 +98,7 @@ the script will tell you where the final .ipa file is located - just sideload it
 
 
 > [!note]
-> Apps like esign, feather and others can cause issues with rendered size, see #2
+> Apps like esign, feather and others can cause issues with rendered size, see [Issue #2](https://github.com/RoootTheFox/celeste-ios/issues/2)
 
 ## credits
 - **@TheSpydog** for demonstrating this being possible and for developing the fnalibs-ios-builder
