@@ -22,6 +22,7 @@ This guide will walk you through building a Celeste IPA for iOS using macOS. Ple
 
 4. **Install Visual Studio for macOS**  
    - Download Visual Studio for macOS from [here](https://visualstudio.microsoft.com/vs/older-downloads/).
+     - If that link doesn't work for you, you can find another link [here](https://devblogs.microsoft.com/visualstudio/visual-studio-2022-for-mac-is-now-available/), in the `What's next?` section
    - Follow the websites links until it lets you download **Visual Studio 2022 for Mac**
    - Follow the installation instructions.
    - When prompted during installation, make sure to select the following components:
