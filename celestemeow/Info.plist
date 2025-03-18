@@ -66,5 +66,9 @@
 	</dict>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.games</string>
+	<key>UIFileSharingEnabled</key>
+	<true />
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true />
 </dict>
 </plist>

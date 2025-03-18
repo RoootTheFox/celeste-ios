@@ -355,9 +355,13 @@ while true; do
 		[Yy]* )
 			cd "$script_dir/fnalibs-ios-builder-celeste/SDL2" || cd_fail
 			apply_patch "$script_dir/patches/SDL-gamecontroller.patch"
+			apply_patch "$script_dir/patches/ios-save-files.patch"
 			cd "$script_dir/fnalibs-ios-builder-celeste" || cd_fail
 			break;;
 		[Nn]* )
+			cd "$script_dir/fnalibs-ios-builder-celeste/SDL2" || cd_fail
+			apply_patch "$script_dir/patches/ios-save-files.patch"
+			cd "$script_dir/fnalibs-ios-builder-celeste" || cd_fail
 			break;;
 		* ) echo "Please answer y/n." ;;
 	esac
