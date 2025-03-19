@@ -14,7 +14,7 @@ This guide will walk you through building a Celeste IPA for iOS using macOS. Ple
    If Git isn't already installed, running `git` from your terminal will often prompt to install it.
 
 3. **Install FMOD Engine**  
-   - Go to the FMOD download page: [FMOD v1.10.09](https://www.fmod.com/download?version=1.10.09#modengine).  
+   - Go to the FMOD download page: [FMOD v1.10.09](https://www.fmod.com/download?version=1.10.09#fmodengine).  
    - You will need to create a free FMOD account to download.
    - Make sure that the FMOD version is set to **v1.10.09 (unsupported)**
    - Download the **iOS** version of **FMOD Engine**
